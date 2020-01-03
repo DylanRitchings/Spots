@@ -1,4 +1,4 @@
-package com.dylanritchings.spots.Activities;
+package com.dylanritchings.Activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -15,8 +15,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.dylanritchings.spots.ButtonListeners;
-import com.dylanritchings.spots.MyApp;
+import com.dylanritchings.ButtonListeners;
+import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -54,7 +54,7 @@ public class MapsActivity extends FragmentActivity implements
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        MyApp appState = ((MyApp)getApplicationContext());
+        Spots appState = ((Spots)getApplicationContext());
         appState.setContext(this);
 
         //map

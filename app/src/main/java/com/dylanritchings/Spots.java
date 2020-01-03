@@ -1,4 +1,4 @@
-package com.dylanritchings.spots;
+package com.dylanritchings;
 
 import android.app.Activity;
 import android.app.Application;
@@ -6,7 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
-public class MyApp extends Application {
+public class Spots extends Application {
     private static Context mContext;
 
     public static Context getContext() {

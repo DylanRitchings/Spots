@@ -1,11 +1,11 @@
-package com.dylanritchings.spots;
+package com.dylanritchings;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.dylanritchings.spots.Activities.SpotActivity;
+import com.dylanritchings.Activities.SpotActivity;
 
 public class ButtonListeners extends Activity {
 
@@ -19,7 +19,7 @@ public class ButtonListeners extends Activity {
         @Override
         public void onClick(View view) {
 
-            Context context = MyApp.getContext();
+            Context context = Spots.getContext();
             Intent spotInformationIntent = new Intent(context, SpotActivity.class);
             context.startActivity(spotInformationIntent);
 

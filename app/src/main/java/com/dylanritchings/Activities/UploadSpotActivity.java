@@ -1,4 +1,4 @@
-package com.dylanritchings.spots.Activities;
+package com.dylanritchings.Activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,8 +16,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.dylanritchings.spots.ButtonListeners;
-import com.dylanritchings.spots.MyApp;
+import com.dylanritchings.ButtonListeners;
+import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -53,7 +54,7 @@ public class UploadSpotActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_spot);
         uploadSpotActivity = this;
-        MyApp appState = ((MyApp)getApplicationContext());
+        Spots appState = ((Spots)getApplicationContext());
         appState.setContext(this);
 
         ButtonListeners btnListeners = new ButtonListeners();
@@ -209,4 +210,23 @@ public class UploadSpotActivity extends FragmentActivity implements
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+
+//
+//    private OnClickListener onClickListener = new OnClickListener() {
+//
+//        @Override
+//        public void onClick(final View v) {
+//            switch(v.getId()){
+//                case R.id.button1:
+//                    //DO something
+//                    break;
+//                case R.id.button2:
+//                    //DO something
+//                    break;
+//            }
+//
+//        }
+//    };
 }
+

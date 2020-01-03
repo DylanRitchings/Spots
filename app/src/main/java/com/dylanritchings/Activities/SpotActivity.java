@@ -1,4 +1,4 @@
-package com.dylanritchings.spots.Activities;
+package com.dylanritchings.Activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.dylanritchings.spots.ButtonListeners;
-import com.dylanritchings.spots.MyApp;
+import com.dylanritchings.ButtonListeners;
+import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
 
 public class SpotActivity extends Activity {
@@ -22,7 +22,7 @@ public class SpotActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spot);
         spotActivity = this;
-        MyApp appState = ((MyApp)getApplicationContext());
+        Spots appState = ((Spots)getApplicationContext());
         appState.setContext(this);
 
         ButtonListeners btnListeners = new ButtonListeners();

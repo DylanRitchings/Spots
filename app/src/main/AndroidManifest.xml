@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="com.dylanritchings.spots.MyApp">
+        android:name="com.dylanritchings.Spots">
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -28,10 +28,10 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBd-E3dk9GszN4SjyknRJJ2A5q0aYu-B9A" />
+            android:value="@string/GoogleMapsKey"/>
 
         <activity
-            android:name=".Activities.MapsActivity"
+            android:name="com.dylanritchings.Activities.MapsActivity"
             android:label="@string/appName">
 
             <intent-filter>
@@ -40,7 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:label="@string/appName" android:name=".Activities.SpotActivity"/>
+        <activity android:label="@string/appName" android:name="com.dylanritchings.Activities.SpotActivity"/>
     </application>
 
 </manifest>
