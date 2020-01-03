@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/spotInformationScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.SpotActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+<Button
+    android:id="@+id/uploadMediaButton"
+    android:layout_width="0dp"
+    android:layout_height="36dp"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="8dp"
+    android:background="@drawable/round_button"
+    android:drawableStart="@drawable/ic_upload"
+    android:paddingStart="5dp"
+    android:text="@string/uploadMediaBtnString"
+    android:textAllCaps="false"
+    android:translationY="-25dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/directionsBtn2"
+    app:layout_constraintHorizontal_bias="0.422"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/videoGallery"
+    app:layout_constraintVertical_bias="0.0" />
+
+<Button
+android:id="@+id/directionsBtn2"
+android:layout_width="0dp"
+android:layout_height="37dp"
+android:layout_alignParentStart="true"
+android:layout_alignParentTop="true"
+android:layout_marginStart="10dp"
+android:layout_marginTop="8dp"
+android:layout_marginEnd="10dp"
+android:background="@drawable/round_button"
+android:drawableStart="@drawable/ic_directions_white"
+android:paddingStart="5dp"
+android:text="@string/directionsBtnString"
+android:textAllCaps="false"
+android:translationY="-25dp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toStartOf="@+id/shareBtn2"
+app:layout_constraintStart_toEndOf="@+id/uploadMediaButton"
+app:layout_constraintTop_toBottomOf="@+id/videoGallery"
+app:layout_constraintVertical_bias="0.0" />
+
+<Button
+android:id="@+id/shareBtn2"
+android:layout_width="0dp"
+android:layout_height="35dp"
+android:layout_alignParentStart="true"
+android:layout_alignParentTop="true"
+android:layout_marginTop="8dp"
+android:layout_marginEnd="5dp"
+android:background="@drawable/round_button"
+android:drawableStart="@drawable/ic_share_white"
+android:drawablePadding="-3dp"
+android:drawableTint="#FFFFFF"
+android:paddingStart="5dp"
+android:text="@string/shareBtnString"
+android:textAllCaps="false"
+android:translationY="-25dp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toEndOf="@+id/directionsBtn2"
+app:layout_constraintTop_toBottomOf="@+id/videoGallery"
+app:layout_constraintVertical_bias="0.0" />
+
+<ImageView
+android:id="@+id/walkImageView2"
+android:layout_width="30dp"
+android:layout_height="25dp"
+android:layout_alignParentStart="true"
+android:layout_alignParentTop="true"
+android:cropToPadding="true"
+android:scaleType="centerInside"
+android:src="@drawable/walking_icon"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHeight_percent="0.5"
+app:layout_constraintHorizontal_bias="0.0"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/addressTextView"
+app:layout_constraintVertical_bias="0.0"
+app:layout_constraintWidth_percent="0.5"
+tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+
+<ImageView
+android:id="@+id/driveImageView2"
+android:layout_width="20dp"
+android:layout_height="17dp"
+android:layout_alignParentStart="true"
+android:layout_alignParentTop="true"
+android:layout_marginLeft="5dp"
+android:cropToPadding="true"
+android:scaleType="fitXY"
+
+android:src="@drawable/driving_icon"
+
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintHeight_percent="0.5"
+app:layout_constraintLeft_toRightOf="@+id/walkTimeTextView2"
+app:layout_constraintTop_toBottomOf="@+id/addressTextView"
+app:layout_constraintVertical_bias="0.0"
+app:layout_constraintWidth_percent="0.5"
+tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+
+<ImageView
+android:id="@+id/photoGallery"
+android:layout_width="match_parent"
+android:layout_height="300dp"
+android:contentDescription="TODO"
+android:cropToPadding="true"
+android:fillViewport="true"
+android:scaleType="centerCrop"
+android:src="@drawable/skatepark"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHeight_percent="0.5"
+app:layout_constraintHorizontal_bias="0.0"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/driveTimeTextView2"
+app:layout_constraintVertical_bias="0.01999998"
+app:layout_constraintWidth_percent="0.5"
+tools:layout_conversion_absoluteHeight="0dp"
+tools:layout_conversion_absoluteWidth="0dp"
+tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+
+<ImageView
+android:id="@+id/videoGallery"
+android:layout_width="match_parent"
+android:layout_height="310dp"
+android:contentDescription="TODO"
+android:cropToPadding="true"
+android:fillViewport="true"
+android:scaleType="centerCrop"
+android:src="@drawable/skatepark"
+android:translationY="-25dp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHeight_percent="0.5"
+app:layout_constraintHorizontal_bias="0.0"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/hostilityRating"
+app:layout_constraintVertical_bias="0.0"
+app:layout_constraintWidth_percent="0.5"
+tools:layout_conversion_absoluteHeight="0dp"
+tools:layout_conversion_absoluteWidth="0dp"
+tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+
+<RatingBar
+android:id="@+id/starRating"
+style="@style/StarRating"
+android:layout_width="250dp"
+android:layout_height="58dp"
+android:layout_marginEnd="700dp"
+
+android:numStars="5"
+
+android:scaleX=".7"
+android:scaleY=".7"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHorizontal_bias="0.066"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/photoGallery"
+app:layout_constraintVertical_bias="0.0" />
+
+    <!--<HorizontalScrollView-->
+    <!--android:id="@+id/photoGallery"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginTop="150dp"-->
+    <!--android:layout_marginBottom="300dp"-->
+    <!--app:layout_constraintBottom_toBottomOf="@id/starRating"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/driveTimeTextView2"-->
+    <!--app:layout_constraintVertical_bias="0.19">-->
+
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/linearLayout"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/driveTimeTextView2">-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/spotImage3"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:contentDescription="TODO"-->
+    <!--android:cropToPadding="true"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--android:src="@drawable/skatepark"-->
+    <!--android:fillViewport="true"-->
+    <!--app:layout_constraintHeight_percent="0.5"-->
+    <!--app:layout_constraintWidth_percent="0.5"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintHorizontal_bias="0.0"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--tools:layout_conversion_absoluteHeight="0dp"-->
+    <!--tools:layout_conversion_absoluteWidth="0dp"-->
+    <!--tools:layout_editor_absoluteX="0dp"-->
+    <!--tools:layout_editor_absoluteY="0dp"-->
+    <!--tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/spotImage4"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:contentDescription="TODO"-->
+    <!--android:cropToPadding="true"-->
+    <!--android:fillViewport="true"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--android:src="@drawable/skatepark2"-->
+    <!--app:layout_constraintHeight_percent="0.5"-->
+    <!--app:layout_constraintWidth_percent="0.5"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintHorizontal_bias="1.0"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--tools:layout_conversion_absoluteHeight="0dp"-->
+    <!--tools:layout_conversion_absoluteWidth="0dp"-->
+    <!--tools:layout_editor_absoluteX="0dp"-->
+    <!--tools:layout_editor_absoluteY="0dp"-->
+    <!--tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />-->
+    <!--</LinearLayout>-->
+    <!--</HorizontalScrollView>-->
+<RatingBar
+android:id="@+id/difficultyRating"
+style="@style/BoneRating"
+android:layout_width="250dp"
+android:layout_height="0dp"
+android:layout_marginEnd="700dp"
+android:numStars="5"
+android:scaleX=".7"
+android:scaleY=".7"
+android:translationY="-15dp"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHorizontal_bias="0.066"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/starRating" />
+
+<RatingBar
+android:id="@+id/hostilityRating"
+style="@style/CrossRating"
+android:layout_width="250dp"
+android:layout_height="58dp"
+android:layout_marginEnd="700dp"
+
+android:layout_marginBottom="50dp"
+android:numStars="5"
+
+android:scaleX=".7"
+android:scaleY=".7"
+android:translationY="-23dp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHorizontal_bias="0.066"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/difficultyRating"
+app:layout_constraintVertical_bias="0.0" />
+
+<TextView
+android:id="@+id/spotTypeCircle2"
+android:layout_width="25dp"
+android:layout_height="25dp"
+android:layout_marginTop="1dp"
+android:background="@drawable/circle"
+android:text=""
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHorizontal_bias="0.02"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toTopOf="parent"
+app:layout_constraintVertical_bias="0.00999999" />
+
+<TextView
+android:id="@+id/spotTypeTextView2"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginStart="8dp"
+android:layout_marginTop="5dp"
+android:text="Spot type"
+android:textColor="#000000"
+android:textSize="16sp"
+android:textStyle="bold"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHorizontal_bias="0.0"
+app:layout_constraintStart_toEndOf="@+id/spotTypeCircle2"
+app:layout_constraintTop_toTopOf="parent"
+app:layout_constraintVertical_bias="0.005" />
+
+<TextView
+android:id="@+id/closeSpotInfoTextView"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginStart="8dp"
+android:layout_marginTop="3dp"
+android:text="X"
+android:textColor="#000000"
+android:textSize="25sp"
+android:textStyle="bold"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHorizontal_bias="0.95"
+app:layout_constraintStart_toEndOf="@+id/spotTypeCircle2"
+app:layout_constraintTop_toTopOf="parent"
+app:layout_constraintVertical_bias="0.0" />
+
+<TextView
+android:id="@+id/addressTextView"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginStart="10dp"
+android:text="Address 41940- 1-029 410294 0-1294 12049 2-40 asd oasud aksjd alksdj alksdj aldgkj sldkjf "
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/spotTypeCircle2"
+app:layout_constraintVertical_bias="0.0" />
+
+<TextView
+android:id="@+id/walkTimeTextView2"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="10 mins"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHorizontal_bias="0.07"
+app:layout_constraintStart_toStartOf="@+id/walkImageView2"
+app:layout_constraintTop_toBottomOf="@+id/addressTextView"
+app:layout_constraintVertical_bias="0.0" />
+
+<TextView
+android:id="@+id/driveTimeTextView2"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginStart="24dp"
+android:text="2 mins"
+
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHorizontal_bias="0.0"
+app:layout_constraintStart_toStartOf="@+id/driveImageView2"
+app:layout_constraintTop_toBottomOf="@+id/addressTextView"
+app:layout_constraintVertical_bias="0.0" />
+
+<TextView
+android:id="@+id/overallRatingTextView"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Overall rating"
+android:textColor="#4B000000"
+android:translationX="-20dp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHorizontal_bias="0.0"
+app:layout_constraintStart_toEndOf="@+id/starRating"
+app:layout_constraintTop_toTopOf="@+id/starRating"
+app:layout_constraintVertical_bias="0.050000012" />
+
+<TextView
+android:id="@+id/difficultyRatingTextView"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Difficulty rating"
+android:textColor="#4B000000"
+android:translationX="-20dp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHorizontal_bias="0.0"
+app:layout_constraintStart_toEndOf="@+id/difficultyRating"
+app:layout_constraintTop_toTopOf="@+id/difficultyRating"
+app:layout_constraintVertical_bias="0.0" />
+
+<TextView
+android:id="@+id/hostilityRatingTextView"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Hostility rating"
+android:textColor="#4B000000"
+android:translationX="-20dp"
+android:translationY="-10dp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHorizontal_bias="0.0"
+app:layout_constraintStart_toEndOf="@+id/hostilityRating"
+app:layout_constraintTop_toTopOf="@+id/hostilityRating"
+app:layout_constraintVertical_bias="0.0" />
+
+<androidx.constraintlayout.widget.Guideline
+android:id="@+id/guideline"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+app:layout_constraintGuide_begin="20dp" />
+
+<androidx.constraintlayout.widget.Guideline
+android:id="@+id/guideline2"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+app:layout_constraintGuide_begin="20dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

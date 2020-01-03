@@ -1,0 +1,50 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+        <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
+    </style>
+
+    <style name="StarRating" parent="@android:style/Widget.RatingBar">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">60dp</item>
+
+        <item name="android:progressDrawable">@drawable/star_rating_bar</item>
+    </style>
+    <style name="SmallStarRating" parent="@android:style/Widget.RatingBar">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">60dp</item>
+
+        <item name="android:progressDrawable">@drawable/star_rating_bar_small</item>
+    </style>
+    <style name="CrossRating" parent="@android:style/Widget.RatingBar">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">60dp</item>
+
+        <item name="android:progressDrawable">@drawable/cross_rating_bar</item>
+    </style>
+    <style name="BoneRating" parent="@android:style/Widget.RatingBar">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">60dp</item>
+
+        <item name="android:progressDrawable">@drawable/bone_rating_bar</item>
+    </style>
+    <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">roboto</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button">
+        <item name="android:fontFamily">roboto</item>
+        <item name="android:textStyle"></item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">14sp</item>
+
+    </style>
+
+</resources>

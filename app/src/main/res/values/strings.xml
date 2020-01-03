@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Spots</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="directionsBtnString">Directions</string>
+    <string name="shareBtnString">Share</string>
+    <string name="moreInfoBtnString">More Info</string>
+    <string name="appName">Spots</string>
+    <string name="uploadMediaBtnString">Upload Media</string>
+</resources>
