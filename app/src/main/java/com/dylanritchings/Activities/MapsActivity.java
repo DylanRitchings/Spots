@@ -1,10 +1,13 @@
 package com.dylanritchings.Activities;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -70,11 +73,20 @@ public class MapsActivity extends FragmentActivity implements
 
 
 
+
+
+    }
+    private void setListeners(){
+        //TODO all listener to this activity
         ButtonListeners btnListeners = new ButtonListeners();
         final Button moreInfoBtn = findViewById(R.id.moreInfoBtn);
         moreInfoBtn.setOnClickListener(btnListeners.new MoreInfoOnClickListener());
-    }
 
+        //uploadSpotBtn
+        final Button uploadSpotBtn = findViewById(R.id.uploadSpotBtn);
+        uploadSpotBtn.setOnClickListener(new uploadSpotOnClickListener());
+
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -215,6 +227,27 @@ public class MapsActivity extends FragmentActivity implements
      */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    /**
+     *
+     * TODO: Maybe move this to another class
+     */
+    public class uploadSpotOnClickListener  implements View.OnClickListener {
+        public void uploadSpotOnClickListener() {
+
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            Context context = Spots.getContext();
+            Intent uploadSpotIntent = new Intent(context, UploadSpotActivity.class);
+            context.startActivity(uploadSpotIntent);
+
+
+        }
 
     }
 

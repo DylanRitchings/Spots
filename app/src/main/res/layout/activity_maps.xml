@@ -237,7 +237,7 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/uploadSpotBtn"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:background="@drawable/round_button"
