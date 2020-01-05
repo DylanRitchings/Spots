@@ -41,6 +41,7 @@
             </intent-filter>
         </activity>
         <activity android:label="@string/appName" android:name="com.dylanritchings.Activities.SpotActivity"/>
+        <activity android:label="@string/appName" android:name="com.dylanritchings.Activities.UploadSpotActivity"/>
     </application>
 
 </manifest>

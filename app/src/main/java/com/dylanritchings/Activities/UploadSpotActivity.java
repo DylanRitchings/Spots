@@ -57,13 +57,13 @@ public class UploadSpotActivity extends FragmentActivity implements
         //map
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_spot);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkUserLocationPermission();
-        }
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.addressMapView);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            checkUserLocationPermission();
+//        }
+        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        //        .findFragmentById(R.id.addressMapView);
 
-        mapFragment.getMapAsync(this);
+       // mapFragment.getMapAsync(this);
         //super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_upload_spot);
         //uploadSpotActivity = this;
