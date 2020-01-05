@@ -10,6 +10,9 @@ import com.dylanritchings.ButtonListeners;
 import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
 
+/**
+ * TODO: Change to fragment
+ */
 public class SpotActivity extends Activity {
     public static Activity spotActivity;
 

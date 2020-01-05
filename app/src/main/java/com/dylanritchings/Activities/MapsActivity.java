@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.dylanritchings.Activities.UploadSpotActivity;
 import com.dylanritchings.ButtonListeners;
 import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
@@ -70,8 +71,7 @@ public class MapsActivity extends FragmentActivity implements
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
-
-
+        setListeners();
 
 
 

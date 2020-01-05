@@ -1,21 +1,24 @@
-package com.dylanritchings.Activities;
+package com.dylanritchings.Backup;
 
 import android.Manifest;
-import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.dylanritchings.Activities.UploadSpotActivity;
 import com.dylanritchings.ButtonListeners;
 import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
@@ -33,66 +36,71 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class UploadSpotActivity extends FragmentActivity implements
+
+public class MapsActivityBackup extends FragmentActivity implements
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-        //Map variables
-        private GoogleMap mMap;
-        private GoogleApiClient googleApiClient;
-        private LocationRequest locationRequest;
-        private Marker currentUserLocationMarker;
-        private static final int Request_User_Location_Code = 99;
-    /**
-     *
-     */
-    public static Activity uploadSpotActivity;
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        Spots appState = ((Spots)getApplicationContext());
-        appState.setContext(this);
+    //Map variables
+    private GoogleMap mMap;
+    private GoogleApiClient googleApiClient;
+    private LocationRequest locationRequest;
+    private Marker currentUserLocationMarker;
+    private static final int Request_User_Location_Code = 99;
 
-        //map
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_spot);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkUserLocationPermission();
-        }
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.addressMapView);
-
-        mapFragment.getMapAsync(this);
-        //super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_upload_spot);
-        //uploadSpotActivity = this;
-        //Spots appState = ((Spots)getApplicationContext());
-        //appState.setContext(this);
-
-        //createMap( savedInstanceState);
-
-    }
 
     /**
      *
      * @param savedInstanceState
      */
-    public void createMap(Bundle savedInstanceState){
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        Spots appState = ((Spots)getApplicationContext());
+        appState.setContext(this);
+
+        //map
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_spot);
+        setContentView(R.layout.activity_maps);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkUserLocationPermission();
         }
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.addressMapView);
+                .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+        setListeners();
+
+
+
     }
+    private void setListeners(){
+        //TODO all listener to this activity
+        ButtonListeners btnListeners = new ButtonListeners();
+        final Button moreInfoBtn = findViewById(R.id.moreInfoBtn);
+        moreInfoBtn.setOnClickListener(btnListeners.new MoreInfoOnClickListener());
+
+        //uploadSpotBtn
+        final Button uploadSpotBtn = findViewById(R.id.uploadSpotBtn);
+        uploadSpotBtn.setOnClickListener(new uploadSpotOnClickListener());
+
+    }
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
     /**
      *
      * @param googleMap
      */
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
@@ -124,6 +132,7 @@ public class UploadSpotActivity extends FragmentActivity implements
      *
      * @param bundle
      */
+    @Override
     public void onConnected(@Nullable Bundle bundle) {
         locationRequest = new LocationRequest();
         locationRequest.setInterval(1100);
@@ -139,6 +148,7 @@ public class UploadSpotActivity extends FragmentActivity implements
      *
      * @param i
      */
+    @Override
     public void onConnectionSuspended(int i) {
 
     }
@@ -220,22 +230,27 @@ public class UploadSpotActivity extends FragmentActivity implements
 
     }
 
+    /**
+     *
+     * TODO: Maybe move this to another class
+     */
+    public class uploadSpotOnClickListener  implements View.OnClickListener {
+        public void uploadSpotOnClickListener() {
 
-//
-//    private OnClickListener onClickListener = new OnClickListener() {
-//
-//        @Override
-//        public void onClick(final View v) {
-//            switch(v.getId()){
-//                case R.id.button1:
-//                    //DO something
-//                    break;
-//                case R.id.button2:
-//                    //DO something
-//                    break;
-//            }
-//
-//        }
-//    };
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            Context context = Spots.getContext();
+            Intent uploadSpotIntent = new Intent(context, UploadSpotActivity.class);
+            context.startActivity(uploadSpotIntent);
+
+
+        }
+
+    }
+
 }
+
 

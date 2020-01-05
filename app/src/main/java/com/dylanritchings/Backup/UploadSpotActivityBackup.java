@@ -1,4 +1,4 @@
-package com.dylanritchings.Activities;
+package com.dylanritchings.Backup;
 
 import android.Manifest;
 import android.app.Activity;
@@ -6,8 +6,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,7 +14,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.dylanritchings.ButtonListeners;
 import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -33,7 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class UploadSpotActivity extends FragmentActivity implements
+public class UploadSpotActivityBackup extends FragmentActivity implements
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,

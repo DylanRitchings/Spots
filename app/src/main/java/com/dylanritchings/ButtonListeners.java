@@ -8,7 +8,9 @@ import android.view.View;
 import com.dylanritchings.Activities.SpotActivity;
 
 public class ButtonListeners extends Activity {
-
+    /**
+     * TODO: Move these to other class
+     */
 
     //MapActivity
     public class MoreInfoOnClickListener  implements View.OnClickListener {
