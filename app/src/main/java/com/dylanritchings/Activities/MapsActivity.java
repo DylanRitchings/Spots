@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -36,6 +38,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
@@ -49,6 +54,8 @@ public class MapsActivity extends FragmentActivity implements
     private LocationRequest locationRequest;
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
+    private HashMap<Integer,Marker> hashMapMarker = new HashMap<>();
+
 
 
     /**
@@ -109,9 +116,14 @@ public class MapsActivity extends FragmentActivity implements
 
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
-            //configureStartTrackingBtn();
+            createMapClickListener();
             return;
+
+
         }
+
+
+
 
     }
 
@@ -164,14 +176,12 @@ public class MapsActivity extends FragmentActivity implements
         }
         double lat = location.getLatitude();
         double lng = location.getLongitude();
-        LatLng latLng = new LatLng(lat, lng);
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("user Current Location");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+        LatLng point = new LatLng(lat, lng);
 
-        currentUserLocationMarker = mMap.addMarker(markerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+
+        createNewSpotMarker(point);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
         if (googleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
@@ -231,6 +241,30 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     /**
+     * Creates a click listener on the map
+     */
+    public void createMapClickListener(){
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng point) {
+                createNewSpotMarker(point);
+            }
+        });
+    }
+
+    public void createNewSpotMarker(LatLng point){
+        Marker originalMarker = hashMapMarker.get(-1);
+        if (originalMarker != null){
+            originalMarker.remove();
+            hashMapMarker.remove(-1);
+        }
+
+        //Create new marker
+        Marker marker = mMap.addMarker(new MarkerOptions().position(point));
+        hashMapMarker.put(-1,marker);
+    }
+    /**
      *
      * TODO: Maybe move this to another class
      */
@@ -250,6 +284,7 @@ public class MapsActivity extends FragmentActivity implements
         }
 
     }
+
 
 }
 
