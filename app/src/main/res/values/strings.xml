@@ -6,4 +6,5 @@
     <string name="moreInfoBtnString">More Info</string>
     <string name="appName">Spots</string>
     <string name="uploadMediaBtnString">Upload Media</string>
+    <string name="completeUploadBtnString">Upload</string>
 </resources>
