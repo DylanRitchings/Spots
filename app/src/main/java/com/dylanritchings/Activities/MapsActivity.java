@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,8 +25,12 @@ import com.dylanritchings.Activities.UploadSpotActivity;
 import com.dylanritchings.ButtonListeners;
 import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -37,6 +42,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,18 +50,20 @@ import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
+        //GoogleApiClient.ConnectionCallbacks,
+        // GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
     //Map variables
     private GoogleMap mMap;
-    private GoogleApiClient googleApiClient;
+    //private GoogleApiClient googleApiClient;
+    private GoogleSignInClient signInClient;
+    private LocationListener locationListener;
     private LocationRequest locationRequest;
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
-    private HashMap<Integer,Marker> hashMapMarker = new HashMap<>();
-
+    private HashMap<Integer, Marker> hashMapMarker = new HashMap<>();
+    private FusedLocationProviderClient fusedLocationClient;
 
 
     /**
@@ -65,7 +73,7 @@ public class MapsActivity extends FragmentActivity implements
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Spots appState = ((Spots)getApplicationContext());
+        Spots appState = ((Spots) getApplicationContext());
         appState.setContext(this);
 
         //map
@@ -83,7 +91,8 @@ public class MapsActivity extends FragmentActivity implements
 
 
     }
-    private void setListeners(){
+
+    private void setListeners() {
         //TODO all listener to this activity
         ButtonListeners btnListeners = new ButtonListeners();
         final Button moreInfoBtn = findViewById(R.id.moreInfoBtn);
@@ -112,83 +121,119 @@ public class MapsActivity extends FragmentActivity implements
         mMap = googleMap;
 
         //Users current location permission Check
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-            buildGoogleApiClient();
+        if (ContextCompat. checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
+            //buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
+            getLocation();
             createMapClickListener();
-            return;
+//
+//            return;
 
 
         }
 
 
-
-
     }
 
     /**
      *
      */
-    protected synchronized void buildGoogleApiClient() {
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+//    protected synchronized void buildGoogleApiClient() {
+//        googleApiClient = new GoogleApiClient.Builder(this)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .addApi(LocationServices.API)
+//                .build();
 
-        googleApiClient.connect();
-    }
-
-    /**
-     *
-     * @param bundle
-     */
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
+    // googleApiClient.connect();
+//    }
+    public void getLocation() {
         locationRequest = new LocationRequest();
         locationRequest.setInterval(1100);
         locationRequest.setFastestInterval(1100);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+            //LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                setLocationMarker(location);
+                            }
+
+                        }
+                    });
         }
-    }
 
-    /**
-     *
-     * @param i
-     */
-    @Override
-    public void onConnectionSuspended(int i) {
 
     }
 
+//
+//    public void createLocationListener() {
+//        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // notTODO: Consider calling
+//            //    Activity#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for Activity#requestPermissions for more details.
+//            return;
+//        }
+//
+//        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        final LocationListener locationListener = new LocationListener() {
+//            public void onLocationChanged(Location location) {
+//                double longitude = location.getLongitude();
+//                double latitude = location.getLatitude();
+//            }
+//        };
+//
+//        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, (android.location.LocationListener) locationListener);
+//
+//
+//    }
     /**
      *
      * @param location
      */
     @Override
     public void onLocationChanged(Location location) {
-        if (currentUserLocationMarker != null) {
-            currentUserLocationMarker.remove();
-        }
+
         double lat = location.getLatitude();
         double lng = location.getLongitude();
         LatLng point = new LatLng(lat, lng);
-
-        //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-
         createNewSpotMarker(point);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
-        if (googleApiClient != null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
-
-        }
+//        if (googleApiClient != null) {
+//            //LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
+//            LocationServices.getFusedLocationProviderClient(this);
+//
+//        }
 
     }
+    /**
+     *
+     * @param location
+     */
+    public void setLocationMarker(Location location) {
+
+        double lat = location.getLatitude();
+        double lng = location.getLongitude();
+        LatLng point = new LatLng(lat, lng);
+        createNewSpotMarker(point);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
+        //mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
+    }
+
 
     /**
      *
@@ -219,9 +264,6 @@ public class MapsActivity extends FragmentActivity implements
             case Request_User_Location_Code:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        if (googleApiClient == null) {
-                            buildGoogleApiClient();
-                        }
                         mMap.setMyLocationEnabled(true);
                     }
                 } else {
@@ -235,7 +277,6 @@ public class MapsActivity extends FragmentActivity implements
      *
      * @param connectionResult
      */
-    @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
