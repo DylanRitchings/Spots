@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
         configureLoginBtn();
         configureRegisterBtn();
+        configureForgotPasswordBtn();
 
     }
 
@@ -55,7 +56,31 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String[] emailPassword = getEmailAndPassword();
-                signIn(emailPassword[0],emailPassword[1]);
+                try {
+                    signIn(emailPassword[0], emailPassword[1]);
+                } catch (Exception e){
+                    updateUI(null);
+
+                }
+            }
+        });
+    }
+
+    private void configureForgotPasswordBtn(){
+        Button forgotPasswordBtn = (Button) findViewById(R.id.forgotPasswordBtn);
+
+        //Click
+        forgotPasswordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String[] emailPassword = getEmailAndPassword();
+                try {
+                    forgotPassword(emailPassword[0]);
+                } catch (Exception e){
+                    updateUI(null);
+
+                }
             }
         });
     }
@@ -159,6 +184,22 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void forgotPassword(String email){
+
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        TextView errorTextView = (TextView) findViewById(R.id.errorTextView);
+                        if (task.isSuccessful()) {
+                            errorTextView.setText("Email sent.");
+                        }
+                        else{
+                            errorTextView.setText("Account doesn't exist.");
+                        }
+                    }
+                });
+    }
 //    private void storeUser(String email, String password){
 //        AuthPreferences.setUser(email);
 //        AuthPreferences.setToken(password);
