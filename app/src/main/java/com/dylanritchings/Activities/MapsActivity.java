@@ -1,6 +1,7 @@
 package com.dylanritchings.Activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -59,11 +60,14 @@ public class MapsActivity extends FragmentActivity implements
     //private GoogleApiClient googleApiClient;
     private GoogleSignInClient signInClient;
     private LocationListener locationListener;
+    private static final String TAG = "MapsActivity";
+
     private LocationRequest locationRequest;
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
     private HashMap<Integer, Marker> hashMapMarker = new HashMap<>();
     private FusedLocationProviderClient fusedLocationClient;
+    public static Activity MapsActivity;
 
 
     /**
@@ -73,8 +77,10 @@ public class MapsActivity extends FragmentActivity implements
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         Spots appState = ((Spots) getApplicationContext());
         appState.setContext(this);
+
 
         //map
         super.onCreate(savedInstanceState);

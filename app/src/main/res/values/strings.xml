@@ -7,4 +7,9 @@
     <string name="appName">Spots</string>
     <string name="uploadMediaBtnString">Upload Media</string>
     <string name="completeUploadBtnString">Upload</string>
+    <string name="forgotPassword">Forgot Password</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 </resources>
