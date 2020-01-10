@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     signIn(emailPassword[0], emailPassword[1]);
                 } catch (Exception e){
-                    updateUI(null);
+                    updateUI(null,null,null);
 
                 }
             }
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     forgotPassword(emailPassword[0]);
                 } catch (Exception e){
-                    updateUI(null);
+                    updateUI(null,null,null);
 
                 }
             }
@@ -111,14 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         return emailPassword;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
-    }
-    private void createAccount(String email, String password){
+    private void createAccount(final String email, final String password){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -127,13 +120,13 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            updateUI(user,email,password);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            updateUI(null,null,null);
                         }
 
                         // ...
@@ -147,38 +140,33 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Log.d("TEST","1");
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            updateUI(user,email,password);
                         } else {
-                            Log.d("TEST","2");
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            updateUI(null,null,null);
                         }
 
-                        // ...
                     }
                 });
     }
 
-    private void updateUI(FirebaseUser user){
+    private void updateUI(FirebaseUser user,String email,String password){
         TextView errorTextView = (TextView) findViewById(R.id.errorTextView);
         if (user != null){
-            Log.d("TEST","3");
             errorTextView.setText("   ");
             Intent intent = new Intent(this, MapsActivity.class);
             intent.putExtra(FIREBASE_USER, user);
-            //storeUser(email,password);
+            storeUser(email,password);
             startActivity(intent);
             finish();
         }
         else {
-            Log.d("TEST","4");
             errorTextView.setText("Incorrect email or password.");
 
         }
@@ -200,10 +188,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-//    private void storeUser(String email, String password){
-//        AuthPreferences.setUser(email);
-//        AuthPreferences.setToken(password);
-//    }
+    private void storeUser(String email, String password){
+        AuthPreferences.setUser(email);
+        AuthPreferences.setToken(password);
+    }
 
     /*
     private void updateUI1(FirebaseUser user) {
@@ -223,4 +211,6 @@ public class LoginActivity extends AppCompatActivity {
     }
      */
 
+
 }
+
