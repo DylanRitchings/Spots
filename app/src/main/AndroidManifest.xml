@@ -8,15 +8,20 @@
          location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
 
     <application
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="com.dylanritchings.Spots">
+        android:name="com.dylanritchings.Spots"
+        android:allowBackup="true">
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -30,17 +35,35 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/GoogleMapsKey"/>
 
+        <!--Check Login-->
+        <activity
+            android:name="com.dylanritchings.Activities.CheckLoginActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!--Login-->
+        <activity android:label="@string/appName" android:name="com.dylanritchings.Activities.LoginActivity"/>
+        <!--Maps-->
         <activity
             android:name="com.dylanritchings.Activities.MapsActivity"
             android:label="@string/appName">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
+
+        <!--Spot-->
         <activity android:label="@string/appName" android:name="com.dylanritchings.Activities.SpotActivity"/>
+
+        <!--Upload Spot-->
+        <activity android:label="@string/appName" android:name="com.dylanritchings.Activities.UploadSpotActivity"/>
+
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
+
     </application>
 
 </manifest>
