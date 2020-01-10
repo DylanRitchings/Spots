@@ -12,11 +12,11 @@ import java.util.logging.Logger;
  */
 public class loginConnect {
     
-    private static String host = "den1.mysql3.gear.host";
-    private static String uName = "teammanagerdb";
-    private static String dbname = "teammanagerdb";
+    private static String host = "";
+    private static String uName = "";
+    private static String dbname = "";
     private static Integer portnumber = 3306;
-    private static String uPass = "Bc85NMS--V6h";
+    private static String uPass = "";
     
     
     public static Connection getConnection()
