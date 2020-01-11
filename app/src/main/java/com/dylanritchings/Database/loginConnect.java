@@ -1,6 +1,5 @@
 package com.dylanritchings.Database;
 
-import ;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;

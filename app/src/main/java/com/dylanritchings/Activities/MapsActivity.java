@@ -97,7 +97,10 @@ public class MapsActivity extends FragmentActivity implements
 
 
     }
-
+    
+    /**
+     *
+     */
     private void setListeners() {
         //TODO all listener to this activity
         ButtonListeners btnListeners = new ButtonListeners();

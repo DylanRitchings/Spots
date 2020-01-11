@@ -17,7 +17,9 @@ public class CheckLoginActivity extends AppCompatActivity {
     private AuthPreferences authPreferences;
     private AccountManager accountManager;
     @Override
-
+/**
+ *
+ */
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
