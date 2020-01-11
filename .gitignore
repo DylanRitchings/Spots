@@ -20,3 +20,4 @@ db_variables.php
 .idea/
 *.iml
 *.iws
+src/debug/
