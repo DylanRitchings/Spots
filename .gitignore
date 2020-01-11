@@ -15,3 +15,8 @@
 
 api_keys.xml
 db_variables.php
+
+# Intellij
+.idea/
+*.iml
+*.iws
