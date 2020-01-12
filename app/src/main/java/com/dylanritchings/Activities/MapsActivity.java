@@ -246,7 +246,7 @@ public class MapsActivity extends FragmentActivity implements
 
     /**
      *
-     * @return
+     * @return boolean
      */
     public boolean checkUserLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -325,10 +325,12 @@ public class MapsActivity extends FragmentActivity implements
 
         @Override
         public void onClick(View view) {
-
+            Marker marker = hashMapMarker.get(-1);
+            LatLng latlng = marker.getPosition();
             Context context = Spots.getContext();
             Intent uploadSpotIntent = new Intent(context, UploadSpotActivity.class);
             context.startActivity(uploadSpotIntent);
+            
 
 
         }
