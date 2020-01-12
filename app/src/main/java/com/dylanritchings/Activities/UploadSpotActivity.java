@@ -97,6 +97,7 @@ public class UploadSpotActivity extends FragmentActivity{
                 //Get the file name
                 Cursor returnCursor = getContentResolver().query(imageUri, null, null, null, null);
                 int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                returnCursor.moveToFirst();
                 TextView fileNameTextView = (TextView) this.findViewById(R.id.fileNameTextView);
                 fileNameTextView.setText(returnCursor.getString(nameIndex));
             } catch (FileNotFoundException e) {
