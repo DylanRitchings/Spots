@@ -326,12 +326,13 @@ public class MapsActivity extends FragmentActivity implements
         @Override
         public void onClick(View view) {
             Marker marker = hashMapMarker.get(-1);
-            LatLng latlng = marker.getPosition();
+            LatLng latLng = marker.getPosition();
             Context context = Spots.getContext();
             Intent uploadSpotIntent = new Intent(context, UploadSpotActivity.class);
+            uploadSpotIntent.putExtra("LAT_LNG", latLng);
             context.startActivity(uploadSpotIntent);
+    
             
-
 
         }
 

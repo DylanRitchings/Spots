@@ -37,11 +37,13 @@ public class UploadSpotActivity extends FragmentActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Spots appState = ((Spots)getApplicationContext());
         appState.setContext(this);
-
-        //map
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_spot);
+        LatLng latLng = getIntent().getParcelableExtra("LAT_LNG");
         setListeners();
+        
+        
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            checkUserLocationPermission();
 //        }
@@ -111,8 +113,7 @@ public class UploadSpotActivity extends FragmentActivity{
         }
     }
 
-
-
+    
 
 
 
