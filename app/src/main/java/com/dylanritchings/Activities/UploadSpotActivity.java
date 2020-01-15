@@ -11,19 +11,20 @@ import android.os.Bundle;
 
 import android.provider.OpenableColumns;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import com.dylanritchings.Spots;
+import com.dylanritchings.Utils.ModifiedSpinner;
 import com.dylanritchings.spots.R;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class UploadSpotActivity extends FragmentActivity{
@@ -41,7 +42,9 @@ public class UploadSpotActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_spot);
         LatLng latLng = getIntent().getParcelableExtra("LAT_LNG");
+        fillSpinner();
         setListeners();
+        
         
         
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -112,7 +115,41 @@ public class UploadSpotActivity extends FragmentActivity{
             Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
     }
+    
+    private void getData(){
+	    //name = (EditText)findViewById(R.id.editText2);
+    }
+    private void fillSpinner(){
+        String[] spinnerArray = new String[]{
+                "Spot type",
+                "Skatepark",
+                "Stairs",
+                "Handrail",
+                "Box",
+                "Bank",
+                "Gap",
+                "Other"
+        };
+    
+        Spinner spotTypeSpinner = (Spinner) findViewById(R.id.spotTypeSpinner);
+        //
+        
+        
+        //
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, spinnerArray);
+        spotTypeSpinner.setAdapter(
+                new ModifiedSpinner(
+                        adapter,
+                        R.layout.spinner_disabled_selection,
+                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
+                        this));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        spotTypeSpinner.setSelection(0, false);
+        spotTypeSpinner.setAdapter(adapter);
+
+    }
     
 
 

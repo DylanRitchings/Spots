@@ -15,4 +15,6 @@
 	<string name="uploadImageBtnString">Choose File</string>
 	<string name="noFileName">No file uploaded</string>
     <string name="image">Image</string>
+	<string name="typeSpinner">Spot type</string>
+	<string name="spot_type">Spot type</string>
 </resources>
