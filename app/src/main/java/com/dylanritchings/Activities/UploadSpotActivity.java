@@ -1,7 +1,6 @@
 package com.dylanritchings.Activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -15,16 +14,16 @@ import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
+import com.dylanritchings.IOTools.InsertData;
 import com.dylanritchings.Spots;
 import com.dylanritchings.Utils.ModifiedSpinner;
 import com.dylanritchings.spots.R;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class UploadSpotActivity extends FragmentActivity{
@@ -41,35 +40,92 @@ public class UploadSpotActivity extends FragmentActivity{
         
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_spot);
-        LatLng latLng = getIntent().getParcelableExtra("LAT_LNG");
+
         fillSpinner();
         setListeners();
-        
-        
-        
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            checkUserLocationPermission();
-//        }
-        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-        //        .findFragmentById(R.id.addressMapView);
-
-       // mapFragment.getMapAsync(this);
-        //super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_upload_spot);
-        //uploadSpotActivity = this;
-        //Spots appState = ((Spots)getApplicationContext());
-        //appState.setContext(this);
-
-        //createMap( savedInstanceState);
-
+        setLatLng();
     }
-    
     public void setListeners(){
         final Button uploadImageBtn = findViewById(R.id.uploadImageBtn);
         uploadImageBtn.setOnClickListener(new uploadImageOnClickListener());
+        ratingBars();
+        configureUploadSpotBtn();
+
     }
-    
-    
+    private void ratingBars(){
+        final TextView difficultyTxt = (TextView) findViewById(R.id.difficultyTxt);
+        final RatingBar difficultyRating = (RatingBar) findViewById(R.id.difficultyRating2);
+
+        difficultyRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar arg0, float rateValue, boolean arg2) {
+
+                difficultyTxt.setText(Float.toString(difficultyRating.getRating()));
+            }
+        });
+
+        final RatingBar hostilityRating = (RatingBar) findViewById(R.id.hostilityRating2);
+        final TextView hostilityTxt = (TextView) findViewById(R.id.hostilityTxt);
+        hostilityRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar arg0, float rateValue, boolean arg2) {
+                hostilityTxt.setText(Float.toString(hostilityRating.getRating()));
+            }
+        });
+    }
+
+    private void setLatLng(){
+        LatLng latLng = getIntent().getParcelableExtra("LAT_LNG");
+        EditText latTxt = (EditText) findViewById(R.id.latTxt);
+        latTxt.setText(String.valueOf(latLng.latitude));
+        EditText lngTxt = (EditText) findViewById(R.id.lngTxt);
+        lngTxt.setText(String.valueOf(latLng.longitude));
+    }
+
+
+
+    private void configureUploadSpotBtn(){
+        Button uploadSpotBtn = (Button) findViewById(R.id.completeUploadBtn);
+
+        //Click
+
+        uploadSpotBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadSpot();
+            }
+        });
+    }
+
+    private void uploadSpot(){
+        EditText descTxt = (EditText) findViewById(R.id.descTxt);
+        String desc = descTxt.getText().toString();
+        Spinner typeTxt = (Spinner) findViewById(R.id.spotTypeSpinner);
+        String type = typeTxt.getSelectedItem().toString();
+        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+        String userId = currentFirebaseUser.getUid();
+        TextView errorTxt = (TextView) findViewById(R.id.errorTxt);
+        if (type == "Spot type"){
+            errorTxt.setText("Please select the type of spot.");
+        }
+
+
+        String method = "uploadSpot";
+        InsertData insertData = new InsertData();
+        LatLng latLng = getIntent().getParcelableExtra("LAT_LNG");
+        String lat = String.valueOf(latLng.latitude);
+        String lng = String.valueOf(latLng.longitude);
+        TextView difficultyTxt = (TextView) findViewById(R.id.difficultyTxt);
+
+        String difficulty = difficultyTxt.getText().toString();
+        TextView hostilityTxt = (TextView) findViewById(R.id.hostilityTxt);
+        String hostility = hostilityTxt.getText().toString();
+        insertData.execute(method,userId,desc,lat,lng,type,difficulty,hostility);
+    }
+
+
     public class uploadImageOnClickListener  implements View.OnClickListener {
         public uploadImageOnClickListener() {
         
@@ -81,9 +137,6 @@ public class UploadSpotActivity extends FragmentActivity{
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
-    
-    
-    
         }
         
     }

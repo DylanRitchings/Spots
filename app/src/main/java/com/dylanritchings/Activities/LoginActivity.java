@@ -1,10 +1,6 @@
 package com.dylanritchings.Activities;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountAuthenticatorActivity;
 import android.content.Intent;
-import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.util.Log;
 import com.dylanritchings.Utils.AuthPreferences;
@@ -17,15 +13,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.dylanritchings.Activities.MapsActivity;
-import com.dylanritchings.Utils.AuthPreferences;
 import com.dylanritchings.spots.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -157,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user,String email,String password){
-        TextView errorTextView = (TextView) findViewById(R.id.errorTextView);
+        TextView errorTextView = (TextView) findViewById(R.id.errorTxt);
         if (user != null){
             errorTextView.setText("   ");
             Intent intent = new Intent(this, MapsActivity.class);
@@ -178,7 +171,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        TextView errorTextView = (TextView) findViewById(R.id.errorTextView);
+                        TextView errorTextView = (TextView) findViewById(R.id.errorTxt);
                         if (task.isSuccessful()) {
                             errorTextView.setText("Email sent.");
                         }

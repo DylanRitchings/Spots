@@ -35,9 +35,10 @@
             android:scaleY=".7"
             android:translationX="-25dp"
             android:translationY="@dimen/cardview_compat_inset_shadow"
+            android:stepSize="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.57"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spotTypeSpinner"
             app:layout_constraintVertical_bias="0.099"/>
@@ -58,7 +59,7 @@
             app:layout_constraintHorizontal_bias="0.979"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.657"/>
+            app:layout_constraintVertical_bias="0.7"/>
 
     <RatingBar
             android:id="@+id/hostilityRating2"
@@ -70,9 +71,10 @@
             android:scaleX=".7"
             android:scaleY=".7"
             android:translationX="-25dp"
+            android:stepSize="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.57"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/difficultyRating2"
             app:layout_constraintVertical_bias="0.017"/>
@@ -85,10 +87,10 @@
             android:textColor="#4B000000"
             app:layout_constraintBottom_toBottomOf="@+id/hostilityRating2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.676"
+            app:layout_constraintHorizontal_bias="0.01"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/hostilityRating2"
-            app:layout_constraintVertical_bias="0.538"/>
+            app:layout_constraintVertical_bias="0.39"/>
 
     <TextView
             android:id="@+id/difficultyRatingTextView2"
@@ -98,7 +100,7 @@
             android:textColor="#4B000000"
             app:layout_constraintBottom_toBottomOf="@+id/difficultyRating2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.678"
+            app:layout_constraintHorizontal_bias="0.01"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/difficultyRating2"
             app:layout_constraintVertical_bias="0.416"/>
@@ -112,7 +114,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.043"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_layout_name"
+            app:layout_constraintTop_toBottomOf="@+id/latitude"
             app:layout_constraintVertical_bias="0.01999998"/>
 
     <TextView
@@ -129,31 +131,54 @@
         app:layout_constraintVertical_bias="0.00999999" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_layout_name"
-        android:layout_width="283dp"
-        android:layout_height="62dp"
-        android:hint="Address"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.060000002">
-
-        <EditText
-            android:id="@+id/addressTxt"
-            android:layout_width="277dp"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="textPostalAddress"
+            android:id="@+id/latitude"
+            android:layout_width="148dp"
+            android:layout_height="61dp"
+            android:hint="Latitude"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.044"
+            app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.066" />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintVertical_bias="0.060000002">
 
+        <EditText
+                android:id="@+id/latTxt"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:ems="10"
+                android:inputType="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.044"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.066"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/longitude"
+            android:layout_width="148dp"
+            android:layout_height="61dp"
+            android:hint="Longitude"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.060000002" app:layout_constraintStart_toEndOf="@+id/latitude">
+
+        <EditText
+                android:id="@+id/lngTxt"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:ems="10"
+                android:inputType="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.044"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.066"/>
+    </com.google.android.material.textfield.TextInputLayout>
     <TextView
             android:text="@string/image"
             android:layout_width="wrap_content"
@@ -166,6 +191,24 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/difficultyTxt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.84"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintVertical_bias="0.52"
+            app:layout_constraintTop_toTopOf="@+id/difficultyRating2"
+            app:layout_constraintBottom_toBottomOf="@+id/difficultyRating2"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hostilityTxt"
+            app:layout_constraintStart_toStartOf="@+id/hostilityRatingTextView2"
+            app:layout_constraintHorizontal_bias="0.84"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintVertical_bias="0.52"
+            app:layout_constraintTop_toTopOf="@+id/hostilityRating2"
+            app:layout_constraintBottom_toBottomOf="@+id/hostilityRating2"/>
+    <TextView
             android:text="@string/noFileName"
             android:layout_width="147dp"
             android:layout_height="20dp"
@@ -177,14 +220,37 @@
             app:layout_constraintHorizontal_bias="0.11"
             />
 
-    <EditText
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/description"
+            android:layout_width="241dp"
+            android:layout_height="128dp"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.048"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.556">
+
+        <EditText
+                android:id="@+id/descTxt"
+                android:layout_width="225dp"
+                android:layout_height="114dp"
+                android:inputType="textMultiLine"
+                android:gravity="start|top"
+                android:ems="10"
+                tools:layout_editor_absoluteY="334dp"
+                tools:layout_editor_absoluteX="8dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:gravity="start|top"
-            android:ems="10"
-            tools:layout_editor_absoluteY="334dp"
-            tools:layout_editor_absoluteX="8dp"
-            android:id="@+id/descTxt"/>
+            android:id="@+id/errorTxt"
+            app:layout_constraintBottom_toBottomOf="@+id/completeUploadBtn"
+            app:layout_constraintEnd_toStartOf="@+id/completeUploadBtn"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.96"
+            app:layout_constraintTop_toTopOf="@+id/completeUploadBtn" app:layout_constraintVertical_bias="0.65"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
