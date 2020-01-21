@@ -7,13 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.provider.OpenableColumns;
 import android.view.View;
 import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
-
 import com.dylanritchings.IOTools.InsertData;
 import com.dylanritchings.Spots;
 import com.dylanritchings.Utils.ModifiedSpinner;
@@ -41,11 +39,11 @@ public class UploadSpotActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_spot);
 
-        fillSpinner();
-        setListeners();
-        setLatLng();
+        FillSpinner();
+        SetListeners();
+        SetLatLng();
     }
-    public void setListeners(){
+    public void SetListeners(){
         final Button uploadImageBtn = findViewById(R.id.uploadImageBtn);
         uploadImageBtn.setOnClickListener(new uploadImageOnClickListener());
         ratingBars();
@@ -76,7 +74,7 @@ public class UploadSpotActivity extends FragmentActivity{
         });
     }
 
-    private void setLatLng(){
+    private void SetLatLng(){
         LatLng latLng = getIntent().getParcelableExtra("LAT_LNG");
         EditText latTxt = (EditText) findViewById(R.id.latTxt);
         latTxt.setText(String.valueOf(latLng.latitude));
@@ -111,9 +109,7 @@ public class UploadSpotActivity extends FragmentActivity{
             errorTxt.setText("Please select the type of spot.");
         }
 
-
-        String method = "uploadSpot";
-        InsertData insertData = new InsertData();
+        InsertData insertData = new InsertData(this.getApplication());
         LatLng latLng = getIntent().getParcelableExtra("LAT_LNG");
         String lat = String.valueOf(latLng.latitude);
         String lng = String.valueOf(latLng.longitude);
@@ -122,7 +118,7 @@ public class UploadSpotActivity extends FragmentActivity{
         String difficulty = difficultyTxt.getText().toString();
         TextView hostilityTxt = (TextView) findViewById(R.id.hostilityTxt);
         String hostility = hostilityTxt.getText().toString();
-        insertData.execute(method,userId,desc,lat,lng,type,difficulty,hostility);
+        insertData.UploadSpot(userId,desc,lat,lng,type,difficulty,hostility);
     }
 
 
@@ -172,7 +168,7 @@ public class UploadSpotActivity extends FragmentActivity{
     private void getData(){
 	    //name = (EditText)findViewById(R.id.editText2);
     }
-    private void fillSpinner(){
+    private void FillSpinner(){
         String[] spinnerArray = new String[]{
                 "Spot type",
                 "Skatepark",

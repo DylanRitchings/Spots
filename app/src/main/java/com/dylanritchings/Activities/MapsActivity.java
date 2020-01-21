@@ -6,31 +6,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
-
-import com.dylanritchings.Activities.UploadSpotActivity;
 import com.dylanritchings.ButtonListeners;
+import com.dylanritchings.IOTools.GetData;
+import com.dylanritchings.Models.Spot;
 import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApi;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -45,8 +38,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 
 public class MapsActivity extends FragmentActivity implements
@@ -66,8 +59,9 @@ public class MapsActivity extends FragmentActivity implements
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
     private HashMap<Integer, Marker> hashMapMarker = new HashMap<>();
-    private FusedLocationProviderClient fusedLocationClient;
+    FusedLocationProviderClient fusedLocationClient;
     public static Activity MapsActivity;
+    public ArrayList<Spot> spots;
 
 
     /**
@@ -112,6 +106,60 @@ public class MapsActivity extends FragmentActivity implements
         uploadSpotBtn.setOnClickListener(new uploadSpotOnClickListener());
 
     }
+
+
+    private void placeSpotMarkers(){
+        GetData getData = new GetData(this.getApplication());
+        getData.getSpotsArray();
+        Log.d("TEST",spots.toString());
+        for (Spot spot : spots){
+            float lat = spot.getLat();
+            float lng = spot.getLng();
+            int id = spot.getSpotId();
+            String type = spot.getType();
+            LatLng point = new LatLng(lat, lng);
+            //Create new marker
+            Marker marker = mMap.addMarker(new MarkerOptions().position(point));
+            switch (type) {
+                case "Skatepark":
+                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                    break;
+                case "Stairs":
+                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                    break;
+                case "Handrail":
+                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                    break;
+                case "Box":
+                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                    break;
+                case "Gap":
+                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+                    break;
+                default:
+                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                    break;
+            }
+            hashMapMarker.put(id,marker);
+        }
+    }
+
+    private ArrayList<Spot> getSpotsArray(){
+        GetData.getInstance().(new SomeCustomListener<List<User>>()
+        {
+            @Override
+            public void getResult(List<User> all_users)
+            {
+                if (null != allUsers)
+                {
+                    mUsers = allUsers;
+                    // ...  do other stuff with our info
+                }
+            }
+        });
+    }
+
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -136,8 +184,8 @@ public class MapsActivity extends FragmentActivity implements
             mMap.setMyLocationEnabled(true);
             getLocation();
             createMapClickListener();
-//
-//            return;
+
+            placeSpotMarkers();
 
 
         }
@@ -331,7 +379,7 @@ public class MapsActivity extends FragmentActivity implements
             Intent uploadSpotIntent = new Intent(context, UploadSpotActivity.class);
             uploadSpotIntent.putExtra("LAT_LNG", latLng);
             context.startActivity(uploadSpotIntent);
-    
+
             
 
         }
