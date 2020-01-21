@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -17,8 +16,8 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import com.dylanritchings.Adapters.MapsAdapter;
 import com.dylanritchings.ButtonListeners;
-import com.dylanritchings.IOTools.GetData;
 import com.dylanritchings.Models.Spot;
 import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
@@ -32,7 +31,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -109,55 +107,11 @@ public class MapsActivity extends FragmentActivity implements
 
 
     private void placeSpotMarkers(){
-        GetData getData = new GetData(this.getApplication());
-        getData.getSpotsArray();
-        Log.d("TEST",spots.toString());
-        for (Spot spot : spots){
-            float lat = spot.getLat();
-            float lng = spot.getLng();
-            int id = spot.getSpotId();
-            String type = spot.getType();
-            LatLng point = new LatLng(lat, lng);
-            //Create new marker
-            Marker marker = mMap.addMarker(new MarkerOptions().position(point));
-            switch (type) {
-                case "Skatepark":
-                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-                    break;
-                case "Stairs":
-                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                    break;
-                case "Handrail":
-                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-                    break;
-                case "Box":
-                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                    break;
-                case "Gap":
-                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-                    break;
-                default:
-                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-                    break;
-            }
-            hashMapMarker.put(id,marker);
-        }
+        MapsAdapter mapsAdapter = new MapsAdapter(this,mMap);
+        mapsAdapter.getSpots();
+
     }
 
-    private ArrayList<Spot> getSpotsArray(){
-        GetData.getInstance().(new SomeCustomListener<List<User>>()
-        {
-            @Override
-            public void getResult(List<User> all_users)
-            {
-                if (null != allUsers)
-                {
-                    mUsers = allUsers;
-                    // ...  do other stuff with our info
-                }
-            }
-        });
-    }
 
 
     /**

@@ -1,15 +1,12 @@
 package com.dylanritchings.Activities;
 
 
-import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.dylanritchings.IOTools.NetworkManager;
 import com.dylanritchings.Utils.AuthPreferences;
 import com.dylanritchings.spots.R;
 
@@ -21,9 +18,10 @@ public class CheckLoginActivity extends AppCompatActivity {
  *
  */
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-
+        NetworkManager.getInstance(this);
         Intent activityIntent;
         AccountManager am = AccountManager.get(this); // "this" references the current Context
         authPreferences = new AuthPreferences(this);
