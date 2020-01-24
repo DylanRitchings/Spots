@@ -44,4 +44,12 @@ public class Spot {
     public Float getHost(){
         return host;
     }
+
+    /**
+     * TODO: Implement gallery
+     * @return
+     */
+    public String getGalleryId(){
+        return null;
+    }
 }

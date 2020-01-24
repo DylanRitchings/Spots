@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -33,7 +34,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
@@ -52,6 +52,7 @@ public class MapsActivity extends FragmentActivity implements
     private GoogleSignInClient signInClient;
     private LocationListener locationListener;
     private static final String TAG = "MapsActivity";
+    MapsAdapter mapsAdapter;
 
     private LocationRequest locationRequest;
     private Marker currentUserLocationMarker;
@@ -60,6 +61,9 @@ public class MapsActivity extends FragmentActivity implements
     FusedLocationProviderClient fusedLocationClient;
     public static Activity MapsActivity;
     public ArrayList<Spot> spots;
+    public static Button uploadSpotBtn;
+    public CardView infoCard;
+
 
 
     /**
@@ -69,14 +73,15 @@ public class MapsActivity extends FragmentActivity implements
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_maps);
 
+        infoCard = findViewById(R.id.infoCard);
+        infoCard.setVisibility(View.GONE);
         Spots appState = ((Spots) getApplicationContext());
         appState.setContext(this);
 
 
-        //map
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkUserLocationPermission();
         }
@@ -84,7 +89,7 @@ public class MapsActivity extends FragmentActivity implements
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
-        setListeners();
+
 
 
 
@@ -100,16 +105,15 @@ public class MapsActivity extends FragmentActivity implements
         moreInfoBtn.setOnClickListener(btnListeners.new MoreInfoOnClickListener());
 
         //uploadSpotBtn
-        final Button uploadSpotBtn = findViewById(R.id.uploadSpotBtn);
+        uploadSpotBtn = (Button) findViewById(R.id.uploadSpotBtn);
         uploadSpotBtn.setOnClickListener(new uploadSpotOnClickListener());
 
     }
 
 
     private void placeSpotMarkers(){
-        MapsAdapter mapsAdapter = new MapsAdapter(this,mMap);
-        mapsAdapter.getSpots();
 
+        mapsAdapter.getSpots();
     }
 
 
@@ -130,6 +134,8 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mapsAdapter = new MapsAdapter(this,mMap,infoCard, spotMap);
+        setListeners();
 
         //Users current location permission Check
         if (ContextCompat. checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -220,7 +226,7 @@ public class MapsActivity extends FragmentActivity implements
         double lat = location.getLatitude();
         double lng = location.getLongitude();
         LatLng point = new LatLng(lat, lng);
-        createNewSpotMarker(point);
+        mapsAdapter.createNewSpotMarker(point);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
 //        if (googleApiClient != null) {
@@ -239,7 +245,7 @@ public class MapsActivity extends FragmentActivity implements
         double lat = location.getLatitude();
         double lng = location.getLongitude();
         LatLng point = new LatLng(lat, lng);
-        createNewSpotMarker(point);
+        mapsAdapter.createNewSpotMarker(point);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
         //mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
@@ -300,22 +306,22 @@ public class MapsActivity extends FragmentActivity implements
 
             @Override
             public void onMapClick(LatLng point) {
-                createNewSpotMarker(point);
+                mapsAdapter.createNewSpotMarker(point);
             }
         });
     }
 
-    public void createNewSpotMarker(LatLng point){
-        Marker originalMarker = hashMapMarker.get(-1);
-        if (originalMarker != null){
-            originalMarker.remove();
-            hashMapMarker.remove(-1);
-        }
-
-        //Create new marker
-        Marker marker = mMap.addMarker(new MarkerOptions().position(point));
-        hashMapMarker.put(-1,marker);
-    }
+//    public void createNewSpotMarkerOld(LatLng point){
+//        Marker originalMarker = hashMapMarker.get(-1);
+//        if (originalMarker != null){
+//            originalMarker.remove();
+//            hashMapMarker.remove(-1);
+//        }
+//
+//        //Create new marker
+//        Marker marker = mMap.addMarker(new MarkerOptions().position(point));
+//        hashMapMarker.put(-1,marker);
+//    }
     /**
      *
      * TODO: Maybe move this to another class
