@@ -134,7 +134,7 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mapsAdapter = new MapsAdapter(this,mMap,infoCard, spotMap);
+        mapsAdapter = new MapsAdapter(this,mMap,infoCard);
         setListeners();
 
         //Users current location permission Check
