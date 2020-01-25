@@ -1,7 +1,6 @@
 package com.dylanritchings.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import androidx.cardview.widget.CardView;
 import com.dylanritchings.Activities.MapsActivity;
@@ -19,7 +18,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class MapsAdapter {
     private HashMap<Integer, Marker> singleHashMapMarker = new HashMap<>();
@@ -28,13 +26,12 @@ public class MapsAdapter {
     GoogleMap mMap;
     CardView infoCard;
     final ArrayList<Spot> spots = new ArrayList<>();
-    final Map<Integer,Spot> spotMap;
+    private HashMap<Integer, Spot> spotMap = new HashMap<Integer, Spot>();
 
     public MapsAdapter(Context mContext, GoogleMap mMap, CardView infoCard ) {
         this.mContext = mContext;
         this.mMap = mMap;
         this.infoCard = infoCard;
-        spotMap = null;
     }
 
     public void getSpots() {
@@ -72,7 +69,6 @@ public class MapsAdapter {
             }
 
         });
-        Log.d("TEST", spots.toString());
     }
 
     private void placeSpotMarkers(ArrayList<Spot> spots) {
@@ -82,6 +78,7 @@ public class MapsAdapter {
             float lat = spot.getLat();
             float lng = spot.getLng();
             int id = spot.getSpotId();
+
             spotMap.put(id,spot);
             String type = spot.getType();
             LatLng point = new LatLng(lat, lng);
@@ -126,7 +123,7 @@ public class MapsAdapter {
             public boolean onMarkerClick(Marker marker) {
                 String markerId = marker.getId();
                 if(hashMapMarker.containsKey(markerId)){
-                    String spotId = (hashMapMarker.get(markerId)).toString();
+                    Integer spotId = (Integer) hashMapMarker.get(markerId);
 
                     //Remove placed marker
                     Marker originalMarker = singleHashMapMarker.get(-1);
@@ -134,8 +131,7 @@ public class MapsAdapter {
                         originalMarker.remove();
                     }
                     singleHashMapMarker.remove(-1);
-
-                    Spot spot = spotMap.get(Integer.getInteger(spotId));
+                    Spot spot = spotMap.get(spotId);
                     String desc = spot.getDesc();
                     Float diff = spot.getDiff();
                     Float host = spot.getHost();
