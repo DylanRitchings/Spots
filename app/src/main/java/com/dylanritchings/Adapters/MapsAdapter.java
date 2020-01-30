@@ -1,8 +1,10 @@
 package com.dylanritchings.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentActivity;
 import com.dylanritchings.Activities.MapsActivity;
 import com.dylanritchings.IOTools.ListenerTool;
 import com.dylanritchings.IOTools.NetworkManager;
@@ -19,14 +21,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MapsAdapter {
-    private HashMap<Integer, Marker> singleHashMapMarker = new HashMap<>();
-    private HashMap<String, Integer> hashMapMarker = new HashMap<>();
+public class MapsAdapter extends FragmentActivity {
+    public HashMap<Integer, Marker> singleHashMapMarker = new HashMap<>();
+    public HashMap<String, Integer> hashMapMarker = new HashMap<>();
     Context mContext;
     GoogleMap mMap;
     CardView infoCard;
     final ArrayList<Spot> spots = new ArrayList<>();
     private HashMap<Integer, Spot> spotMap = new HashMap<Integer, Spot>();
+
 
     public MapsAdapter(Context mContext, GoogleMap mMap, CardView infoCard ) {
         this.mContext = mContext;
@@ -72,7 +75,7 @@ public class MapsAdapter {
     }
 
     private void placeSpotMarkers(ArrayList<Spot> spots) {
-
+        Log.d("MARKER","TEST");
         for (Spot spot : spots) {
 
             float lat = spot.getLat();
@@ -83,8 +86,7 @@ public class MapsAdapter {
             String type = spot.getType();
             LatLng point = new LatLng(lat, lng);
             //Create new marker
-
-
+            Log.d("MARKER", new MarkerOptions().position(point).toString());
             Marker marker = mMap.addMarker(new MarkerOptions().position(point));
             switch (type) {
                 case "Skatepark":
@@ -108,46 +110,24 @@ public class MapsAdapter {
             }
 
             hashMapMarker.put(marker.getId(),id);
-            //setMarkerListener(id, marker);
+
         }
-       // setMarkerClickers(hashMapMarker);
-        setMarkerListener(hashMapMarker);
+
+        //MapsActivity.setMarkerListener(hashMapMarker);
     }
 
 
 
-    public void setMarkerListener(final HashMap hashMapMarker) {
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                String markerId = marker.getId();
-                if(hashMapMarker.containsKey(markerId)){
-                    Integer spotId = (Integer) hashMapMarker.get(markerId);
-
-                    //Remove placed marker
-                    Marker originalMarker = singleHashMapMarker.get(-1);
-                    if(originalMarker != null) {
-                        originalMarker.remove();
-                    }
-                    singleHashMapMarker.remove(-1);
-                    Spot spot = spotMap.get(spotId);
-                    String desc = spot.getDesc();
-                    Float diff = spot.getDiff();
-                    Float host = spot.getHost();
-                    String type = spot.getType();
-
-                    infoCard.setVisibility(View.VISIBLE);
-
-
-
-                    MapsActivity.uploadSpotBtn.setVisibility(View.GONE);
-                }
-
-                return false;
-            }
-        });
-    }
+//    public void setMarkerListener(final HashMap hashMapMarker) {
+//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//
+//            @Override
+//            public boolean onMarkerClick(Marker marker) {
+//                fillInfoCard(hashMapMarker,marker);
+//                return false;
+//            }
+//        });
+//    }
 
     public void createNewSpotMarker(LatLng point){
         Marker originalMarker = singleHashMapMarker.get(-1);
@@ -163,6 +143,41 @@ public class MapsAdapter {
         singleHashMapMarker.put(-1, marker);
         MapsActivity.uploadSpotBtn.setVisibility(View.VISIBLE);
 
+    }
+
+    public ArrayList getSpotInfo(Marker marker){
+        ArrayList<String> infoList = new ArrayList<String>()  ;
+        String markerId = marker.getId();
+        if(hashMapMarker.containsKey(markerId)){
+
+
+            Integer spotId = (Integer) hashMapMarker.get(markerId);
+
+            //Remove placed marker
+            Marker originalMarker = singleHashMapMarker.get(-1);
+            if(originalMarker != null) {
+                originalMarker.remove();
+            }
+            singleHashMapMarker.remove(-1);
+            Spot spot = spotMap.get(spotId);
+            //String desc = spot.getDesc();
+            Float diff = spot.getDiff();
+            Float host = spot.getHost();
+            String type = spot.getType();
+            Float lat = spot.getLat();
+            Float lng = spot.getLng();
+            infoList.add (type);
+            //return infoList;
+
+            //TODO: Add to spot info card
+            //MapsActivity.fillSpotText(type);
+
+
+
+
+            MapsActivity.uploadSpotBtn.setVisibility(View.GONE);
+        }
+        return infoList;
     }
 }
 

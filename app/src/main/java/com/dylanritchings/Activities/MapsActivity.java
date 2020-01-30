@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -19,6 +20,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import com.dylanritchings.Adapters.MapsAdapter;
 import com.dylanritchings.ButtonListeners;
+import com.dylanritchings.Fragments.SpotInfoFragment;
 import com.dylanritchings.Models.Spot;
 import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
@@ -52,7 +54,7 @@ public class MapsActivity extends FragmentActivity implements
     private GoogleSignInClient signInClient;
     private LocationListener locationListener;
     private static final String TAG = "MapsActivity";
-    MapsAdapter mapsAdapter;
+    //MapsAdapter mapsAdapter;
 
     private LocationRequest locationRequest;
     private Marker currentUserLocationMarker;
@@ -63,8 +65,9 @@ public class MapsActivity extends FragmentActivity implements
     public ArrayList<Spot> spots;
     public static Button uploadSpotBtn;
     public CardView infoCard;
-
-
+    private ArrayList spotInfo;
+    //TextView spotTypeTextView = (TextView) findViewById(R.id.spotTypeTextView);
+    MapsAdapter mapsAdapter;
 
     /**
      *
@@ -78,6 +81,7 @@ public class MapsActivity extends FragmentActivity implements
 
         infoCard = findViewById(R.id.infoCard);
         infoCard.setVisibility(View.GONE);
+        //mapsAdapter = new MapsAdapter(this,mMap,infoCard);
         Spots appState = ((Spots) getApplicationContext());
         appState.setContext(this);
 
@@ -114,6 +118,7 @@ public class MapsActivity extends FragmentActivity implements
     private void placeSpotMarkers(){
 
         mapsAdapter.getSpots();
+        setMarkerListener();
     }
 
 
@@ -346,7 +351,41 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
+    public void openSpotInfoFragment(){
+        //TODO: this stuff
+        SpotInfoFragment spotInfoFragment = new SpotInfoFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragmentContainer, spotInfoFragment).commit();
 
+        }
+
+    public void getSpotInfo(Marker marker){
+        HashMap hashMapMarker = mapsAdapter.hashMapMarker;
+        spotInfo = mapsAdapter.getSpotInfo(marker);
+
+        //String type =  spotInfo.get(0);
+        //spotTypeTextView.setText(spotInfo.get(0));
+        //infoCard.setVisibility(View.VISIBLE);
+    }
+    public void fillSpotInfoText(){
+        TextView spotTypeTextView = (TextView) findViewById(R.id.spotTypeTextView);
+        spotTypeTextView.setText(spotInfo.get(0).toString());
+    }
+
+    public void setMarkerListener() {
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String markerId = marker.getId();
+                if(hashMapMarker.containsKey(markerId)) {
+                    getSpotInfo(marker);
+                    fillSpotInfoText();
+                }
+                return false;
+            }
+        });
+    }
 }
 
 

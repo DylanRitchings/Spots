@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<!--    <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/infoCard"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="290dp"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            card_view:cardBackgroundColor="#FFFFFF"-->
+<!--            card_view:cardCornerRadius="10dp"-->
+<!--            card_view:layout_constraintEnd_toEndOf="parent"-->
+<!--            card_view:layout_constraintStart_toStartOf="parent"-->
+<!--            card_view:layout_constraintVertical_bias="1.0">-->
+
+<!--    <Button-->
+<!--            android:id="@+id/moreInfoBtn"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="36dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:background="@drawable/round_button"-->
+<!--            android:drawableStart="@drawable/ic_info_outline_white"-->
+<!--            android:paddingStart="5dp"-->
+<!--            android:text="@string/moreInfoBtnString"-->
+<!--            android:textAllCaps="false"-->
+<!--            card_view:layout_constraintBottom_toBottomOf="parent"-->
+<!--            card_view:layout_constraintEnd_toStartOf="@+id/directionsBtn"-->
+<!--            card_view:layout_constraintHorizontal_bias="0.422"-->
+<!--            card_view:layout_constraintStart_toStartOf="parent"-->
+<!--            card_view:layout_constraintTop_toBottomOf="@+id/walkImageView" />-->
+
+<!--    <Button-->
+<!--            android:id="@+id/directionsBtn"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="37dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:background="@drawable/round_button"-->
+<!--            android:drawableStart="@drawable/ic_directions_white"-->
+<!--            android:paddingStart="5dp"-->
+<!--            android:text="@string/directionsBtnString"-->
+<!--            android:textAllCaps="false"-->
+<!--            card_view:layout_constraintBottom_toBottomOf="parent"-->
+<!--            card_view:layout_constraintEnd_toStartOf="@+id/shareBtn"-->
+<!--            card_view:layout_constraintStart_toEndOf="@+id/moreInfoBtn"-->
+<!--            card_view:layout_constraintTop_toBottomOf="@+id/walkImageView" />-->
+
+<!--    <Button-->
+<!--            android:id="@+id/shareBtn"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="35dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:background="@drawable/round_button"-->
+<!--            android:drawableStart="@drawable/ic_share_white"-->
+<!--            android:drawablePadding="-3dp"-->
+<!--            android:drawableTint="#FFFFFF"-->
+<!--            android:paddingStart="5dp"-->
+<!--            android:text="@string/shareBtnString"-->
+<!--            android:textAllCaps="false"-->
+<!--            card_view:layout_constraintBottom_toBottomOf="parent"-->
+<!--            card_view:layout_constraintEnd_toEndOf="parent"-->
+<!--            card_view:layout_constraintStart_toEndOf="@+id/directionsBtn"-->
+<!--            card_view:layout_constraintTop_toBottomOf="@+id/walkImageView" />-->
+
+<!--    <ImageView-->
+<!--            android:id="@+id/spotImage1"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="130dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_marginEnd="50dp"-->
+<!--            android:contentDescription="TODO"-->
+<!--            android:cropToPadding="true"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/skatepark"-->
+<!--            app:layout_constraintHeight_percent="0.5"-->
+<!--            app:layout_constraintWidth_percent="0.5"-->
+<!--            card_view:layout_constraintEnd_toEndOf="parent"-->
+<!--            card_view:layout_constraintHorizontal_bias="0.0"-->
+<!--            card_view:layout_constraintStart_toStartOf="parent"-->
+<!--            card_view:layout_constraintTop_toTopOf="parent"-->
+<!--            tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />-->
+
+<!--    <ImageView-->
+<!--            android:id="@+id/spotImage2"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="130dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:contentDescription="TODO"-->
+<!--            android:cropToPadding="true"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/skatepark2"-->
+<!--            app:layout_constraintHeight_percent="0.5"-->
+<!--            app:layout_constraintWidth_percent="0.5"-->
+<!--            card_view:layout_constraintEnd_toEndOf="parent"-->
+<!--            card_view:layout_constraintHorizontal_bias="1.0"-->
+<!--            card_view:layout_constraintStart_toStartOf="parent"-->
+<!--            card_view:layout_constraintTop_toTopOf="parent"-->
+<!--            tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />-->
+
+<!--    <ImageView-->
+<!--            android:id="@+id/walkImageView"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="25dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:contentDescription="TODO"-->
+<!--            android:cropToPadding="true"-->
+<!--            android:scaleType="centerInside"-->
+<!--            android:src="@drawable/walking_icon"-->
+<!--            app:layout_constraintHeight_percent="0.5"-->
+<!--            app:layout_constraintWidth_percent="0.5"-->
+<!--            card_view:layout_constraintBottom_toBottomOf="parent"-->
+<!--            card_view:layout_constraintStart_toStartOf="parent"-->
+<!--            card_view:layout_constraintTop_toBottomOf="@+id/smallStarRating"-->
+<!--            card_view:layout_constraintVertical_bias="0.060000002"-->
+<!--            tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />-->
+
+<!--    <ImageView-->
+<!--            android:id="@+id/driveImageView"-->
+<!--            android:layout_width="21dp"-->
+<!--            android:layout_height="18dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_marginStart="2dp"-->
+
+<!--            android:cropToPadding="true"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:src="@drawable/driving_icon"-->
+<!--            card_view:layout_constraintBottom_toTopOf="@+id/moreInfoBtn"-->
+<!--            card_view:layout_constraintEnd_toEndOf="parent"-->
+<!--            card_view:layout_constraintHeight_percent="0.5"-->
+<!--            card_view:layout_constraintHorizontal_bias="0.02"-->
+<!--            card_view:layout_constraintStart_toEndOf="@+id/walkTimeTextView"-->
+<!--            card_view:layout_constraintTop_toBottomOf="@+id/smallStarRating"-->
+<!--            card_view:layout_constraintVertical_bias="0.26"-->
+<!--            tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />-->
+
+<!--    <RatingBar-->
+<!--            android:id="@+id/smallStarRating"-->
+<!--            style="@style/SmallStarRating"-->
+<!--            android:layout_width="174dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginTop="8dp"-->
+
+<!--            android:numStars="5"-->
+<!--            card_view:layout_constraintEnd_toEndOf="parent"-->
+<!--            card_view:layout_constraintHorizontal_bias="0.04"-->
+<!--            card_view:layout_constraintStart_toStartOf="parent"-->
+<!--            card_view:layout_constraintTop_toBottomOf="@+id/spotTypeCircle" />-->
+
+<!--    <TextView-->
+<!--            android:id="@+id/spotTypeCircle"-->
+<!--            android:layout_width="17dp"-->
+<!--            android:layout_height="17dp"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:background="@drawable/circle"-->
+<!--            android:text=""-->
+<!--            card_view:layout_constraintBottom_toBottomOf="parent"-->
+<!--            card_view:layout_constraintStart_toStartOf="parent"-->
+<!--            card_view:layout_constraintTop_toBottomOf="@+id/spotImage1"-->
+<!--            card_view:layout_constraintVertical_bias="0.0" />-->
+
+<!--    <TextView-->
+<!--            android:id="@+id/spotTypeTextView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:layout_marginTop="7dp"-->
+<!--            android:text="Spot type"-->
+<!--            android:textColor="#000000"-->
+<!--            card_view:layout_constraintStart_toEndOf="@+id/spotTypeCircle"-->
+<!--            card_view:layout_constraintTop_toBottomOf="@+id/spotImage1" />-->
+
+<!--    <TextView-->
+<!--            android:id="@+id/walkTimeTextView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="10 mins"-->
+<!--            card_view:layout_constraintBottom_toBottomOf="parent"-->
+<!--            card_view:layout_constraintEnd_toEndOf="parent"-->
+<!--            card_view:layout_constraintHorizontal_bias="0.0"-->
+<!--            card_view:layout_constraintStart_toEndOf="@+id/walkImageView"-->
+<!--            card_view:layout_constraintTop_toBottomOf="@+id/smallStarRating"-->
+<!--            card_view:layout_constraintVertical_bias="0.060000002" />-->
+
+<!--    <TextView-->
+<!--            android:id="@+id/driveTimeTextView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+
+<!--            android:text="2 mins"-->
+<!--            card_view:layout_constraintBottom_toBottomOf="parent"-->
+<!--            card_view:layout_constraintEnd_toEndOf="parent"-->
+<!--            card_view:layout_constraintHorizontal_bias="0.02"-->
+<!--            card_view:layout_constraintStart_toEndOf="@+id/driveImageView"-->
+<!--            card_view:layout_constraintTop_toBottomOf="@+id/smallStarRating"-->
+<!--            card_view:layout_constraintVertical_bias="0.07999998" />-->
+<!--    </androidx.cardview.widget.CardView>-->
+</ConstraintLayout>
