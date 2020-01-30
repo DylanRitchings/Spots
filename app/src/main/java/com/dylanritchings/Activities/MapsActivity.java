@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -59,7 +60,8 @@ public class MapsActivity extends FragmentActivity implements
     private LocationRequest locationRequest;
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
-    private HashMap<Integer, Marker> hashMapMarker = new HashMap<>();
+    private static HashMap<Integer, Marker> singleHashMapMarker = new HashMap<>();
+    //public static HashMap<String, Integer> hashMapMarker = new HashMap<>();
     FusedLocationProviderClient fusedLocationClient;
     public static Activity MapsActivity;
     public ArrayList<Spot> spots;
@@ -338,7 +340,9 @@ public class MapsActivity extends FragmentActivity implements
 
         @Override
         public void onClick(View view) {
-            Marker marker = hashMapMarker.get(-1);
+            singleHashMapMarker = MapsAdapter.singleHashMapMarker;
+            Marker marker = singleHashMapMarker.get(-1);
+            Log.d("TEST", singleHashMapMarker.toString());
             LatLng latLng = marker.getPosition();
             Context context = Spots.getContext();
             Intent uploadSpotIntent = new Intent(context, UploadSpotActivity.class);
@@ -360,7 +364,7 @@ public class MapsActivity extends FragmentActivity implements
         }
 
     public void getSpotInfo(Marker marker){
-        HashMap hashMapMarker = mapsAdapter.hashMapMarker;
+        //hashMapMarker = mapsAdapter.hashMapMarker;
         spotInfo = mapsAdapter.getSpotInfo(marker);
 
         //String type =  spotInfo.get(0);
@@ -370,15 +374,18 @@ public class MapsActivity extends FragmentActivity implements
     public void fillSpotInfoText(){
         TextView spotTypeTextView = (TextView) findViewById(R.id.spotTypeTextView);
         spotTypeTextView.setText(spotInfo.get(0).toString());
+        infoCard.setVisibility(View.VISIBLE);
     }
 
     public void setMarkerListener() {
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-
+            HashMap<String, Integer> hashMapMarker = MapsAdapter.getHashMapMarker();
             @Override
             public boolean onMarkerClick(Marker marker) {
                 String markerId = marker.getId();
+                Log.d("TEST",markerId);
                 if(hashMapMarker.containsKey(markerId)) {
+                    Log.d("TEST","TEST");
                     getSpotInfo(marker);
                     fillSpotInfoText();
                 }

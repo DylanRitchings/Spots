@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MapsAdapter extends FragmentActivity {
-    public HashMap<Integer, Marker> singleHashMapMarker = new HashMap<>();
-    public HashMap<String, Integer> hashMapMarker = new HashMap<>();
+    public static HashMap<Integer, Marker> singleHashMapMarker = new HashMap<>();
+    public static HashMap<String, Integer> hashMapMarker = new HashMap<>();
     Context mContext;
     GoogleMap mMap;
     CardView infoCard;
@@ -75,7 +75,6 @@ public class MapsAdapter extends FragmentActivity {
     }
 
     private void placeSpotMarkers(ArrayList<Spot> spots) {
-        Log.d("MARKER","TEST");
         for (Spot spot : spots) {
 
             float lat = spot.getLat();
@@ -110,6 +109,7 @@ public class MapsAdapter extends FragmentActivity {
             }
 
             hashMapMarker.put(marker.getId(),id);
+            //MapsActivity.hashMapMarker = hashMapMarker;
 
         }
 
@@ -178,6 +178,9 @@ public class MapsAdapter extends FragmentActivity {
             MapsActivity.uploadSpotBtn.setVisibility(View.GONE);
         }
         return infoList;
+    }
+    public static HashMap<String, Integer> getHashMapMarker(){
+        return hashMapMarker;
     }
 }
 
