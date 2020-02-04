@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
@@ -21,6 +22,7 @@ import com.dylanritchings.IOTools.InsertData;
 import com.dylanritchings.Spots;
 import com.dylanritchings.Utils.ModifiedSpinner;
 import com.dylanritchings.spots.R;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,6 +46,7 @@ public class UploadSpotActivity extends FragmentActivity{
     StorageReference mStorageRef;
     public Uri imageUri;
     String galleryId;
+    GoogleMap mMap;
 
     /**
      *

@@ -1,5 +1,9 @@
 package com.dylanritchings.Models;
 
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Spot {
     private int spotId;
     private String userId;
@@ -54,5 +58,19 @@ public class Spot {
 
     public String getGalleryId(){
         return galleryId;
+    }
+
+    public HashMap<String,Object> getSpotMap(){
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("spotId",getSpotId());
+        map.put("userId",getUserId());
+        map.put("desc",getDesc());
+        map.put("lat",getLat());
+        map.put("lng",getLng());
+        map.put("type",getType());
+        map.put("diff",getDiff());
+        map.put("desc",getDesc());
+        return map;
+
     }
 }

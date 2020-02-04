@@ -67,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements
     private ArrayList spotInfo;
     private Location currentLocation;
     TextView tvDistanceDuration;
+    private boolean mapReady;
     //TextView spotTypeTextView = (TextView) findViewById(R.id.spotTypeTextView);
     MapsAdapter mapsAdapter;
     private Object[] dataTransfer;
@@ -137,6 +138,7 @@ public class MapsActivity extends FragmentActivity implements
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        mapReady = true;
         mMap = googleMap;
         mapsAdapter = new MapsAdapter(this,mMap,infoCard);
         setListeners();
@@ -447,9 +449,17 @@ public class MapsActivity extends FragmentActivity implements
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            placeSpotMarkers();
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
 
-
-//    @Override
+    }
+    //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.main, menu);

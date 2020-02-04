@@ -135,7 +135,6 @@ public class MapsAdapter extends FragmentActivity {
     }
 
 
-
 //    public void setMarkerListener(final HashMap hashMapMarker) {
 //        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 //
