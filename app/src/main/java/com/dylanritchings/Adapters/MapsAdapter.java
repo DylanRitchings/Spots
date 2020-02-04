@@ -54,7 +54,8 @@ public class MapsAdapter extends FragmentActivity {
                                     , ob.getString("desc")
                                     , Float.parseFloat(ob.getString("lat"))
                                     , Float.parseFloat(ob.getString("lng"))
-                                    , ob.getString("type"));
+                                    , ob.getString("type")
+                                    ,ob.getString("galleryId"));
                             spots.add(spot);
 
                         }

@@ -1,6 +1,7 @@
 package com.dylanritchings.Activities;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -8,8 +9,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import com.dylanritchings.IOTools.InsertData;
@@ -17,15 +22,28 @@ import com.dylanritchings.Spots;
 import com.dylanritchings.Utils.ModifiedSpinner;
 import com.dylanritchings.spots.R;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.UUID;
 
 
 public class UploadSpotActivity extends FragmentActivity{
     private static int RESULT_LOAD_IMG = 1;
+    Bitmap img;
+    StorageReference mStorageRef;
+    public Uri imageUri;
+    String galleryId;
 
     /**
      *
@@ -38,10 +56,13 @@ public class UploadSpotActivity extends FragmentActivity{
         
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_spot);
+        galleryId = UUID.randomUUID().toString();
+
 
         FillSpinner();
         SetListeners();
         SetLatLng();
+        mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Images");
     }
     public void SetListeners(){
         final Button uploadImageBtn = findViewById(R.id.uploadImageBtn);
@@ -93,10 +114,45 @@ public class UploadSpotActivity extends FragmentActivity{
             @Override
             public void onClick(View view) {
                 uploadSpot();
+                uploadImage();
+                finish();
+            }
+        });
+    }
+    private void uploadImage(){
+        final StorageReference ref = mStorageRef.child(System.currentTimeMillis()+"."+getExtension(imageUri));
+
+        UploadTask uploadTask = ref.putFile(imageUri);
+
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return ref.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                } else {
+                    // Handle failures
+                    // ...
+                }
             }
         });
     }
 
+
+    private String getExtension(Uri uri){
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap= MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
     private void uploadSpot(){
         EditText descTxt = (EditText) findViewById(R.id.descTxt);
         String desc = descTxt.getText().toString();
@@ -104,21 +160,27 @@ public class UploadSpotActivity extends FragmentActivity{
         String type = typeTxt.getSelectedItem().toString();
         FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
         String userId = currentFirebaseUser.getUid();
+        TextView imageTextView = (TextView) findViewById(R.id.imageTextView);
         TextView errorTxt = (TextView) findViewById(R.id.errorTxt);
         if (type == "Spot type"){
             errorTxt.setText("Please select the type of spot.");
         }
+        else if(imageTextView.getText() == "No file uploaded"){
+            errorTxt.setText("Please upload an image.");
+        }
+        else{
+            InsertData insertData = new InsertData(this.getApplication());
+            LatLng latLng = getIntent().getParcelableExtra("LAT_LNG");
+            String lat = String.valueOf(latLng.latitude);
+            String lng = String.valueOf(latLng.longitude);
+            TextView difficultyTxt = (TextView) findViewById(R.id.difficultyTxt);
 
-        InsertData insertData = new InsertData(this.getApplication());
-        LatLng latLng = getIntent().getParcelableExtra("LAT_LNG");
-        String lat = String.valueOf(latLng.latitude);
-        String lng = String.valueOf(latLng.longitude);
-        TextView difficultyTxt = (TextView) findViewById(R.id.difficultyTxt);
+            String difficulty = difficultyTxt.getText().toString();
+            TextView hostilityTxt = (TextView) findViewById(R.id.hostilityTxt);
+            String hostility = hostilityTxt.getText().toString();
+            insertData.UploadSpot(userId,desc,lat,lng,type,difficulty,hostility,galleryId);
+        }
 
-        String difficulty = difficultyTxt.getText().toString();
-        TextView hostilityTxt = (TextView) findViewById(R.id.hostilityTxt);
-        String hostility = hostilityTxt.getText().toString();
-        insertData.UploadSpot(userId,desc,lat,lng,type,difficulty,hostility);
     }
 
 
@@ -130,24 +192,38 @@ public class UploadSpotActivity extends FragmentActivity{
         @Override
         public void onClick(View view) {
             //startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-            photoPickerIntent.setType("image/*");
-            startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+//            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+////            photoPickerIntent.setType("image/*");
+////            startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+////            ImageView imageView = (ImageView) findViewById(R.id.imageView);
+////            imageView.setImageBitmap(BitmapFactory.decodeFile(photoPickerIntent));
+             selectFile();
         }
         
     }
+
+    private void selectFile(){
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(photoPickerIntent,1);
+
+    }
+
+
     
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
         
         
-        if (resultCode == RESULT_OK) {
+        if (reqCode ==1 && resultCode == RESULT_OK && data!=null && data.getData()!=null) {
             try {
-                final Uri imageUri = data.getData();
+                imageUri = data.getData();
+                Log.d("test",imageUri.toString());
+                //img.setImageURI(imageUri);
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                
+                img = BitmapFactory.decodeStream(imageStream);
                 //Get the file name
                 Cursor returnCursor = getContentResolver().query(imageUri, null, null, null, null);
                 int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);

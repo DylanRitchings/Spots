@@ -24,7 +24,7 @@ public class InsertData{
 		myContext = context;
 	}
 
-	public void UploadSpot(final String userId, final String desc, final String lat, final String lng, final String type, final String diff, final String host){
+	public void UploadSpot(final String userId, final String desc, final String lat, final String lng, final String type, final String diff, final String host, final String galleryId){
 
 		//RequestQueue requestQueue = Volley.newRequestQueue(myContext);
 
@@ -60,6 +60,7 @@ public class InsertData{
 				params.put("type", type);
 				params.put("difficulty", diff);
 				params.put("hostility", host);
+				params.put("galleryId",galleryId);
 
 				return params;
 			}

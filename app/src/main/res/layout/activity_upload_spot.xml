@@ -208,17 +208,17 @@
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintVertical_bias="0.52"
             app:layout_constraintTop_toTopOf="@+id/hostilityRating2"
             app:layout_constraintBottom_toBottomOf="@+id/hostilityRating2"/>
+
     <TextView
-            android:text="@string/noFileName"
-            android:layout_width="147dp"
-            android:layout_height="20dp"
-            android:id="@+id/fileNameTextView"
-            app:layout_constraintStart_toEndOf="@+id/uploadImageBtn"
-            app:layout_constraintTop_toBottomOf="@+id/spotTypeSpinner"
-            app:layout_constraintBottom_toTopOf="@+id/difficultyRating2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.11"
-            />
+        android:id="@+id/fileNameTextView"
+        android:layout_width="113dp"
+        android:layout_height="20dp"
+        android:text="@string/noFileName"
+        app:layout_constraintBottom_toTopOf="@+id/difficultyRating2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintStart_toEndOf="@+id/uploadImageBtn"
+        app:layout_constraintTop_toBottomOf="@+id/spotTypeSpinner" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -252,5 +252,17 @@
             app:layout_constraintEnd_toStartOf="@+id/completeUploadBtn"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.96"
             app:layout_constraintTop_toTopOf="@+id/completeUploadBtn" app:layout_constraintVertical_bias="0.65"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="35dp"
+        android:layout_height="47dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fileNameTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toEndOf="@+id/fileNameTextView"
+        app:layout_constraintTop_toTopOf="@+id/fileNameTextView"
+        app:srcCompat="@color/common_google_signin_btn_text_dark_default" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

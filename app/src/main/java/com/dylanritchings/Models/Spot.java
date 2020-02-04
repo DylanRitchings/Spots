@@ -9,14 +9,16 @@ public class Spot {
     private String type;
     private Float diff;
     private Float host;
+    private String galleryId;
 
-    public Spot(int spotId, String userId,String desc,Float lat,Float lng,String type) {
+    public Spot(int spotId, String userId,String desc,Float lat,Float lng,String type,String galleryId) {
         this.spotId = spotId;
         this.userId = userId;
         this.desc = desc;
         this.lat = lat;
         this.lng = lng;
         this.type = type;
+        this.galleryId = galleryId;
 
     }
     public int getSpotId(){return spotId;}
@@ -42,6 +44,7 @@ public class Spot {
     public Float getHost(){
         return host;
     }
+
     public void setDiff(Float diff){
         this.diff = diff;
     }
@@ -49,11 +52,7 @@ public class Spot {
         this.host = host;
     }
 
-    /**
-     * TODO: Implement gallery
-     * @return
-     */
     public String getGalleryId(){
-        return null;
+        return galleryId;
     }
 }
