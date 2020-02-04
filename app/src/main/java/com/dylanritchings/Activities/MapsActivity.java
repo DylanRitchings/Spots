@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,8 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import com.dylanritchings.Adapters.MapsAdapter;
-import com.dylanritchings.ButtonListeners;
-import com.dylanritchings.Fragments.SpotInfoFragment;
+import com.dylanritchings.IOTools.DownloadTask;
 import com.dylanritchings.Models.Spot;
 import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
@@ -56,7 +54,6 @@ public class MapsActivity extends FragmentActivity implements
     private LocationListener locationListener;
     private static final String TAG = "MapsActivity";
     //MapsAdapter mapsAdapter;
-
     private LocationRequest locationRequest;
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
@@ -68,8 +65,11 @@ public class MapsActivity extends FragmentActivity implements
     public static Button uploadSpotBtn;
     public CardView infoCard;
     private ArrayList spotInfo;
+    private Location currentLocation;
+    TextView tvDistanceDuration;
     //TextView spotTypeTextView = (TextView) findViewById(R.id.spotTypeTextView);
     MapsAdapter mapsAdapter;
+    private Object[] dataTransfer;
 
     /**
      *
@@ -80,12 +80,13 @@ public class MapsActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         infoCard = findViewById(R.id.infoCard);
         infoCard.setVisibility(View.GONE);
         //mapsAdapter = new MapsAdapter(this,mMap,infoCard);
         Spots appState = ((Spots) getApplicationContext());
         appState.setContext(this);
+        tvDistanceDuration = (TextView) findViewById(R.id.driveTimeTextView);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -106,11 +107,7 @@ public class MapsActivity extends FragmentActivity implements
      */
     private void setListeners() {
         //TODO all listener to this activity
-        ButtonListeners btnListeners = new ButtonListeners();
-        final Button moreInfoBtn = findViewById(R.id.moreInfoBtn);
-        moreInfoBtn.setOnClickListener(btnListeners.new MoreInfoOnClickListener());
-
-        //uploadSpotBtn
+    //uploadSpotBtn
         uploadSpotBtn = (Button) findViewById(R.id.uploadSpotBtn);
         uploadSpotBtn.setOnClickListener(new uploadSpotOnClickListener());
 
@@ -187,6 +184,7 @@ public class MapsActivity extends FragmentActivity implements
                         public void onSuccess(Location location) {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
+                                currentLocation = location;
                                 setLocationMarker(location);
                             }
 
@@ -342,7 +340,6 @@ public class MapsActivity extends FragmentActivity implements
         public void onClick(View view) {
             singleHashMapMarker = MapsAdapter.singleHashMapMarker;
             Marker marker = singleHashMapMarker.get(-1);
-            Log.d("TEST", singleHashMapMarker.toString());
             LatLng latLng = marker.getPosition();
             Context context = Spots.getContext();
             Intent uploadSpotIntent = new Intent(context, UploadSpotActivity.class);
@@ -355,44 +352,110 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    public void openSpotInfoFragment(){
+    public void openSpotActivity(ArrayList spotInfo){
         //TODO: this stuff
-        SpotInfoFragment spotInfoFragment = new SpotInfoFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragmentContainer, spotInfoFragment).commit();
+        Intent intent = new Intent(MapsActivity.this, SpotActivity.class);
+        intent.putExtra("SPOT_INFO", spotInfo);
+        startActivity(intent);
+    }
 
-        }
+    private void setMoreInfoButtonListener(final ArrayList spotInfo){
+        final Button moreInfoBtn = findViewById(R.id.moreInfoBtn);
+        moreInfoBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                openSpotActivity(spotInfo);
+            }
+        });
 
+    }
     public void getSpotInfo(Marker marker){
         //hashMapMarker = mapsAdapter.hashMapMarker;
         spotInfo = mapsAdapter.getSpotInfo(marker);
-
+        setMoreInfoButtonListener(spotInfo);
         //String type =  spotInfo.get(0);
         //spotTypeTextView.setText(spotInfo.get(0));
         //infoCard.setVisibility(View.VISIBLE);
     }
     public void fillSpotInfoText(){
         TextView spotTypeTextView = (TextView) findViewById(R.id.spotTypeTextView);
-        spotTypeTextView.setText(spotInfo.get(0).toString());
+        String spotId = spotInfo.get(0).toString();
+        spotTypeTextView.setText(spotInfo.get(1).toString());
+//        String diff = spotInfo.get(2).toString();
+//        String host = spotInfo.get(3).toString();
+        //mapsAdapter.getRatings(spotId);
+
+
+        //TODO: Finish walk and drive duration
+//        Float lat = (Float) Float.parseFloat(spotInfo.get(1).toString());
+//        Float lng = (Float) Float.parseFloat(spotInfo.get(2).toString());
+//        getShortestTime(lat,lng);
         infoCard.setVisibility(View.VISIBLE);
     }
 
+    private void getShortestTime(Float lat, Float lng){
+        LatLng origin = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
+        LatLng dest = new LatLng(lat, lng);
+
+        dataTransfer = new Object[2];
+        // Getting URL to the Google Directions API
+        String url = getDirectionsUrl(origin, dest);
+        dataTransfer[0] = mMap;
+        dataTransfer[1] = url;
+        DownloadTask downloadTask = new DownloadTask();
+
+        // Start downloading json data from Google Directions API
+        downloadTask.execute(dataTransfer);
+    }
+
+    private String getDirectionsUrl(LatLng origin,LatLng dest){
+
+        // Origin of route
+        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+
+        // Destination of route
+        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+
+        // Building the parameters to the web service
+        String parameters = str_origin+"&"+str_dest+"&"+sensor;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
+
+        return url;
+    }
     public void setMarkerListener() {
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             HashMap<String, Integer> hashMapMarker = MapsAdapter.getHashMapMarker();
             @Override
             public boolean onMarkerClick(Marker marker) {
                 String markerId = marker.getId();
-                Log.d("TEST",markerId);
                 if(hashMapMarker.containsKey(markerId)) {
-                    Log.d("TEST","TEST");
                     getSpotInfo(marker);
                     fillSpotInfoText();
+
+                    //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
                 }
                 return false;
             }
         });
     }
+
+
+
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }
 }
+
 
 

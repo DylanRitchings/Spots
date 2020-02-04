@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import com.dylanritchings.IOTools.NetworkManager;
+import com.dylanritchings.IOTools.GetData;
 import com.dylanritchings.Utils.AuthPreferences;
 import com.dylanritchings.spots.R;
 
@@ -21,7 +21,7 @@ public class CheckLoginActivity extends AppCompatActivity {
 
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        NetworkManager.getInstance(this);
+        GetData.getInstance(this);
         Intent activityIntent;
         AccountManager am = AccountManager.get(this); // "this" references the current Context
         authPreferences = new AuthPreferences(this);

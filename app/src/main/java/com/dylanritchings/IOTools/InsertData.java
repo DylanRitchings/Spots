@@ -15,7 +15,9 @@ public class InsertData{
 	//Context ctx;
 	public static final String DB_URL = "https://spotsandroid.000webhostapp.com/connect/";
 	public static final String UPLOADSPOT_URL = DB_URL + "upload_spot.php";
-	public static final String UPLOADRATING_URL = DB_URL + "upload_rating.php";
+	public static final String UPLOADHOSTILITY_URL = DB_URL + "set_hostrating.php";
+	public static final String UPLOADDIFFICULTY_URL = DB_URL + "set_diffrating.php";
+
 	private Context myContext;
 	public InsertData(Context context)
 	{
@@ -26,13 +28,12 @@ public class InsertData{
 
 		//RequestQueue requestQueue = Volley.newRequestQueue(myContext);
 
-
 		// Creating string request with post method.
+
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOADSPOT_URL,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String ServerResponse) {
-
 						// Showing response message coming from server.
 						Toast.makeText(myContext.getApplicationContext(), ServerResponse, Toast.LENGTH_LONG).show();
 					}
@@ -65,11 +66,49 @@ public class InsertData{
 
 		};
 		MySingleton.getInstance(myContext).addToRequestQueue(stringRequest);
-		// Creating RequestQueue.
-		//RequestQueue requestQueue = Volley.newRequestQueue(myContext);
+	}
 
-// Adding the StringRequest object into requestQueue.
-		//requestQueue.add(stringRequest);
+	public void setRatingRating(final String userId, final String spotId, final String rating, String type){
+		String RATING_URL;
+		if (type.equals("host")){
+			RATING_URL = UPLOADHOSTILITY_URL;
+		}
+		else{
+			RATING_URL = UPLOADDIFFICULTY_URL;
+		}
+
+		StringRequest stringRequest = new StringRequest(Request.Method.POST, RATING_URL,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String ServerResponse) {
+						// Showing response message coming from server.
+						Toast.makeText(myContext.getApplicationContext(), ServerResponse, Toast.LENGTH_LONG).show();
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError volleyError) {
+
+						// Showing error message if something goes wrong.
+						Toast.makeText(myContext.getApplicationContext(), volleyError.toString(), Toast.LENGTH_LONG).show();
+					}
+				}) {
+			@Override
+			protected Map<String, String> getParams() {
+
+				// Creating Map String Params.
+				Map<String, String> params = new HashMap<String, String>();
+
+				// Adding All values to Params.
+				params.put("userId", userId);
+				params.put("spotId", spotId);
+				params.put("rating",rating);
+
+				return params;
+			}
+
+		};
+		MySingleton.getInstance(myContext).addToRequestQueue(stringRequest);
 	}
 
 

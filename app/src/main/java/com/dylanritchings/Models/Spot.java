@@ -10,15 +10,13 @@ public class Spot {
     private Float diff;
     private Float host;
 
-    public Spot(int spotId, String userId,String desc,Float lat,Float lng,String type,Float diff,Float host) {
+    public Spot(int spotId, String userId,String desc,Float lat,Float lng,String type) {
         this.spotId = spotId;
         this.userId = userId;
         this.desc = desc;
         this.lat = lat;
         this.lng = lng;
         this.type = type;
-        this.diff = diff;
-        this.host = host;
 
     }
     public int getSpotId(){return spotId;}
@@ -43,6 +41,12 @@ public class Spot {
     }
     public Float getHost(){
         return host;
+    }
+    public void setDiff(Float diff){
+        this.diff = diff;
+    }
+    public void setHost(Float host){
+        this.host = host;
     }
 
     /**

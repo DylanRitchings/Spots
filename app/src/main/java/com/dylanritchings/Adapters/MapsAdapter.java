@@ -7,7 +7,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import com.dylanritchings.Activities.MapsActivity;
 import com.dylanritchings.IOTools.ListenerTool;
-import com.dylanritchings.IOTools.NetworkManager;
+import com.dylanritchings.IOTools.GetData;
 import com.dylanritchings.Models.Spot;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -38,19 +38,15 @@ public class MapsAdapter extends FragmentActivity {
     }
 
     public void getSpots() {
-        NetworkManager.getInstance().getSpots(spots, new ListenerTool.SomeCustomListener<String>() {
+        GetData.getInstance().getSpots(spots, new ListenerTool.SomeCustomListener<String>() {
 
             @Override
             public void getResult(String result) {
                 //final ArrayList<Spot> spots = new ArrayList<>();
-
                 if (!result.isEmpty()) {
                     try {
                         JSONArray array = new JSONArray(result);
-
                         for (int i = 0; i < array.length(); i++) {
-                            float diff = 4;
-                            float host = 3;
 
                             JSONObject ob = array.getJSONObject(i);
                             Spot spot = new Spot(Integer.parseInt(ob.getString("spotId"))
@@ -58,13 +54,34 @@ public class MapsAdapter extends FragmentActivity {
                                     , ob.getString("desc")
                                     , Float.parseFloat(ob.getString("lat"))
                                     , Float.parseFloat(ob.getString("lng"))
-                                    , ob.getString("type")
-                                    , diff
-                                    , host);
+                                    , ob.getString("type"));
                             spots.add(spot);
 
                         }
                         placeSpotMarkers(spots);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        });
+    }
+
+    public void getRatings(String spotId)
+    {
+        GetData.getInstance().getRatings(spotId,new ListenerTool.SomeCustomListener<String>() {
+
+            @Override
+            public void getResult(String result) {
+
+                //final ArrayList<Spot> spots = new ArrayList<>();
+                if (!result.isEmpty()) {
+                    try {
+                        JSONArray array = new JSONArray(result);
+                        for (int i = 0; i < array.length(); i++) {
+                            //TODO: FINISH
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -161,17 +178,23 @@ public class MapsAdapter extends FragmentActivity {
             singleHashMapMarker.remove(-1);
             Spot spot = spotMap.get(spotId);
             //String desc = spot.getDesc();
+
             Float diff = spot.getDiff();
             Float host = spot.getHost();
             String type = spot.getType();
             Float lat = spot.getLat();
             Float lng = spot.getLng();
+            infoList.add(String.valueOf(spotId));
             infoList.add (type);
-            //return infoList;
-
-            //TODO: Add to spot info card
-            //MapsActivity.fillSpotText(type);
-
+            infoList.add(String.valueOf(lat));
+            infoList.add(String.valueOf(lng));
+            if (diff == null || host == null){
+                getRatings(String.valueOf(spotId));
+            }
+            else {
+                infoList.add(diff.toString());
+                infoList.add(host.toString());
+            }
 
 
 

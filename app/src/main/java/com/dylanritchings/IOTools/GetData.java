@@ -2,45 +2,83 @@ package com.dylanritchings.IOTools;
 
 import android.content.Context;
 import android.util.Log;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.*;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class NetworkManager {
+public class GetData {
     public static final String DB_URL = "https://spotsandroid.000webhostapp.com/connect/";
     public static final String GETSPOTS_URL = DB_URL + "get_spots.php";
+    public static final String GETRATINGS_URL = DB_URL + "get_ratings.php";
     private Context myContext;
     public RequestQueue requestQueue;
-    private static NetworkManager instance = null;
-    private NetworkManager(Context context)
+    private static GetData instance = null;
+    private GetData(Context context)
     {
         requestQueue = Volley.newRequestQueue(context.getApplicationContext());
-        //other stuf if you need
+        myContext = context;
     }
 
-    public static synchronized NetworkManager getInstance(Context context)
+    public static synchronized GetData getInstance(Context context)
     {
         if (null == instance)
-            instance = new NetworkManager(context);
+            instance = new GetData(context);
         return instance;
     }
 
     //this is so you don't need to pass context each time
-    public static synchronized NetworkManager getInstance()
+    public static synchronized GetData getInstance()
     {
         if (null == instance)
         {
-            throw new IllegalStateException(NetworkManager.class.getSimpleName() +
+            throw new IllegalStateException(GetData.class.getSimpleName() +
                     " is not initialized, call getInstance(...) first");
         }
         return instance;
     }
+
+    public void getRatings(final String spotIdInput, final ListenerTool.SomeCustomListener<String> listener){
+//        Map<String, Object> jsonParams = new HashMap<>();
+//        jsonParams.put("param1", param1);
+        final StringRequest stringRequest = new StringRequest(Request.Method.GET, GETRATINGS_URL + "?spotId=" + spotIdInput, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                listener.getResult(response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (null != error.networkResponse)
+                {
+                    Log.d("ERROR" + ": ", "Error Response code: " + error.networkResponse.statusCode);
+                    listener.getResult(null);
+                }
+            }
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                // Creating Map String Params.
+                Map<String, String> params = new HashMap<String, String>();
+
+                // Adding All values to Params.
+//                Log.d("TEST",spotId);
+//                params.put("spotId", spotId);
+
+                return params;
+            }
+        };
+
+        //requestQueue.add(stringRequest);
+        MySingleton.getInstance(myContext).addToRequestQueue(stringRequest);
+    }
+
 
     public void getSpots(Object param1, final ListenerTool.SomeCustomListener<String> listener) {
         Map<String, Object> jsonParams = new HashMap<>();
@@ -51,28 +89,7 @@ public class NetworkManager {
             @Override
             public void onResponse(String response) {
                 listener.getResult(response);
-//                try {
-//                    JSONArray array = new JSONArray(response);
-//
-//                    for (int i = 0; i < array.length(); i++) {
-//                        float diff = 4;
-//                        float host = 3;
-//
-//                        JSONObject ob = array.getJSONObject(i);
-//                        Spot spot = new Spot(Integer.parseInt(ob.getString("spotId"))
-//                                , ob.getString("userId")
-//                                , ob.getString("desc")
-//                                , Float.parseFloat(ob.getString("lat"))
-//                                , Float.parseFloat(ob.getString("lng"))
-//                                , ob.getString("type")
-//                                , diff
-//                                , host);
-//                        spots.add(spot);
-//                        onCallBack.onTaskSuccess(spots);
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+
             }
         }, new Response.ErrorListener() {
             @Override
