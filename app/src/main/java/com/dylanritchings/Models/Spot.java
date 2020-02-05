@@ -1,8 +1,6 @@
 package com.dylanritchings.Models;
 
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Spot {
     private int spotId;
@@ -69,7 +67,7 @@ public class Spot {
         map.put("lng",getLng());
         map.put("type",getType());
         map.put("diff",getDiff());
-        map.put("desc",getDesc());
+        map.put("galleryId",getGalleryId());
         return map;
 
     }

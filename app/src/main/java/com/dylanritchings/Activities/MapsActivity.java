@@ -64,7 +64,7 @@ public class MapsActivity extends FragmentActivity implements
     public ArrayList<Spot> spots;
     public static Button uploadSpotBtn;
     public CardView infoCard;
-    private ArrayList spotInfo;
+    private HashMap<String,Object> spotInfo;
     private Location currentLocation;
     TextView tvDistanceDuration;
     private boolean mapReady;
@@ -354,14 +354,14 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    public void openSpotActivity(ArrayList spotInfo){
+    public void openSpotActivity(HashMap<String, Object> spotInfo){
         //TODO: this stuff
         Intent intent = new Intent(MapsActivity.this, SpotActivity.class);
         intent.putExtra("SPOT_INFO", spotInfo);
         startActivity(intent);
     }
 
-    private void setMoreInfoButtonListener(final ArrayList spotInfo){
+    private void setMoreInfoButtonListener(final HashMap<String, Object> spotInfo){
         final Button moreInfoBtn = findViewById(R.id.moreInfoBtn);
         moreInfoBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -380,8 +380,8 @@ public class MapsActivity extends FragmentActivity implements
     }
     public void fillSpotInfoText(){
         TextView spotTypeTextView = (TextView) findViewById(R.id.spotTypeTextView);
-        String spotId = spotInfo.get(0).toString();
-        spotTypeTextView.setText(spotInfo.get(1).toString());
+        String spotId = spotInfo.get("spotId").toString();
+        spotTypeTextView.setText(spotInfo.get("type").toString());
 //        String diff = spotInfo.get(2).toString();
 //        String host = spotInfo.get(3).toString();
         //mapsAdapter.getRatings(spotId);

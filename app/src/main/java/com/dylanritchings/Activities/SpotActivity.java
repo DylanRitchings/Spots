@@ -12,7 +12,7 @@ import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,7 +21,7 @@ import java.util.Locale;
  */
 public class SpotActivity extends Activity {
     public static Activity spotActivity;
-    ArrayList spotInfo;
+    HashMap<String, Object> spotInfo;
     Integer spotId;
     String type;
     Float lat;
@@ -42,11 +42,11 @@ public class SpotActivity extends Activity {
         Spots appState = ((Spots)getApplicationContext());
         appState.setContext(this);
 
-        spotInfo  = (ArrayList) getIntent().getSerializableExtra("SPOT_INFO");
+        spotInfo  =(HashMap<String, Object>) getIntent().getSerializableExtra("SPOT_INFO");
         Log.d("TEST",spotInfo.toString());
 
         try {
-            fillData();
+            getData();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,26 +57,26 @@ public class SpotActivity extends Activity {
         closeSpotInfoTextView.setOnClickListener(btnListeners.new CloseSpotInfoOnClicklistener());
     }
 
-    protected void fillData() throws IOException {
-        spotId = Integer.parseInt( spotInfo.get(0).toString());
-        type = spotInfo.get(1).toString();
+    protected void getData() throws IOException {
+        spotId = Integer.parseInt( spotInfo.get("spotId").toString());
+        type = spotInfo.get("type").toString();
         TextView spotTypeTextView = findViewById(R.id.spotTypeTextView2);
         spotTypeTextView.setText(type);
 
 
-        lat = Float.valueOf(spotInfo.get(2).toString());
-        lng = Float.valueOf(spotInfo.get(3).toString());
+        lat = Float.valueOf(spotInfo.get("lat").toString());
+        lng = Float.valueOf(spotInfo.get("lng").toString());
         String address = getAddress();
         TextView addressTextView = findViewById(R.id.addressTextView);
         addressTextView.setText(address);
+
+        String galleryId = spotInfo.get("galleryId").toString();
     }
 
     protected String getAddress() throws IOException {
         Geocoder geocoder;
         List<Address> addresses;
         geocoder = new Geocoder(this, Locale.getDefault());
-        Log.d("TEST", String.valueOf(lat));
-        Log.d("TEST", String.valueOf(lng));
         addresses = geocoder.getFromLocation(lat, lng, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
         String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
@@ -88,4 +88,8 @@ public class SpotActivity extends Activity {
         return address;
     }
 
+
+    private void uploadMediaListener(){
+
+    }
 }

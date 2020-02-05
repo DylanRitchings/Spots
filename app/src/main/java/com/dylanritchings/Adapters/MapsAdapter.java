@@ -148,6 +148,7 @@ public class MapsAdapter extends FragmentActivity {
 
     public void createNewSpotMarker(LatLng point){
         Marker originalMarker = singleHashMapMarker.get(-1);
+
         if (originalMarker != null){
 
             originalMarker.remove();
@@ -162,8 +163,9 @@ public class MapsAdapter extends FragmentActivity {
 
     }
 
-    public ArrayList getSpotInfo(Marker marker){
-        ArrayList<String> infoList = new ArrayList<String>()  ;
+    public HashMap<String,Object> getSpotInfo(Marker marker){
+        //ArrayList<String> infoList = new ArrayList<String>()  ;
+        HashMap<String,Object> infoList = new HashMap<String, Object>();
         String markerId = marker.getId();
         if(hashMapMarker.containsKey(markerId)){
 
@@ -178,22 +180,10 @@ public class MapsAdapter extends FragmentActivity {
             singleHashMapMarker.remove(-1);
             Spot spot = spotMap.get(spotId);
             //String desc = spot.getDesc();
-
-            Float diff = spot.getDiff();
-            Float host = spot.getHost();
-            String type = spot.getType();
-            Float lat = spot.getLat();
-            Float lng = spot.getLng();
-            infoList.add(String.valueOf(spotId));
-            infoList.add (type);
-            infoList.add(String.valueOf(lat));
-            infoList.add(String.valueOf(lng));
-            if (diff == null || host == null){
+            infoList = spot.getSpotMap();
+            if (infoList.get("diff") == null || infoList.get("host") == null){
                 getRatings(String.valueOf(spotId));
-            }
-            else {
-                infoList.add(diff.toString());
-                infoList.add(host.toString());
+
             }
 
 
