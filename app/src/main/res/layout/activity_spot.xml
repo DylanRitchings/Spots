@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
 <Button
-    android:id="@+id/uploadMediaButton"
+    android:id="@+id/uploadMediaBtn"
     android:layout_width="0dp"
     android:layout_height="36dp"
     android:layout_alignParentStart="true"
@@ -50,7 +50,7 @@ android:textAllCaps="false"
 android:translationY="-25dp"
 app:layout_constraintBottom_toBottomOf="parent"
 app:layout_constraintEnd_toStartOf="@+id/shareBtn2"
-app:layout_constraintStart_toEndOf="@+id/uploadMediaButton"
+app:layout_constraintStart_toEndOf="@+id/uploadMediaBtn"
 app:layout_constraintTop_toBottomOf="@+id/videoGallery"
 app:layout_constraintVertical_bias="0.0" />
 

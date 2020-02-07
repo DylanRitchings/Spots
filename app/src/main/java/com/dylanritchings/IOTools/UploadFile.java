@@ -12,19 +12,26 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-public class UploadImage {
+public class UploadFile {
     static StorageReference mStorageRef;
     static Context context;
     static Uri uri;
 
-    public static void sendData(String galleryId, Uri imageUri, Context contextInp){
+    public static void uploadImage(String galleryId, Uri imageUri, Context contextInp){
         context = contextInp;
         uri = imageUri;
         mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Images");
-        uploadImage();
+        uploadFile();
     }
 
-    private static void uploadImage(){
+    public static void uploadVideo(String galleryId, Uri videoUri, Context contextInp){
+        context = contextInp;
+        uri = videoUri;
+        mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Video");
+        uploadFile();
+    }
+
+    private static void uploadFile(){
         final StorageReference ref = mStorageRef.child(System.currentTimeMillis()+"."+getExtension(uri));
 
         UploadTask uploadTask = ref.putFile(uri);

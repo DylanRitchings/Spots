@@ -8,13 +8,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import com.dylanritchings.IOTools.InsertData;
-import com.dylanritchings.IOTools.UploadImage;
+import com.dylanritchings.IOTools.UploadFile;
 import com.dylanritchings.Spots;
 import com.dylanritchings.Utils.ModifiedSpinner;
 import com.dylanritchings.spots.R;
@@ -107,7 +106,7 @@ public class UploadSpotActivity extends FragmentActivity{
             @Override
             public void onClick(View view) {
                 uploadSpot();
-                UploadImage.sendData(galleryId,imageUri,getApplicationContext());
+                UploadFile.uploadImage(galleryId,imageUri,getApplicationContext());
                 finish();
             }
         });
@@ -213,7 +212,6 @@ public class UploadSpotActivity extends FragmentActivity{
         if (reqCode ==1 && resultCode == RESULT_OK && data!=null && data.getData()!=null) {
             try {
                 imageUri = data.getData();
-                Log.d("test",imageUri.toString());
                 //img.setImageURI(imageUri);
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 img = BitmapFactory.decodeStream(imageStream);
