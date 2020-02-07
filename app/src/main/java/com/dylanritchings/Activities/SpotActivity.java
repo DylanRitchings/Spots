@@ -8,7 +8,6 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -119,7 +118,6 @@ public class SpotActivity extends Activity {
             try {
                 Uri uri = data.getData();
                 String path = uri.getPath();
-                Log.d("test",path);
                 Context context = getApplicationContext();
                 if (isImageFile(path)) {
                     UploadFile.uploadImage(galleryId,uri,context);
