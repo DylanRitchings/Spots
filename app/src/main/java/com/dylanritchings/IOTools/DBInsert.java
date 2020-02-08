@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //public class InsertData extends AsyncTask<String, Void, String> {
-public class InsertData{
+public class DBInsert {
 	//Context ctx;
 	public static final String DB_URL = "https://spotsandroid.000webhostapp.com/connect/";
 	public static final String UPLOADSPOT_URL = DB_URL + "upload_spot.php";
@@ -19,7 +19,7 @@ public class InsertData{
 	public static final String UPLOADDIFFICULTY_URL = DB_URL + "set_diffrating.php";
 
 	private Context myContext;
-	public InsertData(Context context)
+	public DBInsert(Context context)
 	{
 		myContext = context;
 	}

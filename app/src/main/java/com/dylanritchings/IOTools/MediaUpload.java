@@ -12,23 +12,44 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-public class UploadFile {
+import java.net.URLConnection;
+
+public class MediaUpload {
     static StorageReference mStorageRef;
     static Context context;
     static Uri uri;
+    static String galleryId;
 
-    public static void uploadImage(String galleryId, Uri imageUri, Context contextInp){
+//    public static void uploadImage(String galleryId, Uri imageUri, Context contextInp){
+//        context = contextInp;
+//        uri = imageUri;
+//        mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Images");
+//        uploadFile();
+//    }
+//
+//    public static void uploadVideo(String galleryId, Uri videoUri, Context contextInp){
+//        context = contextInp;
+//        uri = videoUri;
+//        mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Video");
+//        uploadFile();
+//    }
+    public static void sendFile(String galleryIdInp, Uri uriInp, Context contextInp){
+        setStorageRef();
+        galleryId = galleryIdInp;
+        uri = uriInp;
         context = contextInp;
-        uri = imageUri;
-        mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Images");
-        uploadFile();
     }
 
-    public static void uploadVideo(String galleryId, Uri videoUri, Context contextInp){
-        context = contextInp;
-        uri = videoUri;
-        mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Video");
-        uploadFile();
+    private static void setStorageRef(){
+        String path = uri.getPath();
+        if (isImageFile(path)) {
+            mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Images");
+
+        }
+        else if (isVideoFile(path)){
+            mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Video");
+
+        }
     }
 
     private static void uploadFile(){
@@ -62,5 +83,16 @@ public class UploadFile {
         ContentResolver contentResolver = context.getContentResolver();
         MimeTypeMap mimeTypeMap= MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+
+    private static boolean isImageFile(String path) {
+        String mimeType = URLConnection.guessContentTypeFromName(path);
+        return mimeType != null && mimeType.startsWith("image");
+    }
+
+    private static boolean isVideoFile(String path) {
+        String mimeType = URLConnection.guessContentTypeFromName(path);
+        return mimeType != null && mimeType.startsWith("video");
     }
 }

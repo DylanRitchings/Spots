@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
-import com.dylanritchings.IOTools.InsertData;
-import com.dylanritchings.IOTools.UploadFile;
+import com.dylanritchings.IOTools.DBInsert;
+import com.dylanritchings.IOTools.MediaUpload;
 import com.dylanritchings.Spots;
 import com.dylanritchings.Utils.ModifiedSpinner;
 import com.dylanritchings.spots.R;
@@ -106,7 +106,7 @@ public class UploadSpotActivity extends FragmentActivity{
             @Override
             public void onClick(View view) {
                 uploadSpot();
-                UploadFile.uploadImage(galleryId,imageUri,getApplicationContext());
+                MediaUpload.sendFile(galleryId,imageUri,getApplicationContext());
                 finish();
             }
         });
@@ -161,7 +161,7 @@ public class UploadSpotActivity extends FragmentActivity{
             errorTxt.setText("Please upload an image.");
         }
         else{
-            InsertData insertData = new InsertData(this.getApplication());
+            DBInsert insertData = new DBInsert(this.getApplication());
             LatLng latLng = getIntent().getParcelableExtra("LAT_LNG");
             String lat = String.valueOf(latLng.latitude);
             String lng = String.valueOf(latLng.longitude);

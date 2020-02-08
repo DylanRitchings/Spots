@@ -7,7 +7,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import com.dylanritchings.Activities.MapsActivity;
 import com.dylanritchings.IOTools.ListenerTool;
-import com.dylanritchings.IOTools.GetData;
+import com.dylanritchings.IOTools.DBSelect;
 import com.dylanritchings.Models.Spot;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -38,7 +38,7 @@ public class MapsAdapter extends FragmentActivity {
     }
 
     public void getSpots() {
-        GetData.getInstance().getSpots(spots, new ListenerTool.SomeCustomListener<String>() {
+        DBSelect.getInstance().getSpots(spots, new ListenerTool.SomeCustomListener<String>() {
 
             @Override
             public void getResult(String result) {
@@ -71,7 +71,7 @@ public class MapsAdapter extends FragmentActivity {
 
     public void getRatings(String spotId)
     {
-        GetData.getInstance().getRatings(spotId,new ListenerTool.SomeCustomListener<String>() {
+        DBSelect.getInstance().getRatings(spotId,new ListenerTool.SomeCustomListener<String>() {
 
             @Override
             public void getResult(String result) {

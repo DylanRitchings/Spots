@@ -9,32 +9,32 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GetData {
+public class DBSelect {
     public static final String DB_URL = "https://spotsandroid.000webhostapp.com/connect/";
     public static final String GETSPOTS_URL = DB_URL + "get_spots.php";
     public static final String GETRATINGS_URL = DB_URL + "get_ratings.php";
     private Context myContext;
     public RequestQueue requestQueue;
-    private static GetData instance = null;
-    private GetData(Context context)
+    private static DBSelect instance = null;
+    private DBSelect(Context context)
     {
         requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         myContext = context;
     }
 
-    public static synchronized GetData getInstance(Context context)
+    public static synchronized DBSelect getInstance(Context context)
     {
         if (null == instance)
-            instance = new GetData(context);
+            instance = new DBSelect(context);
         return instance;
     }
 
     //this is so you don't need to pass context each time
-    public static synchronized GetData getInstance()
+    public static synchronized DBSelect getInstance()
     {
         if (null == instance)
         {
-            throw new IllegalStateException(GetData.class.getSimpleName() +
+            throw new IllegalStateException(DBSelect.class.getSimpleName() +
                     " is not initialized, call getInstance(...) first");
         }
         return instance;
