@@ -24,7 +24,7 @@ public class DBInsert {
 		myContext = context;
 	}
 
-	public void UploadSpot(final String userId, final String desc, final String lat, final String lng, final String type, final String diff, final String host, final String galleryId){
+	public void UploadSpot(final String userId, final String desc, final String lat, final String lng, final String type, final String diff, final String host, final String galleryId, final String imageId){
 
 		//RequestQueue requestQueue = Volley.newRequestQueue(myContext);
 
@@ -61,6 +61,7 @@ public class DBInsert {
 				params.put("difficulty", diff);
 				params.put("hostility", host);
 				params.put("galleryId",galleryId);
+				params.put("imageId",imageId);
 
 				return params;
 			}
@@ -69,7 +70,7 @@ public class DBInsert {
 		MySingleton.getInstance(myContext).addToRequestQueue(stringRequest);
 	}
 
-	public void setRatingRating(final String userId, final String spotId, final String rating, String type){
+	public void setRating(final String userId, final String spotId, final String rating, String type){
 		String RATING_URL;
 		if (type.equals("host")){
 			RATING_URL = UPLOADHOSTILITY_URL;

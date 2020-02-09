@@ -3,6 +3,7 @@ package com.dylanritchings.IOTools;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -43,6 +44,7 @@ public class MediaUpload {
 
     private static void setStorageRef(){
         String path = uri.getPath();
+        Log.d("test",path);
         if (isImageFile(path)) {
             mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Images");
 

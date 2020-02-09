@@ -170,7 +170,7 @@ public class UploadSpotActivity extends FragmentActivity{
             String difficulty = difficultyTxt.getText().toString();
             TextView hostilityTxt = (TextView) findViewById(R.id.hostilityTxt);
             String hostility = hostilityTxt.getText().toString();
-            insertData.UploadSpot(userId,desc,lat,lng,type,difficulty,hostility,galleryId);
+            insertData.UploadSpot(userId,desc,lat,lng,type,difficulty,hostility,galleryId,imageId);
         }
 
     }
