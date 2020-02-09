@@ -38,7 +38,8 @@ public class MapsAdapter extends FragmentActivity {
     }
 
     public void getSpots() {
-        DBSelect.getInstance().getSpots(spots, new ListenerTool.SomeCustomListener<String>() {
+        DBSelect dBSelect = DBSelect.getInstance();
+        dBSelect.getSpots(spots, new ListenerTool.SomeCustomListener<String>() {
 
             @Override
             public void getResult(String result) {
@@ -71,7 +72,8 @@ public class MapsAdapter extends FragmentActivity {
 
     public void getRatings(String spotId)
     {
-        DBSelect.getInstance().getRatings(spotId,new ListenerTool.SomeCustomListener<String>() {
+        DBSelect dBSelect = DBSelect.getInstance();
+        dBSelect.getRatings(spotId,new ListenerTool.SomeCustomListener<String>() {
 
             @Override
             public void getResult(String result) {
@@ -170,7 +172,7 @@ public class MapsAdapter extends FragmentActivity {
         if(hashMapMarker.containsKey(markerId)){
 
 
-            Integer spotId = (Integer) hashMapMarker.get(markerId);
+            Integer spotId = hashMapMarker.get(markerId);
 
             //Remove placed marker
             Marker originalMarker = singleHashMapMarker.get(-1);

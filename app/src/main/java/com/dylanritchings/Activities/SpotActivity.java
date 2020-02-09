@@ -3,26 +3,21 @@ package com.dylanritchings.Activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
-import androidx.loader.content.CursorLoader;
 import com.dylanritchings.ButtonListeners;
 import com.dylanritchings.IOTools.MediaUpload;
 import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -105,36 +100,14 @@ public class SpotActivity extends Activity {
         });
     }
     private void selectFile(){
-//        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO);
-//        intent.setType("image/* video/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(intent,1);
-        // Return only video and image metadata.
-        String[] projection = {
-                MediaStore.Files.FileColumns._ID,
-                MediaStore.Files.FileColumns.DATE_ADDED,
-                MediaStore.Files.FileColumns.MEDIA_TYPE,
-                MediaStore.Files.FileColumns.MIME_TYPE,
-                MediaStore.Files.FileColumns.TITLE
-        };
-        String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-                + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE
-                + " OR "
-                + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-                + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[] {"image/*", "video/*"});
+        //intent.setType("image/* video/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent,1);
 
-        Uri queryUri = MediaStore.Files.getContentUri("external");
 
-        CursorLoader cursorLoader = new CursorLoader(
-                this,
-                queryUri,
-                projection,
-                selection,
-                null, // Selection args (none).
-                MediaStore.Files.FileColumns.DATE_ADDED + " DESC" // Sort order.
-        );
-
-        Cursor cursor = cursorLoader.loadInBackground();
     }
 
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
@@ -142,12 +115,11 @@ public class SpotActivity extends Activity {
 
 
         if (reqCode ==1 && resultCode == RESULT_OK && data!=null && data.getData()!=null) {
-            try {
-                Uri uri = data.getData();
-                Context context = getApplicationContext();
-                MediaUpload.sendFile(galleryId,uri,context);
+            Uri uri = data.getData();
+            Context context = getApplicationContext();
+            MediaUpload.sendFile(galleryId,uri,context);
 
-               final InputStream imageStream = getContentResolver().openInputStream(uri);
+            //final InputStream imageStream = getContentResolver().openInputStream(uri);
 //                img = BitmapFactory.decodeStream(imageStream);
 //                //Get the file name
 //                Cursor returnCursor = getContentResolver().query(uri, null, null, null, null);
@@ -155,15 +127,11 @@ public class SpotActivity extends Activity {
 //                returnCursor.moveToFirst();
 //                fileNameTextView.setText(returnCursor.getString(nameIndex));
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
-
-            }
-
         }else {
             Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
     }
+
+
 
 }

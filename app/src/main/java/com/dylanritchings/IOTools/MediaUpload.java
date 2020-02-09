@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.webkit.MimeTypeMap;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -12,7 +13,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.net.URLConnection;
+import static android.widget.Toast.LENGTH_LONG;
 
 public class MediaUpload {
     static StorageReference mStorageRef;
@@ -34,10 +35,10 @@ public class MediaUpload {
 //        uploadFile();
 //    }
     public static void sendFile(String galleryIdInp, Uri uriInp, Context contextInp){
-        setStorageRef();
         galleryId = galleryIdInp;
         uri = uriInp;
         context = contextInp;
+        setStorageRef();
     }
 
     private static void setStorageRef(){
@@ -50,6 +51,7 @@ public class MediaUpload {
             mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Video");
 
         }
+        uploadFile();
     }
 
     private static void uploadFile(){
@@ -61,6 +63,7 @@ public class MediaUpload {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 if (!task.isSuccessful()) {
+
                     throw task.getException();
                 }
 
@@ -78,6 +81,8 @@ public class MediaUpload {
                 }
             }
         });
+        Toast toast = Toast.makeText(context,"File uploaded successfully",LENGTH_LONG);
+        toast.show();
     }
     private static String getExtension(Uri uri){
         ContentResolver contentResolver = context.getContentResolver();
@@ -87,12 +92,14 @@ public class MediaUpload {
 
 
     private static boolean isImageFile(String path) {
-        String mimeType = URLConnection.guessContentTypeFromName(path);
-        return mimeType != null && mimeType.startsWith("image");
+//        String mimeType = URLConnection.guessContentTypeFromName(path);
+//        return mimeType != null && mimeType.startsWith("image");
+        return (path.contains("image"));
     }
 
     private static boolean isVideoFile(String path) {
-        String mimeType = URLConnection.guessContentTypeFromName(path);
-        return mimeType != null && mimeType.startsWith("video");
+//        String mimeType = URLConnection.guessContentTypeFromName(path);
+//        return mimeType != null && mimeType.startsWith("video");
+        return (path.contains("video"));
     }
 }

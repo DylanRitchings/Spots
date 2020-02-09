@@ -453,7 +453,6 @@ public class MapsActivity extends FragmentActivity implements
     protected void onResume() {
         super.onResume();
         try{
-            placeSpotMarkers();
         } catch (Exception e) {
             //e.printStackTrace();
         }
