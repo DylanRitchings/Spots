@@ -36,6 +36,7 @@ public class UploadSpotActivity extends FragmentActivity{
     public Uri imageUri;
     String galleryId;
     GoogleMap mMap;
+    String fileId;
 
     /**
      *
@@ -49,7 +50,7 @@ public class UploadSpotActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_spot);
         galleryId = UUID.randomUUID().toString();
-
+        fileId = UUID.randomUUID().toString();
 
         FillSpinner();
         SetListeners();
@@ -105,8 +106,10 @@ public class UploadSpotActivity extends FragmentActivity{
         uploadSpotBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                UUID uuid = UUID.randomUUID();
+
                 uploadSpot();
-                MediaUpload.sendFile(galleryId,imageUri,getApplicationContext());
+                MediaUpload.sendFile(galleryId,imageUri,getApplicationContext(),fileId);
                 finish();
             }
         });
@@ -170,7 +173,7 @@ public class UploadSpotActivity extends FragmentActivity{
             String difficulty = difficultyTxt.getText().toString();
             TextView hostilityTxt = (TextView) findViewById(R.id.hostilityTxt);
             String hostility = hostilityTxt.getText().toString();
-            insertData.UploadSpot(userId,desc,lat,lng,type,difficulty,hostility,galleryId,imageId);
+            insertData.UploadSpot(userId,desc,lat,lng,type,difficulty,hostility,galleryId,fileId);
         }
 
     }

@@ -2,6 +2,7 @@ package com.dylanritchings.IOTools;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 import com.android.volley.*;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -13,8 +14,9 @@ public class DBSelect {
     public static final String DB_URL = "https://spotsandroid.000webhostapp.com/connect/";
     public static final String GETSPOTS_URL = DB_URL + "get_spots.php";
     public static final String GETRATINGS_URL = DB_URL + "get_ratings.php";
+    public static final String GETIMAGEIDS_URL = DB_URL + "get_imageIds.php";
     private Context myContext;
-    public RequestQueue requestQueue;
+    public static RequestQueue requestQueue;
     private static DBSelect instance = null;
     private DBSelect(Context context)
     {
@@ -103,22 +105,40 @@ public class DBSelect {
         });
         requestQueue.add(stringRequest);
     }
-//    public interface CallBack {
-//        void onTaskSuccess(ArrayList<Spot> spots);
-//
-//        void onFail(String msg);
-//    }
-//    public ArrayList<Spot> getSpotsArray(){
-//        getSpots(new CallBack() {
-//            @Override
-//            public void onTaskSuccess(ArrayList<Spot> spots) {
-//
-//            }
-//
-//            @Override
-//            public void onFail(String msg) {
-//            }
-//        });
-//        return spots;
-//    }
+
+    public void getImageIds(final String galleryId,final Context context, final ListenerTool.SomeCustomListener<String> listener) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GETIMAGEIDS_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Showing response message coming from server.
+                        listener.getResult(response);
+                    }
+
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                        // Showing error message if something goes wrong.
+                        Log.e( "HELLO",volleyError.toString());
+                        Toast.makeText(context.getApplicationContext(), volleyError.toString(), Toast.LENGTH_LONG).show();
+                        listener.getResult(null);
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getParams() {
+                        // Creating Map String Params.
+                        Map<String, String> params = new HashMap<String, String>();
+
+                        // Adding All values to Params.
+                        params.put("galleryId", galleryId);
+                        return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
 }

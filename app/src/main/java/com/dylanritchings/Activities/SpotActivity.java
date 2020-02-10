@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 /**
  * TODO: Change to fragment
@@ -38,7 +39,6 @@ public class SpotActivity extends Activity {
 
 
     /**
-     *
      * @param savedInstanceState
      */
     @Override
@@ -63,6 +63,7 @@ public class SpotActivity extends Activity {
         closeSpotInfoTextView.setOnClickListener(btnListeners.new CloseSpotInfoOnClicklistener());
         uploadMediaListener();
     }
+
 
     protected void getData() throws IOException {
         spotId = Integer.parseInt( spotInfo.get("spotId").toString());
@@ -117,7 +118,8 @@ public class SpotActivity extends Activity {
         if (reqCode ==1 && resultCode == RESULT_OK && data!=null && data.getData()!=null) {
             Uri uri = data.getData();
             Context context = getApplicationContext();
-            MediaUpload.sendFile(galleryId,uri,context);
+            String fileId = UUID.randomUUID().toString();
+            MediaUpload.sendFile(galleryId,uri,context,fileId);
 
             //final InputStream imageStream = getContentResolver().openInputStream(uri);
 //                img = BitmapFactory.decodeStream(imageStream);

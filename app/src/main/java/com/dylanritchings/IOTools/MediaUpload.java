@@ -3,7 +3,6 @@ package com.dylanritchings.IOTools;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -21,6 +20,7 @@ public class MediaUpload {
     static Context context;
     static Uri uri;
     static String galleryId;
+    static String fileName;
 
 //    public static void uploadImage(String galleryId, Uri imageUri, Context contextInp){
 //        context = contextInp;
@@ -35,29 +35,31 @@ public class MediaUpload {
 //        mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Video");
 //        uploadFile();
 //    }
-    public static void sendFile(String galleryIdInp, Uri uriInp, Context contextInp){
+    public static void sendFile(String galleryIdInp, Uri uriInp, Context contextInp,String fileNameInp){
         galleryId = galleryIdInp;
         uri = uriInp;
         context = contextInp;
+        fileName = fileNameInp;
         setStorageRef();
     }
 
     private static void setStorageRef(){
         String path = uri.getPath();
-        Log.d("test",path);
         if (isImageFile(path)) {
             mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Images");
+            DBInsert.setGalleryId(galleryId,fileName,"img", context);
 
         }
         else if (isVideoFile(path)){
             mStorageRef = FirebaseStorage.getInstance().getReference(galleryId+"/Video");
+            DBInsert.setGalleryId(galleryId,fileName,"vid", context);
 
         }
         uploadFile();
     }
 
     private static void uploadFile(){
-        final StorageReference ref = mStorageRef.child(System.currentTimeMillis()+"."+getExtension(uri));
+        final StorageReference ref = mStorageRef.child(System.currentTimeMillis()+"."+getExtension(uri) + fileName + ".png");
 
         UploadTask uploadTask = ref.putFile(uri);
 

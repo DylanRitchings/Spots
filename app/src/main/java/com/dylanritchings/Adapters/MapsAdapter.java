@@ -6,8 +6,8 @@ import android.view.View;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import com.dylanritchings.Activities.MapsActivity;
-import com.dylanritchings.IOTools.ListenerTool;
 import com.dylanritchings.IOTools.DBSelect;
+import com.dylanritchings.IOTools.ListenerTool;
 import com.dylanritchings.Models.Spot;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -24,7 +24,7 @@ import java.util.HashMap;
 public class MapsAdapter extends FragmentActivity {
     public static HashMap<Integer, Marker> singleHashMapMarker = new HashMap<>();
     public static HashMap<String, Integer> hashMapMarker = new HashMap<>();
-    Context mContext;
+    static Context mContext;
     GoogleMap mMap;
     CardView infoCard;
     final ArrayList<Spot> spots = new ArrayList<>();
@@ -69,7 +69,30 @@ public class MapsAdapter extends FragmentActivity {
 
         });
     }
+    public static void getImages(String galleryId){
+        DBSelect dBSelect = DBSelect.getInstance();
+        final ArrayList imageIdList = new ArrayList();
 
+        dBSelect.getImageIds(galleryId,mContext, new ListenerTool.SomeCustomListener<String>(){
+            @Override
+        public void getResult(String result) {
+                Log.d("HELLO",result);
+            //final ArrayList<Spot> spots = new ArrayList<>();
+            if (!result.isEmpty()) {
+                try {
+                    JSONArray array = new JSONArray(result);
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject ob = array.getJSONObject(i);
+                        imageIdList.add(ob.getString("imageId"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        });
+        Log.d("TEST", String.valueOf(imageIdList));
+    }
     public void getRatings(String spotId)
     {
         DBSelect dBSelect = DBSelect.getInstance();

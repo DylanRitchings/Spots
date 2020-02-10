@@ -17,6 +17,7 @@ public class DBInsert {
 	public static final String UPLOADSPOT_URL = DB_URL + "upload_spot.php";
 	public static final String UPLOADHOSTILITY_URL = DB_URL + "set_hostrating.php";
 	public static final String UPLOADDIFFICULTY_URL = DB_URL + "set_diffrating.php";
+	public static final String UPLOADFILE_URL = DB_URL + "upload_file.php";
 
 	private Context myContext;
 	public DBInsert(Context context)
@@ -70,6 +71,42 @@ public class DBInsert {
 		MySingleton.getInstance(myContext).addToRequestQueue(stringRequest);
 	}
 
+	public static void setGalleryId(final String galleryId, final String imageId, final String fileType, final Context myContext){
+
+		StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOADFILE_URL,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String ServerResponse) {
+						// Showing response message coming from server.
+						Toast.makeText(myContext.getApplicationContext(), ServerResponse, Toast.LENGTH_LONG).show();
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError volleyError) {
+
+						// Showing error message if something goes wrong.
+						Toast.makeText(myContext.getApplicationContext(), volleyError.toString(), Toast.LENGTH_LONG).show();
+					}
+				}) {
+			@Override
+			protected Map<String, String> getParams() {
+
+				// Creating Map String Params.
+				Map<String, String> params = new HashMap<String, String>();
+
+				// Adding All values to Params.
+				params.put("galleryId",galleryId);
+				params.put("imageId",imageId);
+				params.put("fileType",fileType);
+
+				return params;
+			}
+
+		};
+		MySingleton.getInstance(myContext).addToRequestQueue(stringRequest);
+	}
+
 	public void setRating(final String userId, final String spotId, final String rating, String type){
 		String RATING_URL;
 		if (type.equals("host")){
@@ -112,6 +149,8 @@ public class DBInsert {
 		};
 		MySingleton.getInstance(myContext).addToRequestQueue(stringRequest);
 	}
+
+
 
 
 //	@Override

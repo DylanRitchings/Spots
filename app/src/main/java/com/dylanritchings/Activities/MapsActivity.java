@@ -73,7 +73,8 @@ public class MapsActivity extends FragmentActivity implements
     private Object[] dataTransfer;
 
     /**
-     *
+     * TODO: Current issues with whole application:
+     * - When image is uploaded to firebase there is no check to see if the database IDs have been input and vice versa.
      * @param savedInstanceState
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -378,6 +379,10 @@ public class MapsActivity extends FragmentActivity implements
         //spotTypeTextView.setText(spotInfo.get(0));
         //infoCard.setVisibility(View.VISIBLE);
     }
+
+    public static void setImages(final HashMap<String, Object> spotInfo){
+        MapsAdapter.getImages(spotInfo.get("galleryId").toString());
+    }
     public void fillSpotInfoText(){
         TextView spotTypeTextView = (TextView) findViewById(R.id.spotTypeTextView);
         String spotId = spotInfo.get("spotId").toString();
@@ -440,6 +445,7 @@ public class MapsActivity extends FragmentActivity implements
                 if(hashMapMarker.containsKey(markerId)) {
                     getSpotInfo(marker);
                     fillSpotInfoText();
+                    setImages(spotInfo);
 
                     //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
                 }
@@ -452,7 +458,10 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+
         try{
+            mMap.clear();
+            onMapReady(mMap);
         } catch (Exception e) {
             //e.printStackTrace();
         }
