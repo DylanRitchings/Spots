@@ -108,7 +108,7 @@ public class DBSelect {
 
     public void getImageIds(final String galleryId,final Context context, final ListenerTool.SomeCustomListener<String> listener) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GETIMAGEIDS_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GETIMAGEIDS_URL+ "?galleryId=" + galleryId,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -123,7 +123,6 @@ public class DBSelect {
                     public void onErrorResponse(VolleyError volleyError) {
 
                         // Showing error message if something goes wrong.
-                        Log.e( "HELLO",volleyError.toString());
                         Toast.makeText(context.getApplicationContext(), volleyError.toString(), Toast.LENGTH_LONG).show();
                         listener.getResult(null);
                     }

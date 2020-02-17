@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.dylanritchings.Activities.MapsActivity;
 import com.dylanritchings.IOTools.DBSelect;
 import com.dylanritchings.IOTools.ListenerTool;
+import com.dylanritchings.IOTools.MediaDownload;
 import com.dylanritchings.Models.Spot;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -69,14 +70,13 @@ public class MapsAdapter extends FragmentActivity {
 
         });
     }
-    public static void getImages(String galleryId){
+    public static void getImages(final String galleryId){
         DBSelect dBSelect = DBSelect.getInstance();
         final ArrayList imageIdList = new ArrayList();
 
         dBSelect.getImageIds(galleryId,mContext, new ListenerTool.SomeCustomListener<String>(){
             @Override
         public void getResult(String result) {
-                Log.d("HELLO",result);
             //final ArrayList<Spot> spots = new ArrayList<>();
             if (!result.isEmpty()) {
                 try {
@@ -88,6 +88,8 @@ public class MapsAdapter extends FragmentActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                MediaDownload mediaDownload = new MediaDownload();
+                mediaDownload.getTwoImages(galleryId,imageIdList);
             }
         }
         });
