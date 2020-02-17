@@ -1,5 +1,6 @@
 package com.dylanritchings.Models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Spot {
@@ -12,6 +13,8 @@ public class Spot {
     private Float diff;
     private Float host;
     private String galleryId;
+    private ArrayList imageRefs;
+    private ArrayList videoRefs;
 
     public Spot(int spotId, String userId,String desc,Float lat,Float lng,String type,String galleryId) {
         this.spotId = spotId;
@@ -58,6 +61,20 @@ public class Spot {
         return galleryId;
     }
 
+    public void setImageRefs(ArrayList imageRef){
+        this.imageRefs = imageRef;
+    }
+    public void setVideoRefs(ArrayList videoRef){
+        this.videoRefs = videoRef;
+    }
+    public ArrayList getImageRef(){
+        return imageRefs;
+    }
+    public ArrayList getVideoRef(){
+        return videoRefs;
+    }
+
+
     public HashMap<String,Object> getSpotMap(){
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("spotId",getSpotId());
@@ -68,6 +85,8 @@ public class Spot {
         map.put("type",getType());
         map.put("diff",getDiff());
         map.put("galleryId",getGalleryId());
+        map.put("imageIds",getImageRef());
+        map.put("videoIds",getVideoRef());
         return map;
 
     }

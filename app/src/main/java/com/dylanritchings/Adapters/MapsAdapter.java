@@ -90,10 +90,15 @@ public class MapsAdapter extends FragmentActivity {
                 }
                 MediaDownload mediaDownload = new MediaDownload();
                 mediaDownload.getTwoImages(galleryId,imageIdList);
+                //HashMap<Integer, Spot> spotMap = mediaDownload.getTwoImages(galleryId,imageIdList,spotMap);
             }
         }
         });
         Log.d("TEST", String.valueOf(imageIdList));
+    }
+
+    public static void setImages(ArrayList imageRefs){
+
     }
     public void getRatings(String spotId)
     {
