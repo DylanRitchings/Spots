@@ -1,15 +1,19 @@
 package com.dylanritchings.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.FragmentActivity;
+import com.bumptech.glide.Glide;
 import com.dylanritchings.Activities.MapsActivity;
 import com.dylanritchings.IOTools.DBSelect;
 import com.dylanritchings.IOTools.ListenerTool;
 import com.dylanritchings.IOTools.MediaDownload;
 import com.dylanritchings.Models.Spot;
+import com.dylanritchings.spots.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -22,7 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MapsAdapter extends FragmentActivity {
+public class MapsAdapter {
     public static HashMap<Integer, Marker> singleHashMapMarker = new HashMap<>();
     public static HashMap<String, Integer> hashMapMarker = new HashMap<>();
     static Context mContext;
@@ -37,7 +41,6 @@ public class MapsAdapter extends FragmentActivity {
         this.mMap = mMap;
         this.infoCard = infoCard;
     }
-
     public void getSpots() {
         DBSelect dBSelect = DBSelect.getInstance();
         dBSelect.getSpots(spots, new ListenerTool.SomeCustomListener<String>() {
@@ -70,7 +73,12 @@ public class MapsAdapter extends FragmentActivity {
 
         });
     }
-    public static void getImages(final String galleryId){
+
+    public ArrayList getImages(String galleryId){
+        ArrayList imageIdList = getImagesIds(galleryId);
+        return null;
+    }
+    public static ArrayList getImagesIds(final String galleryId){
         DBSelect dBSelect = DBSelect.getInstance();
         final ArrayList imageIdList = new ArrayList();
 
@@ -89,17 +97,33 @@ public class MapsAdapter extends FragmentActivity {
                     e.printStackTrace();
                 }
                 MediaDownload mediaDownload = new MediaDownload();
-                mediaDownload.getTwoImages(galleryId,imageIdList);
+                mediaDownload.getTwoImages(galleryId,imageIdList,mContext);
                 //HashMap<Integer, Spot> spotMap = mediaDownload.getTwoImages(galleryId,imageIdList,spotMap);
             }
         }
         });
-        Log.d("TEST", String.valueOf(imageIdList));
+//        Log.d("HELLO", String.valueOf(imageIdList));
+        return imageIdList;
     }
 
-    public static void setImages(ArrayList imageRefs){
+    public static void setTwoImages(Uri uri, Context context, Integer num){
+        ImageView spotImage;
+        if (num == 0) {
+            spotImage = (ImageView) ((Activity) context).findViewById(R.id.spotImage1);
+        }
+        else{
+            spotImage = (ImageView) ((Activity) context).findViewById(R.id.spotImage2);
+        }
+        Glide.with(context)
+                .load(uri)
+                .into(spotImage);
+//        Bitmap bitmap =
+//        Log.d("HELLO",bitmap.toString());
+//        spotImage.setImageBitmap(bitmap);
+
 
     }
+
     public void getRatings(String spotId)
     {
         DBSelect dBSelect = DBSelect.getInstance();

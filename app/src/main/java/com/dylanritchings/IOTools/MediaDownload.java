@@ -19,29 +19,30 @@ public class MediaDownload {
     static String galleryId;
 
 
-    public void getTwoImages(String galleryId, ArrayList imageIds){
-        ArrayList imageStorageRefs = new ArrayList();
+    public void getTwoImages(String galleryId, ArrayList imageIds, final Context context){
         for(int i = 0; i<2; i++){
-            String imageId = imageIds.get(i).toString();
-            Log.d("TEST",imageId);
-            //StorageReference storageRef = FirebaseStorage.getReference();
-            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
-            mStorageRef.child(galleryId+"/Images/"+imageId).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Log.d("TEST","HELLLOOOOO");
-                    //TODO not working
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.d("Error",exception.toString());
+            try{
+                String imageId = imageIds.get(i).toString();
+                //StorageReference storageRef = FirebaseStorage.getReference();
+                StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+                final int finalI = i;
+                mStorageRef.child(galleryId + "/Images/" + imageId + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        MapsAdapter.setTwoImages(uri,context, finalI);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.d("Error", exception.toString());
+                    }
+                });
+                //TODO create function in maps adapter that converts to uri and sets it to imageview.
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
-            imageStorageRefs.add(mStorageRef);
-            //TODO create function in maps adapter that converts to uri and sets it to imageview.
         }
-        MapsAdapter.setImages(imageStorageRefs);
+        //MapsAdapter.setTwoImages(imageUris,context);
         //Spot spot = spotMap.get(spotId);
     }
 }

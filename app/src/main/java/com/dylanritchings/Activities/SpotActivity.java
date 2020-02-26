@@ -134,6 +134,18 @@ public class SpotActivity extends Activity {
         }
     }
 
+//    public void setImage(Uri uri, Integer num){
+//        ImageView spotImage;
+//        if (num == 0){
+//            spotImage = findViewById(R.id.spotImage1);
+//        }
+//        else{
+//            spotImage = findViewById(R.id.spotImage2);
+//        }
+//        spotImage.setImageURI(uri);
+//
+//    }
+
 
 
 }

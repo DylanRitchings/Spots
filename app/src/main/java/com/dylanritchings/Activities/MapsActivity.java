@@ -380,8 +380,8 @@ public class MapsActivity extends FragmentActivity implements
         //infoCard.setVisibility(View.VISIBLE);
     }
 
-    public static void setImages(final HashMap<String, Object> spotInfo){
-        MapsAdapter.getImages(spotInfo.get("galleryId").toString());
+    public void setImages(HashMap<String, Object> spotInfo){
+        mapsAdapter.getImages(spotInfo.get("galleryId").toString());
     }
     public void fillSpotInfoText(){
         TextView spotTypeTextView = (TextView) findViewById(R.id.spotTypeTextView);

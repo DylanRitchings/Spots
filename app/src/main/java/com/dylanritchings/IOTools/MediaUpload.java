@@ -59,8 +59,7 @@ public class MediaUpload {
     }
 
     private static void uploadFile(){
-        final StorageReference ref = mStorageRef.child(System.currentTimeMillis()+"."+getExtension(uri) + fileName + ".png");
-
+        final StorageReference ref = mStorageRef.child(fileName + ".png");
         UploadTask uploadTask = ref.putFile(uri);
 
         Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
