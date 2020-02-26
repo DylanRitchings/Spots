@@ -3,26 +3,29 @@ package com.dylanritchings.Activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.*;
 import androidx.annotation.Nullable;
 import com.dylanritchings.ButtonListeners;
 import com.dylanritchings.IOTools.MediaUpload;
 import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
-
 /**
  * TODO: Change to fragment
  */
@@ -36,6 +39,7 @@ public class SpotActivity extends Activity {
     Float difficulty;
     Float hostility;
     String galleryId;
+    LinearLayout photoGallery;
 
 
     /**
@@ -62,6 +66,7 @@ public class SpotActivity extends Activity {
         final TextView closeSpotInfoTextView = findViewById(R.id.closeSpotInfoTextView);
         closeSpotInfoTextView.setOnClickListener(btnListeners.new CloseSpotInfoOnClicklistener());
         uploadMediaListener();
+        galleryFiller();
     }
 
 
@@ -132,6 +137,78 @@ public class SpotActivity extends Activity {
         }else {
             Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void galleryFiller(){
+
+
+        photoGallery = (LinearLayout)findViewById(R.id.photoGalleryFill);
+
+        String ExternalStorageDirectoryPath = Environment
+                .getExternalStorageDirectory()
+                .getAbsolutePath();
+
+        String targetPath = ExternalStorageDirectoryPath + "/test/";
+
+        Toast.makeText(getApplicationContext(), targetPath, Toast.LENGTH_LONG).show();
+        File targetDirector = new File(targetPath);
+
+        File[] files = targetDirector.listFiles();
+        for (File file : files){
+            photoGallery.addView(insertPhoto(file.getAbsolutePath()));
+        }
+    }
+    View insertPhoto(String path){
+        Bitmap bm = decodeSampledBitmapFromUri(path, 220, 220);
+
+        LinearLayout layout = new LinearLayout(getApplicationContext());
+        layout.setLayoutParams(new LayoutParams(250, 250));
+        layout.setGravity(Gravity.CENTER);
+
+        ImageView imageView = new ImageView(getApplicationContext());
+        imageView.setLayoutParams(new LayoutParams(220, 220));
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setImageBitmap(bm);
+
+        layout.addView(imageView);
+        return layout;
+    }
+
+    public Bitmap decodeSampledBitmapFromUri(String path, int reqWidth, int reqHeight) {
+        Bitmap bm = null;
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        bm = BitmapFactory.decodeFile(path, options);
+
+        return bm;
+    }
+
+    public int calculateInSampleSize(
+
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            if (width > height) {
+                inSampleSize = Math.round((float)height / (float)reqHeight);
+            } else {
+                inSampleSize = Math.round((float)width / (float)reqWidth);
+            }
+        }
+
+        return inSampleSize;
     }
 
 //    public void setImage(Uri uri, Integer num){

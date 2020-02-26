@@ -115,26 +115,6 @@ app:layout_constraintVertical_bias="0.0"
 app:layout_constraintWidth_percent="0.5"
 tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
 
-<ImageView
-android:id="@+id/photoGallery"
-android:layout_width="match_parent"
-android:layout_height="300dp"
-android:contentDescription="TODO"
-android:cropToPadding="true"
-android:fillViewport="true"
-android:scaleType="centerCrop"
-android:src="@drawable/skatepark"
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-app:layout_constraintHeight_percent="0.5"
-app:layout_constraintHorizontal_bias="0.0"
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintTop_toBottomOf="@+id/driveTimeTextView2"
-app:layout_constraintVertical_bias="0.01999998"
-app:layout_constraintWidth_percent="0.5"
-tools:layout_conversion_absoluteHeight="0dp"
-tools:layout_conversion_absoluteWidth="0dp"
-tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
 
 <ImageView
 android:id="@+id/videoGallery"
@@ -416,6 +396,20 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:orientation="horizontal"
 app:layout_constraintGuide_begin="20dp" />
+        <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/driveImageView2"
+                android:id="@+id/photoGallery"
+                android:layout_marginTop="1dp">
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/photoGalleryFill"
+            />
+        </HorizontalScrollView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

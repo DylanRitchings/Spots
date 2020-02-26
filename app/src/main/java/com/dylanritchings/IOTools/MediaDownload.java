@@ -37,12 +37,14 @@ public class MediaDownload {
                         Log.d("Error", exception.toString());
                     }
                 });
-                //TODO create function in maps adapter that converts to uri and sets it to imageview.
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         //MapsAdapter.setTwoImages(imageUris,context);
         //Spot spot = spotMap.get(spotId);
+    }
+    public void getAllImages(){
+        //TODO: FINISH THIS BOY
     }
 }
