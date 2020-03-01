@@ -3,29 +3,32 @@ package com.dylanritchings.Activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
 import androidx.annotation.Nullable;
+import com.bumptech.glide.Glide;
 import com.dylanritchings.ButtonListeners;
+import com.dylanritchings.IOTools.DBSelect;
+import com.dylanritchings.IOTools.ListenerTool;
+import com.dylanritchings.IOTools.MediaDownload;
 import com.dylanritchings.IOTools.MediaUpload;
 import com.dylanritchings.Spots;
 import com.dylanritchings.spots.R;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
+
 /**
  * TODO: Change to fragment
  */
@@ -39,7 +42,7 @@ public class SpotActivity extends Activity {
     Float difficulty;
     Float hostility;
     String galleryId;
-    LinearLayout photoGallery;
+    static LinearLayout photoGallery;
 
 
     /**
@@ -139,58 +142,78 @@ public class SpotActivity extends Activity {
         }
     }
 
+
     private void galleryFiller(){
 
-
+        final ArrayList imageIdList = new ArrayList();
         photoGallery = (LinearLayout)findViewById(R.id.photoGalleryFill);
+        DBSelect dBSelect = DBSelect.getInstance();
+        final Context context = this;
+        dBSelect.getImageIds(galleryId,context, new ListenerTool.SomeCustomListener<String>() {
+            @Override
+            public void getResult(String result) {
+                //final ArrayList<Spot> spots = new ArrayList<>();
+                if (!result.isEmpty()) {
+                    try {
+                        JSONArray array = new JSONArray(result);
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject ob = array.getJSONObject(i);
+                            imageIdList.add(ob.getString("imageId"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-        String ExternalStorageDirectoryPath = Environment
-                .getExternalStorageDirectory()
-                .getAbsolutePath();
-
-        String targetPath = ExternalStorageDirectoryPath + "/test/";
-
-        Toast.makeText(getApplicationContext(), targetPath, Toast.LENGTH_LONG).show();
-        File targetDirector = new File(targetPath);
-
-        File[] files = targetDirector.listFiles();
-        for (File file : files){
-            photoGallery.addView(insertPhoto(file.getAbsolutePath()));
-        }
+                    MediaDownload mediaDownload = new MediaDownload();
+                    mediaDownload.getAllImages(galleryId, imageIdList, context);
+                }
+            }
+        });
     }
-    View insertPhoto(String path){
-        Bitmap bm = decodeSampledBitmapFromUri(path, 220, 220);
+    public void fillImageGallery(Uri uri){
+        photoGallery.addView(insertPhoto(uri));
+    }
+
+    View insertPhoto(Uri uri){
+        //Get width of device
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int width = displaymetrics.widthPixels;
+
 
         LinearLayout layout = new LinearLayout(getApplicationContext());
-        layout.setLayoutParams(new LayoutParams(250, 250));
+        layout.setLayoutParams(new LayoutParams(width, LayoutParams.MATCH_PARENT));
         layout.setGravity(Gravity.CENTER);
 
-        ImageView imageView = new ImageView(getApplicationContext());
-        imageView.setLayoutParams(new LayoutParams(220, 220));
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageBitmap(bm);
 
+        ImageView imageView = new ImageView(getApplicationContext());
+        imageView.setLayoutParams(new LayoutParams(width, LayoutParams.MATCH_PARENT));
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        //imageView.setImageURI(uri);
+        Glide.with(this)
+                .load(uri)
+                .into(imageView);
         layout.addView(imageView);
         return layout;
     }
 
-    public Bitmap decodeSampledBitmapFromUri(String path, int reqWidth, int reqHeight) {
-        Bitmap bm = null;
-
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        bm = BitmapFactory.decodeFile(path, options);
-
-        return bm;
-    }
+//    public Bitmap decodeSampledBitmapFromUri(String path, int reqWidth, int reqHeight) {
+//        Bitmap bm = null;
+//
+//        // First decode with inJustDecodeBounds=true to check dimensions
+//        final BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inJustDecodeBounds = true;
+//        BitmapFactory.decodeFile(path, options);
+//
+//        // Calculate inSampleSize
+//        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+//
+//        // Decode bitmap with inSampleSize set
+//        options.inJustDecodeBounds = false;
+//        bm = BitmapFactory.decodeFile(path, options);
+//
+//        return bm;
+//    }
 
     public int calculateInSampleSize(
 
