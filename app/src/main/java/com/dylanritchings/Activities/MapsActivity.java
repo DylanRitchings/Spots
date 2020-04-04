@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.dylanritchings.Adapters.MapsAdapter;
 import com.dylanritchings.IOTools.DownloadTask;
 import com.dylanritchings.Models.Spot;
 import com.dylanritchings.Spots;
+import com.dylanritchings.Utils.ColorCheck;
 import com.dylanritchings.spots.R;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.ConnectionResult;
@@ -356,7 +358,6 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     public void openSpotActivity(HashMap<String, Object> spotInfo){
-        //TODO: this stuff
         Intent intent = new Intent(MapsActivity.this, SpotActivity.class);
         intent.putExtra("SPOT_INFO", spotInfo);
         startActivity(intent);
@@ -381,12 +382,28 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     public void setImages(HashMap<String, Object> spotInfo){
+        ImageView spotImage1 = (ImageView) findViewById(R.id.spotImage1);
+        ImageView spotImage2 = (ImageView) findViewById(R.id.spotImage2);
+        spotImage1.setImageDrawable(getResources().getDrawable(R.drawable.blank));
+        spotImage2.setImageDrawable(getResources().getDrawable(R.drawable.blank));
         mapsAdapter.getImages(spotInfo.get("galleryId").toString());
     }
     public void fillSpotInfoText(){
         TextView spotTypeTextView = (TextView) findViewById(R.id.spotTypeTextView);
         String spotId = spotInfo.get("spotId").toString();
         spotTypeTextView.setText(spotInfo.get("type").toString());
+        ColorCheck colorCheck = new ColorCheck();
+        int color = colorCheck.getSpotColor(spotInfo.get("type").toString());
+//        Drawable unwrappedDrawable = AppCompatResources.getDrawable(Spots.getContext(), R.drawable.circle).mutate();
+//        Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
+//        DrawableCompat.setTint(wrappedDrawable, Color.alpha(color));
+
+
+
+        TextView circle = (TextView) findViewById(R.id.spotTypeCircle);
+        circle.setBackgroundColor(color);
+        //circle.setHighlightColor(color);
+
 //        String diff = spotInfo.get(2).toString();
 //        String host = spotInfo.get(3).toString();
         //mapsAdapter.getRatings(spotId);
@@ -446,6 +463,7 @@ public class MapsActivity extends FragmentActivity implements
                     getSpotInfo(marker);
                     fillSpotInfoText();
                     setImages(spotInfo);
+
 
                     //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
                 }

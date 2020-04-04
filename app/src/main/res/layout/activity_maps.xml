@@ -237,7 +237,7 @@
 <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 <!--        </androidx.cardview.widget.CardView>-->
 
-        <Button
+    <Button
             android:id="@+id/uploadSpotBtn"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -247,9 +247,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintBottom_toTopOf="@+id/infoCard"
-            card_view:layout_constraintHorizontal_bias="0.04"
+            card_view:layout_constraintHorizontal_bias="0.021"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintVertical_bias="0.01999998" />
+            card_view:layout_constraintVertical_bias="0.012"/>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="394dp"
             android:layout_height="220dp"
@@ -345,14 +345,14 @@
                     android:contentDescription="TODO"
                     android:cropToPadding="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/skatepark"
+                    android:src="@drawable/blank"
                     app:layout_constraintHeight_percent="0.5"
                     app:layout_constraintWidth_percent="0.5"
                     card_view:layout_constraintEnd_toEndOf="parent"
                     card_view:layout_constraintHorizontal_bias="0.0"
                     card_view:layout_constraintStart_toStartOf="parent"
                     card_view:layout_constraintTop_toTopOf="parent"
-                    tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+                    tools:srcCompat="@tools:sample/backgrounds/scenic[5]"/>
 
             <ImageView
                     android:id="@+id/spotImage2"
@@ -363,14 +363,14 @@
                     android:contentDescription="TODO"
                     android:cropToPadding="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/skatepark2"
+                    android:src="@drawable/blank"
                     app:layout_constraintHeight_percent="0.5"
                     app:layout_constraintWidth_percent="0.5"
                     card_view:layout_constraintEnd_toEndOf="parent"
                     card_view:layout_constraintHorizontal_bias="1.0"
                     card_view:layout_constraintStart_toStartOf="parent"
                     card_view:layout_constraintTop_toTopOf="parent"
-                    tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+                    tools:srcCompat="@tools:sample/backgrounds/scenic[5]"/>
 
             <ImageView
                     android:id="@+id/walkImageView"

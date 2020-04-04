@@ -162,6 +162,7 @@ public class MapsAdapter {
             Log.d("MARKER", new MarkerOptions().position(point).toString());
             Marker marker = mMap.addMarker(new MarkerOptions().position(point));
             switch (type) {
+
                 case "Skatepark":
                     marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                     break;
@@ -177,6 +178,9 @@ public class MapsAdapter {
                 case "Gap":
                     marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
                     break;
+                case "Bank":
+                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                    break;
                 default:
                     marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
                     break;
@@ -189,6 +193,7 @@ public class MapsAdapter {
 
         //MapsActivity.setMarkerListener(hashMapMarker);
     }
+
 
 
 //    public void setMarkerListener(final HashMap hashMapMarker) {

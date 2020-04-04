@@ -3,4 +3,5 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#03352E</color>
+    <color name="circleColor">#2020b3</color>
 </resources>

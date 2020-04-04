@@ -16,12 +16,12 @@ import android.widget.*;
 import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.dylanritchings.ButtonListeners;
-import com.dylanritchings.IOTools.DBSelect;
-import com.dylanritchings.IOTools.ListenerTool;
-import com.dylanritchings.IOTools.MediaDownload;
-import com.dylanritchings.IOTools.MediaUpload;
+import com.dylanritchings.IOTools.*;
 import com.dylanritchings.Spots;
+import com.dylanritchings.Utils.ColorCheck;
 import com.dylanritchings.spots.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +43,8 @@ public class SpotActivity extends Activity {
     Float hostility;
     String galleryId;
     static LinearLayout photoGallery;
+    String userId;
+    DBInsert insertData;
 
 
     /**
@@ -50,6 +52,7 @@ public class SpotActivity extends Activity {
      */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spot);
         spotActivity = this;
@@ -63,17 +66,40 @@ public class SpotActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+        userId = currentFirebaseUser.getUid();
+        insertData = new DBInsert(this.getApplication());
 
         ButtonListeners btnListeners = new ButtonListeners();
         final TextView closeSpotInfoTextView = findViewById(R.id.closeSpotInfoTextView);
         closeSpotInfoTextView.setOnClickListener(btnListeners.new CloseSpotInfoOnClicklistener());
         uploadMediaListener();
         galleryFiller();
+        ratingListeners();
     }
 
 
+    protected void ratingListeners(){
+        RatingBar diffRating = (RatingBar) findViewById(R.id.difficultyRating);
+
+        diffRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                int ratingInt =  Math.round(rating);
+                insertData.setRating(userId,spotId.toString(), String.valueOf(ratingInt),"diff");
+            }
+        });
+        RatingBar hostRating = (RatingBar) findViewById(R.id.hostilityRating);
+        hostRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                int ratingInt = Math.round(rating);
+                insertData.setRating(userId,spotId.toString(), String.valueOf(ratingInt),"host");
+            }
+        });
+    }
     protected void getData() throws IOException {
+
         spotId = Integer.parseInt( spotInfo.get("spotId").toString());
         type = spotInfo.get("type").toString();
         TextView spotTypeTextView = findViewById(R.id.spotTypeTextView2);
@@ -87,6 +113,13 @@ public class SpotActivity extends Activity {
         addressTextView.setText(address);
 
         galleryId = spotInfo.get("galleryId").toString();
+        ColorCheck colorCheck = new ColorCheck();
+        int color = colorCheck.getSpotColor(spotInfo.get("type").toString());
+
+
+
+        TextView circle = (TextView) findViewById(R.id.spotTypeCircle2);
+        circle.setBackgroundColor(color);
     }
 
     protected String getAddress() throws IOException {

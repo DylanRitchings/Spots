@@ -36,7 +36,9 @@ public class DBInsert {
 					@Override
 					public void onResponse(String ServerResponse) {
 						// Showing response message coming from server.
-						Toast.makeText(myContext.getApplicationContext(), ServerResponse, Toast.LENGTH_LONG).show();
+						if (!ServerResponse.equals("")) {
+							Toast.makeText(myContext.getApplicationContext(), ServerResponse, Toast.LENGTH_LONG).show();
+						}
 					}
 				},
 				new Response.ErrorListener() {
@@ -78,7 +80,9 @@ public class DBInsert {
 					@Override
 					public void onResponse(String ServerResponse) {
 						// Showing response message coming from server.
-						Toast.makeText(myContext.getApplicationContext(), ServerResponse, Toast.LENGTH_LONG).show();
+						if (!ServerResponse.equals("")) {
+							Toast.makeText(myContext.getApplicationContext(), ServerResponse, Toast.LENGTH_LONG).show();
+						}
 					}
 				},
 				new Response.ErrorListener() {
@@ -121,7 +125,9 @@ public class DBInsert {
 					@Override
 					public void onResponse(String ServerResponse) {
 						// Showing response message coming from server.
-						Toast.makeText(myContext.getApplicationContext(), ServerResponse, Toast.LENGTH_LONG).show();
+						if (!ServerResponse.equals("")) {
+							Toast.makeText(myContext.getApplicationContext(), ServerResponse, Toast.LENGTH_LONG).show();
+						}
 					}
 				},
 				new Response.ErrorListener() {
@@ -130,6 +136,7 @@ public class DBInsert {
 
 						// Showing error message if something goes wrong.
 						Toast.makeText(myContext.getApplicationContext(), volleyError.toString(), Toast.LENGTH_LONG).show();
+
 					}
 				}) {
 			@Override
