@@ -458,18 +458,28 @@ public class MapsActivity extends FragmentActivity implements
             HashMap<String, Integer> hashMapMarker = MapsAdapter.getHashMapMarker();
             @Override
             public boolean onMarkerClick(Marker marker) {
-                String markerId = marker.getId();
-                if(hashMapMarker.containsKey(markerId)) {
-                    getSpotInfo(marker);
-                    fillSpotInfoText();
-                    setImages(spotInfo);
+                onSpotInfoOpen(marker);
 
-
-                    //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-                }
                 return false;
             }
         });
+    }
+
+    private void onSpotInfoOpen(Marker marker){
+        HashMap<String, Integer> hashMapMarker = MapsAdapter.getHashMapMarker();
+        String markerId = marker.getId();
+        if(hashMapMarker.containsKey(markerId)) {
+
+            getSpotInfo(marker);
+            fillSpotInfoText();
+            setImages(spotInfo);
+            //RatingAdapter ratingAdapter = RatingAdapter.getInstance();
+
+            String spotId = spotInfo.get("spotId").toString();
+           // mapsAdapter.getRatingsArray(spotId);
+
+        }
+
     }
 
 

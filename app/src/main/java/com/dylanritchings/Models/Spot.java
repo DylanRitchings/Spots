@@ -12,11 +12,13 @@ public class Spot {
     private String type;
     private Float diff;
     private Float host;
+    private Float overall;
     private String galleryId;
     private ArrayList imageRefs;
     private ArrayList videoRefs;
 
     public Spot(int spotId, String userId,String desc,Float lat,Float lng,String type,String galleryId) {
+        //,Float diff, Float host, Float overall
         this.spotId = spotId;
         this.userId = userId;
         this.desc = desc;
@@ -56,6 +58,9 @@ public class Spot {
     public void setHost(Float host){
         this.host = host;
     }
+    public void setOverall(Float overall){
+        this.overall= overall;
+    }
 
     public String getGalleryId(){
         return galleryId;
@@ -84,10 +89,16 @@ public class Spot {
         map.put("lng",getLng());
         map.put("type",getType());
         map.put("diff",getDiff());
+        map.put("host",getHost());
         map.put("galleryId",getGalleryId());
         map.put("imageIds",getImageRef());
         map.put("videoIds",getVideoRef());
+        map.put("overall",getOverall());
         return map;
 
+    }
+
+    public Float getOverall() {
+        return overall;
     }
 }

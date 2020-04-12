@@ -33,14 +33,16 @@ public class MapsAdapter {
     GoogleMap mMap;
     CardView infoCard;
     final ArrayList<Spot> spots = new ArrayList<>();
+
     private HashMap<Integer, Spot> spotMap = new HashMap<Integer, Spot>();
 
 
-    public MapsAdapter(Context mContext, GoogleMap mMap, CardView infoCard ) {
+    public MapsAdapter(Context mContext, GoogleMap mMap, CardView infoCard) {
         this.mContext = mContext;
         this.mMap = mMap;
         this.infoCard = infoCard;
     }
+
     public void getSpots() {
         DBSelect dBSelect = DBSelect.getInstance();
         dBSelect.getSpots(spots, new ListenerTool.SomeCustomListener<String>() {
@@ -60,7 +62,7 @@ public class MapsAdapter {
                                     , Float.parseFloat(ob.getString("lat"))
                                     , Float.parseFloat(ob.getString("lng"))
                                     , ob.getString("type")
-                                    ,ob.getString("galleryId"));
+                                    , ob.getString("galleryId"));
                             spots.add(spot);
 
                         }
@@ -73,6 +75,8 @@ public class MapsAdapter {
 
         });
     }
+
+
 
     public ArrayList getImages(String galleryId){
         ArrayList imageIdList = getImagesIds(galleryId);
@@ -124,21 +128,45 @@ public class MapsAdapter {
 
     }
 
-    public void getRatings(String spotId)
+    public void getRatingsArray(final String spotId)
     {
         DBSelect dBSelect = DBSelect.getInstance();
         dBSelect.getRatings(spotId,new ListenerTool.SomeCustomListener<String>() {
 
             @Override
             public void getResult(String result) {
-
-                //final ArrayList<Spot> spots = new ArrayList<>();
                 if (!result.isEmpty()) {
                     try {
-                        JSONArray array = new JSONArray(result);
+                        ArrayList<Float> diffRatings = new ArrayList<>();
+                        ArrayList<Float> hostRatings = new ArrayList<>();
+                       JSONArray array = new JSONArray(result);
                         for (int i = 0; i < array.length(); i++) {
-                            //TODO: FINISH
+                            JSONObject ob = array.getJSONObject(i);
+                            float rating = Integer.parseInt(ob.getString("rating"));
+                            String ratingType = ob.getString("ratingtype");
+                            if (ratingType.equals("diff")){
+                                diffRatings.add(rating);
+                            }
+                            else  {
+                                hostRatings.add(rating);
+                            }
                         }
+                       float diffRating = calculateAverage(diffRatings);
+                        float hostRating = calculateAverage(hostRatings);
+                        ArrayList<Float> allRatings = new ArrayList<>();
+                        allRatings.add(diffRating);
+                        allRatings.add(hostRating);
+                        float overallRating = 5 - calculateAverage(allRatings);
+                        for (Spot spot : spots){
+                            if (spot.getSpotId() == Integer.parseInt(spotId)){
+                                spot.setDiff(diffRating);
+                                spot.setHost(hostRating);
+                                spot.setOverall(overallRating);
+                            }
+                        }
+
+
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -242,8 +270,10 @@ public class MapsAdapter {
             Spot spot = spotMap.get(spotId);
             //String desc = spot.getDesc();
             infoList = spot.getSpotMap();
-            if (infoList.get("diff") == null || infoList.get("host") == null){
-                getRatings(String.valueOf(spotId));
+            if (infoList.get("diff") == null || infoList.get("host") == null || infoList.get("overall") == null){
+                getRatingsArray(String.valueOf(spotId));
+                getRating(spotId);
+
 
             }
 
@@ -255,6 +285,21 @@ public class MapsAdapter {
     }
     public static HashMap<String, Integer> getHashMapMarker(){
         return hashMapMarker;
+    }
+
+    private void getRating(int spotId){
+        getRatingsArray(String.valueOf(spotId));
+    }
+
+    private float calculateAverage(ArrayList<Float> ratings){
+        int numRatings = ratings.size();
+        int total = 0;
+
+        for (Float rating : ratings){
+            total += rating;
+        }
+        float average = ((float) total)/((float) numRatings);
+        return average;
     }
 }
 

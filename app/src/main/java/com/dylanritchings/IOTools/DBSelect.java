@@ -57,7 +57,8 @@ public class DBSelect {
             public void onErrorResponse(VolleyError error) {
                 if (null != error.networkResponse)
                 {
-                    Log.d("ERROR" + ": ", "Error Response code: " + error.networkResponse.statusCode);
+                    Toast.makeText(myContext.getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                    Log.d("VOLLEYERROR" + ": ", "Error Response code: " + error.networkResponse.statusCode);
                     listener.getResult(null);
                 }
             }
