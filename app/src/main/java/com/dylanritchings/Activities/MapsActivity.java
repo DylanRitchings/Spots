@@ -9,10 +9,7 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
@@ -476,6 +473,11 @@ public class MapsActivity extends FragmentActivity implements
             //RatingAdapter ratingAdapter = RatingAdapter.getInstance();
 
             String spotId = spotInfo.get("spotId").toString();
+
+            RatingBar diffRatingBar = findViewById(R.id.difficultyRating);
+            RatingBar hostRatingBar = findViewById(R.id.hostilityRating);
+            diffRatingBar.setRating((Float) spotInfo.get("diffRating"));
+            hostRatingBar.setRating((Float) spotInfo.get("hostRating"));
            // mapsAdapter.getRatingsArray(spotId);
 
         }

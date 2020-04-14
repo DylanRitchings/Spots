@@ -273,8 +273,6 @@ public class MapsAdapter {
             if (infoList.get("diff") == null || infoList.get("host") == null || infoList.get("overall") == null){
                 getRatingsArray(String.valueOf(spotId));
                 getRating(spotId);
-
-
             }
 
 
