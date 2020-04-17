@@ -474,10 +474,11 @@ public class MapsActivity extends FragmentActivity implements
 
             String spotId = spotInfo.get("spotId").toString();
 
-            RatingBar diffRatingBar = findViewById(R.id.difficultyRating);
-            RatingBar hostRatingBar = findViewById(R.id.hostilityRating);
-            diffRatingBar.setRating((Float) spotInfo.get("diffRating"));
-            hostRatingBar.setRating((Float) spotInfo.get("hostRating"));
+            //RatingBar diffRatingBar = findViewById(R.id.difficultyRating);
+            //RatingBar hostRatingBar = findViewById(R.id.hostilityRating);
+            //RatingBar overallRatingBar = findViewByID(R.id.overallRating)
+            //diffRatingBar.setRating((Float) spotInfo.get("diffRating"));
+            //hostRatingBar.setRating((Float) spotInfo.get("hostRating"));
            // mapsAdapter.getRatingsArray(spotId);
 
         }
