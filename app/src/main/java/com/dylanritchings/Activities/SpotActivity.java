@@ -39,8 +39,8 @@ public class SpotActivity extends Activity {
     String type;
     Float lat;
     Float lng;
-    Float difficulty;
-    Float hostility;
+    Float diff;
+    Float host;
     String galleryId;
     static LinearLayout photoGallery;
     String userId;
@@ -75,9 +75,16 @@ public class SpotActivity extends Activity {
         closeSpotInfoTextView.setOnClickListener(btnListeners.new CloseSpotInfoOnClicklistener());
         uploadMediaListener();
         galleryFiller();
+        ratingFiller();
         ratingListeners();
     }
 
+    private void ratingFiller(){
+        RatingBar diffRatingBar = findViewById(R.id.difficultyRating);
+        RatingBar hostRatingBar = findViewById(R.id.hostilityRating);
+        diffRatingBar.setRating(diff);
+        hostRatingBar.setRating(host);
+    }
 
     protected void ratingListeners(){
         RatingBar diffRating = (RatingBar) findViewById(R.id.difficultyRating);
@@ -116,8 +123,8 @@ public class SpotActivity extends Activity {
         ColorCheck colorCheck = new ColorCheck();
         int color = colorCheck.getSpotColor(spotInfo.get("type").toString());
 
-
-
+        diff = Float.parseFloat(String.valueOf(spotInfo.get("diff")));
+        host = Float.parseFloat(String.valueOf(spotInfo.get("host")));
         TextView circle = (TextView) findViewById(R.id.spotTypeCircle2);
         circle.setBackgroundColor(color);
     }

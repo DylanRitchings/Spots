@@ -32,8 +32,10 @@
     </style>
 
     <style name="SmallCrossRating"
-           parent="android:style/Widget.Material.RatingBar.Small">
-        <item name="android:progressDrawable">@drawable/cross_rating_bar</item>
+           parent="@android:style/Widget.RatingBar">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">60dp</item>
+        <item name="android:progressDrawable">@drawable/cross_rating_bar_small</item>
     </style>
     <style name="BoneRating" parent="@android:style/Widget.RatingBar">
         <item name="android:minHeight">0dp</item>
@@ -43,8 +45,10 @@
     </style>
 
     <style name="SmallBoneRating"
-           parent="android:style/Widget.Material.RatingBar.Small">
-        <item name="android:progressDrawable">@drawable/bone_rating_bar</item>
+           parent="@android:style/Widget.RatingBar">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">60dp</item>
+        <item name="android:progressDrawable">@drawable/bone_rating_bar_small</item>
     </style>
     <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">roboto</item>

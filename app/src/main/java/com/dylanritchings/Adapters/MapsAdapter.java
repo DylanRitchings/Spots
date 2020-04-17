@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import androidx.cardview.widget.CardView;
 import com.bumptech.glide.Glide;
 import com.dylanritchings.Activities.MapsActivity;
@@ -35,6 +36,7 @@ public class MapsAdapter {
     final ArrayList<Spot> spots = new ArrayList<>();
 
     private HashMap<Integer, Spot> spotMap = new HashMap<Integer, Spot>();
+
 
 
     public MapsAdapter(Context mContext, GoogleMap mMap, CardView infoCard) {
@@ -151,19 +153,34 @@ public class MapsAdapter {
                                 hostRatings.add(rating);
                             }
                         }
-                       float diffRating = calculateAverage(diffRatings);
+                        float diffRating = calculateAverage(diffRatings);
                         float hostRating = calculateAverage(hostRatings);
                         ArrayList<Float> allRatings = new ArrayList<>();
                         allRatings.add(diffRating);
                         allRatings.add(hostRating);
                         float overallRating = 5 - calculateAverage(allRatings);
-                        for (Spot spot : spots){
-                            if (spot.getSpotId() == Integer.parseInt(spotId)){
-                                spot.setDiff(diffRating);
-                                spot.setHost(hostRating);
-                                spot.setOverall(overallRating);
-                            }
-                        }
+                        RatingBar diffRatingBar = ((Activity) mContext).findViewById(R.id.smallDifficultyRating);
+                        RatingBar hostRatingBar = ((Activity) mContext).findViewById(R.id.smallHostilityRating);
+                        diffRatingBar.setRating(diffRating);
+                        hostRatingBar.setRating(hostRating);
+//                        Spot spot = spotMap.get(Integer.parseInt(spotId));
+//                        assert spot != null;
+//                        spot.setDiff(diffRating);
+//                        spot.setHost(hostRating);
+//                        spot.setOverall(overallRating);
+//                        fixUpdatedRatingSpot(spot, Integer.parseInt(spotId));
+                        //spotMap.put(Integer.valueOf(spotId),spot);
+
+
+//                        for (Spot spot : spots){
+//                            if (spot.getSpotId() == Integer.parseInt(spotId)){
+//                                spot.setDiff(diffRating);
+//                                spot.setHost(hostRating);
+//                                spot.setOverall(overallRating);
+//                                spotMap.put(Integer.valueOf(spotId),spot);
+//                                Log.d("TEST4", String.valueOf(spotMap.get(spotId)));
+//                            }
+//                        }
 
 
 
@@ -174,6 +191,10 @@ public class MapsAdapter {
             }
 
         });
+    }
+
+    private void fixUpdatedRatingSpot(Spot spot, int spotId){
+        spotMap.put(spotId,spot);
     }
 
     private void placeSpotMarkers(ArrayList<Spot> spots) {
@@ -272,32 +293,42 @@ public class MapsAdapter {
             infoList = spot.getSpotMap();
             if (infoList.get("diff") == null || infoList.get("host") == null || infoList.get("overall") == null){
                 getRatingsArray(String.valueOf(spotId));
-                getRating(spotId);
+                Spot spot2 = spotMap.get(spotId);
+//                RatingBar diffRatingBar = ((Activity) mContext).findViewById(R.id.smallDifficultyRating);
+//                RatingBar hostRatingBar = ((Activity) mContext).findViewById(R.id.smallHostilityRating);
+//                spot2.setDiff(diffRatingBar.getRating());
+//                spot2.setHost(hostRatingBar.getRating());
+                infoList = spot2.getSpotMap();
             }
 
 
 
             MapsActivity.uploadSpotBtn.setVisibility(View.GONE);
         }
+//        while(true) {
+//            if (infoList.get("diff") != null) {
+//                break;
+//            }
+//        }
+
         return infoList;
     }
-    public static HashMap<String, Integer> getHashMapMarker(){
-        return hashMapMarker;
-    }
-
-    private void getRating(int spotId){
-        getRatingsArray(String.valueOf(spotId));
-    }
-
-    private float calculateAverage(ArrayList<Float> ratings){
-        int numRatings = ratings.size();
-        int total = 0;
-
-        for (Float rating : ratings){
-            total += rating;
+        public static HashMap<String, Integer> getHashMapMarker(){
+            return hashMapMarker;
         }
-        float average = ((float) total)/((float) numRatings);
-        return average;
-    }
-}
 
+        private void getRating(int spotId){
+            getRatingsArray(String.valueOf(spotId));
+        }
+
+        private float calculateAverage( ArrayList<Float> ratings){
+            int numRatings = ratings.size();
+            int total = 0;
+
+            for (Float rating : ratings){
+                total += rating;
+            }
+            float average = ((float) total)/((float) numRatings);
+            return average;
+        }
+    }

@@ -211,11 +211,10 @@
             <RatingBar
                     android:id="@+id/smallDifficultyRating"
                     style="@style/SmallBoneRating"
-                    android:layout_width="250dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="700dp"
+                    android:layout_width="174dp"
+                     android:layout_height="40dp"
+                     android:layout_marginTop="8dp"
                     android:numStars="5"
-                    android:translationY="-15dp"
                     card_view:layout_constraintEnd_toEndOf="parent"
                     card_view:layout_constraintHorizontal_bias="0.04"
                     card_view:layout_constraintStart_toStartOf="parent"
@@ -224,13 +223,14 @@
             <RatingBar
                     android:id="@+id/smallHostilityRating"
                     style="@style/SmallCrossRating"
-                    android:layout_width="250dp"
-                    android:layout_height="58dp"
-                    android:layout_marginEnd="700dp"
+                    android:layout_width="174dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
 
-                    android:layout_marginBottom="50dp"
+
                     android:numStars="5"
-                    android:translationY="-23dp"
+                    android:translationX="15dp"
+
                     card_view:layout_constraintEnd_toEndOf="parent"
                     card_view:layout_constraintHorizontal_bias="0.04"
                     card_view:layout_constraintStart_toEndOf="@+id/smallDifficultyRating"

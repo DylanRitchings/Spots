@@ -356,6 +356,10 @@ public class MapsActivity extends FragmentActivity implements
 
     public void openSpotActivity(HashMap<String, Object> spotInfo){
         Intent intent = new Intent(MapsActivity.this, SpotActivity.class);
+        RatingBar diffRatingBar = findViewById(R.id.smallDifficultyRating);
+        RatingBar hostRatingBar = findViewById(R.id.smallHostilityRating);
+        spotInfo.put("diff",diffRatingBar.getRating());
+        spotInfo.put("host",hostRatingBar.getRating());
         intent.putExtra("SPOT_INFO", spotInfo);
         startActivity(intent);
     }
@@ -468,18 +472,28 @@ public class MapsActivity extends FragmentActivity implements
         if(hashMapMarker.containsKey(markerId)) {
 
             getSpotInfo(marker);
+
             fillSpotInfoText();
             setImages(spotInfo);
             //RatingAdapter ratingAdapter = RatingAdapter.getInstance();
 
             String spotId = spotInfo.get("spotId").toString();
+            mapsAdapter.getRatingsArray(spotId);
 
-            //RatingBar diffRatingBar = findViewById(R.id.difficultyRating);
-            //RatingBar hostRatingBar = findViewById(R.id.hostilityRating);
             //RatingBar overallRatingBar = findViewByID(R.id.overallRating)
-            //diffRatingBar.setRating((Float) spotInfo.get("diffRating"));
-            //hostRatingBar.setRating((Float) spotInfo.get("hostRating"));
-           // mapsAdapter.getRatingsArray(spotId);
+//            int count = 0;
+//            int maxTries = 5;
+//            float diffRating = 0;
+//            float hostRating = 0;
+//            while(true) {
+//                try {
+//                    break;
+//                } catch (Exception e){
+//                    if (++count == maxTries) throw e;
+//                }
+//            }
+//            diffRatingBar.setRating(diffRating);
+//            hostRatingBar.setRating(hostRating);
 
         }
 
