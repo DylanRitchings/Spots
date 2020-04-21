@@ -1,4 +1,4 @@
-package com.dylanritchings.Fragments;
+package com.dylanritchings.Adapters;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

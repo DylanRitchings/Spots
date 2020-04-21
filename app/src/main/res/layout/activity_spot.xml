@@ -138,101 +138,38 @@ tools:layout_conversion_absoluteHeight="0dp"
 tools:layout_conversion_absoluteWidth="0dp"
 tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
 
-<RatingBar
-android:id="@+id/starRating"
-style="@style/StarRating"
-android:layout_width="250dp"
-android:layout_height="58dp"
-android:layout_marginEnd="700dp"
+<!--<RatingBar-->
+<!--android:id="@+id/starRating"-->
+<!--style="@style/StarRating"-->
+<!--android:layout_width="250dp"-->
+<!--android:layout_height="58dp"-->
+<!--android:layout_marginEnd="700dp"-->
 
-android:numStars="5"
+<!--android:numStars="5"-->
 
-android:scaleX=".7"
-android:scaleY=".7"
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-app:layout_constraintHorizontal_bias="0.066"
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintTop_toBottomOf="@+id/photoGallery"
-app:layout_constraintVertical_bias="0.0" />
-
-    <!--<HorizontalScrollView-->
-    <!--android:id="@+id/photoGallery"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_marginTop="150dp"-->
-    <!--android:layout_marginBottom="300dp"-->
-    <!--app:layout_constraintBottom_toBottomOf="@id/starRating"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/driveTimeTextView2"-->
-    <!--app:layout_constraintVertical_bias="0.19">-->
+<!--android:scaleX=".7"-->
+<!--android:scaleY=".7"-->
+<!--app:layout_constraintBottom_toBottomOf="parent"-->
+<!--app:layout_constraintEnd_toEndOf="parent"-->
+<!--app:layout_constraintHorizontal_bias="0.066"-->
+<!--app:layout_constraintStart_toStartOf="parent"-->
+<!--app:layout_constraintTop_toBottomOf="@+id/photoGallery"-->
+<!--app:layout_constraintVertical_bias="0.0" />-->
 
 
-    <!--<LinearLayout-->
-    <!--android:id="@+id/linearLayout"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="horizontal"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/driveTimeTextView2">-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/spotImage3"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:contentDescription="TODO"-->
-    <!--android:cropToPadding="true"-->
-    <!--android:scaleType="centerCrop"-->
-    <!--android:src="@drawable/skatepark"-->
-    <!--android:fillViewport="true"-->
-    <!--app:layout_constraintHeight_percent="0.5"-->
-    <!--app:layout_constraintWidth_percent="0.5"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="0.0"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent"-->
-    <!--tools:layout_conversion_absoluteHeight="0dp"-->
-    <!--tools:layout_conversion_absoluteWidth="0dp"-->
-    <!--tools:layout_editor_absoluteX="0dp"-->
-    <!--tools:layout_editor_absoluteY="0dp"-->
-    <!--tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/spotImage4"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:contentDescription="TODO"-->
-    <!--android:cropToPadding="true"-->
-    <!--android:fillViewport="true"-->
-    <!--android:scaleType="centerCrop"-->
-    <!--android:src="@drawable/skatepark2"-->
-    <!--app:layout_constraintHeight_percent="0.5"-->
-    <!--app:layout_constraintWidth_percent="0.5"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="1.0"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent"-->
-    <!--tools:layout_conversion_absoluteHeight="0dp"-->
-    <!--tools:layout_conversion_absoluteWidth="0dp"-->
-    <!--tools:layout_editor_absoluteX="0dp"-->
-    <!--tools:layout_editor_absoluteY="0dp"-->
-    <!--tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />-->
-    <!--</LinearLayout>-->
-    <!--</HorizontalScrollView>-->
-<RatingBar
-android:id="@+id/difficultyRating"
-style="@style/BoneRating"
-android:layout_width="250dp"
-android:layout_height="0dp"
-android:layout_marginEnd="700dp"
-android:numStars="5"
-android:scaleX=".7"
-android:scaleY=".7"
-android:translationY="-15dp"
-app:layout_constraintEnd_toEndOf="parent"
-app:layout_constraintHorizontal_bias="0.066"
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintTop_toBottomOf="@+id/starRating" />
+        <RatingBar
+                android:id="@+id/difficultyRating"
+                style="@style/BoneRating"
+                android:layout_width="250dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="700dp"
+                android:numStars="5"
+                android:scaleX=".7"
+                android:scaleY=".7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.066"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/photoGallery"/>
 
 <RatingBar
 android:id="@+id/hostilityRating"
@@ -246,7 +183,6 @@ android:numStars="5"
 
 android:scaleX=".7"
 android:scaleY=".7"
-android:translationY="-23dp"
 app:layout_constraintBottom_toBottomOf="parent"
 app:layout_constraintEnd_toEndOf="parent"
 app:layout_constraintHorizontal_bias="0.066"
@@ -340,48 +276,48 @@ app:layout_constraintStart_toStartOf="@+id/driveImageView2"
 app:layout_constraintTop_toBottomOf="@+id/addressTextView"
 app:layout_constraintVertical_bias="0.0" />
 
-<TextView
-android:id="@+id/overallRatingTextView"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Overall rating"
-android:textColor="#4B000000"
-android:translationX="-20dp"
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-app:layout_constraintHorizontal_bias="0.0"
-app:layout_constraintStart_toEndOf="@+id/starRating"
-app:layout_constraintTop_toTopOf="@+id/starRating"
-app:layout_constraintVertical_bias="0.050000012" />
+<!--<TextView-->
+<!--android:id="@+id/overallRatingTextView"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:text="Overall rating"-->
+<!--android:textColor="#4B000000"-->
+<!--android:translationX="-20dp"-->
+<!--app:layout_constraintBottom_toBottomOf="parent"-->
+<!--app:layout_constraintEnd_toEndOf="parent"-->
+<!--app:layout_constraintHorizontal_bias="0.0"-->
+<!--app:layout_constraintStart_toEndOf="@+id/starRating"-->
+<!--app:layout_constraintTop_toTopOf="@+id/starRating"-->
+<!--app:layout_constraintVertical_bias="0.050000012" />-->
 
-<TextView
-android:id="@+id/difficultyRatingTextView"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Difficulty rating"
-android:textColor="#4B000000"
-android:translationX="-20dp"
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-app:layout_constraintHorizontal_bias="0.0"
-app:layout_constraintStart_toEndOf="@+id/difficultyRating"
-app:layout_constraintTop_toTopOf="@+id/difficultyRating"
-app:layout_constraintVertical_bias="0.0" />
+        <TextView
+                android:id="@+id/difficultyRatingTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Difficulty rating"
+                android:textColor="#4B000000"
+                android:translationX="-20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/difficultyRating"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/difficultyRating"
+                app:layout_constraintTop_toTopOf="@+id/difficultyRating"
+        />
 
-<TextView
-android:id="@+id/hostilityRatingTextView"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Hostility rating"
-android:textColor="#4B000000"
-android:translationX="-20dp"
-android:translationY="-10dp"
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-app:layout_constraintHorizontal_bias="0.0"
-app:layout_constraintStart_toEndOf="@+id/hostilityRating"
-app:layout_constraintTop_toTopOf="@+id/hostilityRating"
-app:layout_constraintVertical_bias="0.0" />
+        <TextView
+                android:id="@+id/hostilityRatingTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hostility rating"
+                android:textColor="#4B000000"
+                android:translationX="-20dp"
+                android:translationY="-10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/hostilityRating"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/hostilityRating"
+                app:layout_constraintTop_toTopOf="@+id/hostilityRating"
+        />
 
 <androidx.constraintlayout.widget.Guideline
 android:id="@+id/guideline"

@@ -1,4 +1,4 @@
-package com.dylanritchings.Fragments;
+package com.dylanritchings.Adapters;
 
 import android.Manifest;
 import android.content.Context;
