@@ -3,7 +3,6 @@ package com.dylanritchings.Activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -67,12 +66,12 @@ public class SpotActivity extends Activity {
             e.printStackTrace();
         }
         FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
-        userId = currentFirebaseUser.getUid();
+        userId = Objects.requireNonNull(currentFirebaseUser).getUid();
         insertData = new DBInsert(this.getApplication());
 
         ButtonListeners btnListeners = new ButtonListeners();
         final TextView closeSpotInfoTextView = findViewById(R.id.closeSpotInfoTextView);
-        closeSpotInfoTextView.setOnClickListener(btnListeners.new CloseSpotInfoOnClicklistener());
+        closeSpotInfoTextView.setOnClickListener(new ButtonListeners.CloseSpotInfoOnClicklistener());
         uploadMediaListener();
         galleryFiller();
         ratingFiller();
@@ -86,7 +85,7 @@ public class SpotActivity extends Activity {
         hostRatingBar.setRating(host);
     }
 
-    protected void ratingListeners(){
+    private void ratingListeners(){
         RatingBar diffRating = (RatingBar) findViewById(R.id.difficultyRating);
 
         diffRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -105,23 +104,23 @@ public class SpotActivity extends Activity {
             }
         });
     }
-    protected void getData() throws IOException {
+    private void getData() throws IOException {
 
-        spotId = Integer.parseInt( spotInfo.get("spotId").toString());
-        type = spotInfo.get("type").toString();
+        spotId = Integer.parseInt( Objects.requireNonNull(spotInfo.get("spotId")).toString());
+        type = Objects.requireNonNull(spotInfo.get("type")).toString();
         TextView spotTypeTextView = findViewById(R.id.spotTypeTextView2);
         spotTypeTextView.setText(type);
 
 
-        lat = Float.valueOf(spotInfo.get("lat").toString());
-        lng = Float.valueOf(spotInfo.get("lng").toString());
+        lat = Float.valueOf(Objects.requireNonNull(spotInfo.get("lat")).toString());
+        lng = Float.valueOf(Objects.requireNonNull(spotInfo.get("lng")).toString());
         String address = getAddress();
         TextView addressTextView = findViewById(R.id.addressTextView);
         addressTextView.setText(address);
 
-        galleryId = spotInfo.get("galleryId").toString();
+        galleryId = Objects.requireNonNull(spotInfo.get("galleryId")).toString();
         ColorCheck colorCheck = new ColorCheck();
-        int color = colorCheck.getSpotColor(spotInfo.get("type").toString());
+        int color = colorCheck.getSpotColor(Objects.requireNonNull(spotInfo.get("type")).toString());
 
         diff = Float.parseFloat(String.valueOf(spotInfo.get("diff")));
         host = Float.parseFloat(String.valueOf(spotInfo.get("host")));
@@ -135,8 +134,7 @@ public class SpotActivity extends Activity {
         geocoder = new Geocoder(this, Locale.getDefault());
         addresses = geocoder.getFromLocation(lat, lng, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
-        String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-        return address;
+        return addresses.get(0).getAddressLine(0);
     }
 
 
@@ -255,24 +253,26 @@ public class SpotActivity extends Activity {
 //        return bm;
 //    }
 
-    public int calculateInSampleSize(
-
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-            if (width > height) {
-                inSampleSize = Math.round((float)height / (float)reqHeight);
-            } else {
-                inSampleSize = Math.round((float)width / (float)reqWidth);
-            }
-        }
-
-        return inSampleSize;
-    }
+// --Commented out by Inspection START (4/23/2020 4:24 PM):
+//    public int calculateInSampleSize(
+//
+//            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+//        // Raw height and width of image
+//        final int height = options.outHeight;
+//        final int width = options.outWidth;
+//        int inSampleSize = 1;
+//
+//        if (height > reqHeight || width > reqWidth) {
+//            if (width > height) {
+//                inSampleSize = Math.round((float)height / (float)reqHeight);
+//            } else {
+//                inSampleSize = Math.round((float)width / (float)reqWidth);
+//            }
+//        }
+//
+//        return inSampleSize;
+//    }
+// --Commented out by Inspection STOP (4/23/2020 4:24 PM)
 
 //    public void setImage(Uri uri, Integer num){
 //        ImageView spotImage;

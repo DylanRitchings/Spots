@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    private AuthPreferences authPreferences;
+    // --Commented out by Inspection (4/23/2020 4:24 PM):private AuthPreferences authPreferences;
     private static final String TAG = "LoginActivity";
     public static final String FIREBASE_USER = "com.dylanritchings.Spots";
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +100,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        String[] emailPassword = new String[]{email, password};
-        return emailPassword;
+        return new String[]{email, password};
     }
 
     private void createAccount(final String email, final String password){

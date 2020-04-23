@@ -57,7 +57,7 @@
 
     <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button">
         <item name="android:fontFamily">roboto</item>
-        <item name="android:textStyle"></item>
+        <item name="android:textStyle"/>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">14sp</item>
 

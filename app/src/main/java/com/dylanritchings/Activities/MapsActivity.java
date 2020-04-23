@@ -17,13 +17,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import com.dylanritchings.Adapters.MapsAdapter;
-import com.dylanritchings.IOTools.DownloadTask;
 import com.dylanritchings.Models.Spot;
 import com.dylanritchings.Spots;
 import com.dylanritchings.Utils.ColorCheck;
 import com.dylanritchings.spots.R;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -38,6 +35,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 public class MapsActivity extends FragmentActivity implements
@@ -48,16 +46,17 @@ public class MapsActivity extends FragmentActivity implements
 
     //Map variables
     private GoogleMap mMap;
-    //private GoogleApiClient googleApiClient;
-    private GoogleSignInClient signInClient;
-    private LocationListener locationListener;
+// --Commented out by Inspection START (4/23/2020 4:24 PM):
+//    //private GoogleApiClient googleApiClient;
+// --Commented out by Inspection START (4/23/2020 4:24 PM):
+////    private GoogleSignInClient signInClient;
+//// --Commented out by Inspection STOP (4/23/2020 4:24 PM)
+// --Commented out by Inspection STOP (4/23/2020 4:24 PM)
+    // --Commented out by Inspection (4/23/2020 4:24 PM):private LocationListener locationListener;
     private static final String TAG = "MapsActivity";
-    //MapsAdapter mapsAdapter;
-    private LocationRequest locationRequest;
-    private Marker currentUserLocationMarker;
-    private static final int Request_User_Location_Code = 99;
-    private static HashMap<Integer, Marker> singleHashMapMarker = new HashMap<>();
-    //public static HashMap<String, Integer> hashMapMarker = new HashMap<>();
+    // --Commented out by Inspection (4/23/2020 4:24 PM):private Marker currentUserLocationMarker;
+    private int Request_User_Location_Code = 99;
+    //public static HashMap<S// --Commented out by Inspection (4/23/2020 4:24 PM):tring, Integer> hashMapMarker = new HashMap<>();
     FusedLocationProviderClient fusedLocationClient;
     public static Activity MapsActivity;
     public ArrayList<Spot> spots;
@@ -66,10 +65,8 @@ public class MapsActivity extends FragmentActivity implements
     private HashMap<String,Object> spotInfo;
     private Location currentLocation;
     TextView tvDistanceDuration;
-    private boolean mapReady;
     //TextView spotTypeTextView = (TextView) findViewById(R.id.spotTypeTextView);
     MapsAdapter mapsAdapter;
-    private Object[] dataTransfer;
 
     /**
      * TODO: Current issues with whole application:
@@ -96,7 +93,7 @@ public class MapsActivity extends FragmentActivity implements
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
-        mapFragment.getMapAsync(this);
+        Objects.requireNonNull(mapFragment).getMapAsync(this);
 
 
 
@@ -122,23 +119,13 @@ public class MapsActivity extends FragmentActivity implements
     }
 
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     /**
      *
      * @param googleMap
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mapReady = true;
+        boolean mapReady = true;
         mMap = googleMap;
         mapsAdapter = new MapsAdapter(this,mMap,infoCard);
         setListeners();
@@ -172,7 +159,8 @@ public class MapsActivity extends FragmentActivity implements
     // googleApiClient.connect();
 //    }
     public void getLocation() {
-        locationRequest = new LocationRequest();
+        //MapsAdapter mapsAdapter;
+        LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(1100);
         locationRequest.setFastestInterval(1100);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
@@ -261,18 +249,15 @@ public class MapsActivity extends FragmentActivity implements
 
     /**
      *
-     * @return boolean
      */
-    public boolean checkUserLocationPermission() {
+    public void checkUserLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Request_User_Location_Code);
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Request_User_Location_Code);
             }
-            return false;
         } else {
-            return true;
         }
     }
 
@@ -284,25 +269,16 @@ public class MapsActivity extends FragmentActivity implements
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case Request_User_Location_Code:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        mMap.setMyLocationEnabled(true);
-                    }
-                } else {
-                    Toast.makeText(this, "Permission Denied...", Toast.LENGTH_SHORT).show();
+        if (requestCode == Request_User_Location_Code) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    mMap.setMyLocationEnabled(true);
                 }
-                return;
+            } else {
+                Toast.makeText(this, "Permission Denied...", Toast.LENGTH_SHORT).show();
+            }
+            return;
         }
-    }
-
-    /**
-     *
-     * @param connectionResult
-     */
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
     /**
@@ -333,16 +309,13 @@ public class MapsActivity extends FragmentActivity implements
      *
      * TODO: Maybe move this to another class
      */
-    public class uploadSpotOnClickListener  implements View.OnClickListener {
-        public void uploadSpotOnClickListener() {
-
-        }
+    public static class uploadSpotOnClickListener  implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
-            singleHashMapMarker = MapsAdapter.singleHashMapMarker;
+            HashMap<Integer, Marker> singleHashMapMarker = MapsAdapter.singleHashMapMarker;
             Marker marker = singleHashMapMarker.get(-1);
-            LatLng latLng = marker.getPosition();
+            LatLng latLng = Objects.requireNonNull(marker).getPosition();
             Context context = Spots.getContext();
             Intent uploadSpotIntent = new Intent(context, UploadSpotActivity.class);
             uploadSpotIntent.putExtra("LAT_LNG", latLng);
@@ -387,14 +360,14 @@ public class MapsActivity extends FragmentActivity implements
         ImageView spotImage2 = (ImageView) findViewById(R.id.spotImage2);
         spotImage1.setImageDrawable(getResources().getDrawable(R.drawable.blank));
         spotImage2.setImageDrawable(getResources().getDrawable(R.drawable.blank));
-        mapsAdapter.getImages(spotInfo.get("galleryId").toString());
+        mapsAdapter.getImages(Objects.requireNonNull(spotInfo.get("galleryId")).toString());
     }
     public void fillSpotInfoText(){
         TextView spotTypeTextView = (TextView) findViewById(R.id.spotTypeTextView);
-        String spotId = spotInfo.get("spotId").toString();
-        spotTypeTextView.setText(spotInfo.get("type").toString());
+        String spotId = Objects.requireNonNull(spotInfo.get("spotId")).toString();
+        spotTypeTextView.setText(Objects.requireNonNull(spotInfo.get("type")).toString());
         ColorCheck colorCheck = new ColorCheck();
-        int color = colorCheck.getSpotColor(spotInfo.get("type").toString());
+        int color = colorCheck.getSpotColor(Objects.requireNonNull(spotInfo.get("type")).toString());
 //        Drawable unwrappedDrawable = AppCompatResources.getDrawable(Spots.getContext(), R.drawable.circle).mutate();
 //        Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
 //        DrawableCompat.setTint(wrappedDrawable, Color.alpha(color));
@@ -410,26 +383,27 @@ public class MapsActivity extends FragmentActivity implements
         //mapsAdapter.getRatings(spotId);
 
 
-        //TODO: Finish walk and drive duration
 //        Float lat = (Float) Float.parseFloat(spotInfo.get(1).toString());
 //        Float lng = (Float) Float.parseFloat(spotInfo.get(2).toString());
 //        getShortestTime(lat,lng);
+// --Commented out by Inspection START (4/23/2020 4:24 PM):
         infoCard.setVisibility(View.VISIBLE);
-    }
-
-    private void getShortestTime(Float lat, Float lng){
-        LatLng origin = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-        LatLng dest = new LatLng(lat, lng);
-
-        dataTransfer = new Object[2];
-        // Getting URL to the Google Directions API
-        String url = getDirectionsUrl(origin, dest);
-        dataTransfer[0] = mMap;
-        dataTransfer[1] = url;
-        DownloadTask downloadTask = new DownloadTask();
-
-        // Start downloading json data from Google Directions API
-        downloadTask.execute(dataTransfer);
+//    }
+//
+//    private void getShortestTime(Float lat, Float lng){
+//        LatLng origin = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
+//        LatLng dest = new LatLng(lat, lng);
+//
+//        Object[] dataTransfer = new Object[2];
+//        // Getting URL to the Google Directions API
+//        String url = getDirectionsUrl(origin, dest);
+//        dataTransfer[0] = mMap;
+//        dataTransfer[1] = url;
+//        DownloadTask downloadTask = new DownloadTask();
+//
+//        // Start downloading json data from Google Directions API
+// --Commented out by Inspection STOP (4/23/2020 4:24 PM)
+//        downloadTask.execute(dataTransfer);
     }
 
     private String getDirectionsUrl(LatLng origin,LatLng dest){
@@ -450,13 +424,11 @@ public class MapsActivity extends FragmentActivity implements
         String output = "json";
 
         // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
 
-        return url;
+        return "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
     }
     public void setMarkerListener() {
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            HashMap<String, Integer> hashMapMarker = MapsAdapter.getHashMapMarker();
             @Override
             public boolean onMarkerClick(Marker marker) {
                 onSpotInfoOpen(marker);
@@ -477,7 +449,7 @@ public class MapsActivity extends FragmentActivity implements
             setImages(spotInfo);
             //RatingAdapter ratingAdapter = RatingAdapter.getInstance();
 
-            String spotId = spotInfo.get("spotId").toString();
+            String spotId = Objects.requireNonNull(spotInfo.get("spotId")).toString();
             mapsAdapter.getRatingsArray(spotId);
 
             //RatingBar overallRatingBar = findViewByID(R.id.overallRating)

@@ -19,7 +19,7 @@ public class DBInsert {
 	public static final String UPLOADDIFFICULTY_URL = DB_URL + "set_diffrating.php";
 	public static final String UPLOADFILE_URL = DB_URL + "upload_file.php";
 
-	private Context myContext;
+	private final Context myContext;
 	public DBInsert(Context context)
 	{
 		myContext = context;

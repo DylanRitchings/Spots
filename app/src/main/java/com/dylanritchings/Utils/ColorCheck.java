@@ -4,7 +4,7 @@ import android.graphics.Color;
 
 public class ColorCheck {
     public int getSpotColor(String type){
-        int color = 0;
+        int color;
         switch (type) {
             case "Skatepark":
                 color = Color.rgb(0, 127, 255);

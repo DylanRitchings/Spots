@@ -11,12 +11,8 @@ import com.dylanritchings.Utils.AuthPreferences;
 import com.dylanritchings.spots.R;
 
 public class CheckLoginActivity extends AppCompatActivity {
-    private AuthPreferences authPreferences;
-    private AccountManager accountManager;
+    // --Commented out by Inspection (4/23/2020 4:24 PM):private AccountManager accountManager;
     @Override
-/**
- *
- */
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         setTheme(R.style.AppTheme);
@@ -24,7 +20,7 @@ public class CheckLoginActivity extends AppCompatActivity {
         DBSelect.getInstance(this);
         Intent activityIntent;
         AccountManager am = AccountManager.get(this); // "this" references the current Context
-        authPreferences = new AuthPreferences(this);
+        AuthPreferences authPreferences = new AuthPreferences(this);
 
 
         // go straight to main if a token is stored

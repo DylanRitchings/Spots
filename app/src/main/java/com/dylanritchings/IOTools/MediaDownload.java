@@ -14,8 +14,8 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 public class MediaDownload {
-    static StorageReference mStorageRef;
-    static Context context;
+    // --Commented out by Inspection (4/23/2020 4:24 PM):static StorageRe// --Commented out by Inspection (4/23/2020 4:24 PM):ference mStorageRef;
+    // --Commented out by Inspection (4/23/2020 4:24// --Commented out by Inspection (4/23/2020 4:24 PM): PM):static Context context;
     static Uri uri;
     static String galleryId;
 

@@ -20,11 +20,11 @@ import android.widget.SpinnerAdapter;
 public class ModifiedSpinner implements SpinnerAdapter, ListAdapter {
 	
 	protected static final int EXTRA = 1;
-	protected SpinnerAdapter adapter;
-	protected Context context;
-	protected int nothingSelectedLayout;
-	protected int nothingSelectedDropdownLayout;
-	protected LayoutInflater layoutInflater;
+	protected final SpinnerAdapter adapter;
+	protected final Context context;
+	protected final int nothingSelectedLayout;
+	protected final int nothingSelectedDropdownLayout;
+	protected final LayoutInflater layoutInflater;
 	
 	/**
 	 * Use this constructor to have NO 'Select One...' item, instead use

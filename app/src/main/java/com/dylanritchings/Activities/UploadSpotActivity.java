@@ -26,14 +26,19 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.UUID;
 
 
 public class UploadSpotActivity extends FragmentActivity{
-    private static int RESULT_LOAD_IMG = 1;
+    // --Commented out by Inspection (4/23/2020 4:24 PM):private static final int RESULT_LOAD_IMG = 1;
+// --Commented out by Inspection START (4/23/2020 4:24 PM):
     Bitmap img;
-    StorageReference mStorageRef;
+//// --Commented out by Inspection START (4/23/2020 4:24 PM):
+// --Commented out by Inspection STOP (4/23/2020 4:24 PM)
+   StorageReference mStorageRef;
     public Uri imageUri;
+// --Commented out by Inspection STOP (4/23/2020 4:24 PM)
     String galleryId;
     GoogleMap mMap;
     String fileId;
@@ -91,7 +96,7 @@ public class UploadSpotActivity extends FragmentActivity{
     private void SetLatLng(){
         LatLng latLng = getIntent().getParcelableExtra("LAT_LNG");
         EditText latTxt = (EditText) findViewById(R.id.latTxt);
-        latTxt.setText(String.valueOf(latLng.latitude));
+        latTxt.setText(String.valueOf(Objects.requireNonNull(latLng).latitude));
         EditText lngTxt = (EditText) findViewById(R.id.lngTxt);
         lngTxt.setText(String.valueOf(latLng.longitude));
     }
@@ -154,7 +159,7 @@ public class UploadSpotActivity extends FragmentActivity{
         Spinner typeTxt = (Spinner) findViewById(R.id.spotTypeSpinner);
         String type = typeTxt.getSelectedItem().toString();
         FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
-        String userId = currentFirebaseUser.getUid();
+        String userId = Objects.requireNonNull(currentFirebaseUser).getUid();
         TextView imageTextView = (TextView) findViewById(R.id.imageTextView);
         TextView errorTxt = (TextView) findViewById(R.id.errorTxt);
         if (type == "Spot type"){
@@ -166,7 +171,7 @@ public class UploadSpotActivity extends FragmentActivity{
         else{
             DBInsert insertData = new DBInsert(this.getApplication());
             LatLng latLng = getIntent().getParcelableExtra("LAT_LNG");
-            String lat = String.valueOf(latLng.latitude);
+            String lat = String.valueOf(Objects.requireNonNull(latLng).latitude);
             String lng = String.valueOf(latLng.longitude);
             TextView difficultyTxt = (TextView) findViewById(R.id.difficultyTxt);
 
@@ -220,7 +225,7 @@ public class UploadSpotActivity extends FragmentActivity{
                 img = BitmapFactory.decodeStream(imageStream);
                 //Get the file name
                 Cursor returnCursor = getContentResolver().query(imageUri, null, null, null, null);
-                int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                int nameIndex = Objects.requireNonNull(returnCursor).getColumnIndex(OpenableColumns.DISPLAY_NAME);
                 returnCursor.moveToFirst();
                 TextView fileNameTextView = (TextView) this.findViewById(R.id.fileNameTextView);
                 fileNameTextView.setText(returnCursor.getString(nameIndex));
@@ -234,10 +239,7 @@ public class UploadSpotActivity extends FragmentActivity{
             Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
     }
-    
-    private void getData(){
-	    //name = (EditText)findViewById(R.id.editText2);
-    }
+
     private void FillSpinner(){
         String[] spinnerArray = new String[]{
                 "Spot type",

@@ -15,7 +15,7 @@ public class DBSelect {
     public static final String GETSPOTS_URL = DB_URL + "get_spots.php";
     public static final String GETRATINGS_URL = DB_URL + "get_ratings.php";
     public static final String GETIMAGEIDS_URL = DB_URL + "get_imageIds.php";
-    private Context myContext;
+    private final Context myContext;
     public static RequestQueue requestQueue;
     private static DBSelect instance = null;
     private DBSelect(Context context)
@@ -24,11 +24,10 @@ public class DBSelect {
         myContext = context;
     }
 
-    public static synchronized DBSelect getInstance(Context context)
+    public static synchronized void getInstance(Context context)
     {
         if (null == instance)
             instance = new DBSelect(context);
-        return instance;
     }
 
     //this is so you don't need to pass context each time
@@ -65,16 +64,15 @@ public class DBSelect {
 
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
 
                 // Creating Map String Params.
-                Map<String, String> params = new HashMap<String, String>();
 
                 // Adding All values to Params.
 //                Log.d("TEST",spotId);
 //                params.put("spotId", spotId);
 
-                return params;
+                return new HashMap<String, String>();
             }
         };
 

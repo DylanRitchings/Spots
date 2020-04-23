@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Spot {
-    private int spotId;
-    private String userId;
-    private String desc;
-    private Float lat;
-    private Float lng;
-    private String type;
+    private final int spotId;
+    private final String userId;
+    private final String desc;
+    private final Float lat;
+    private final Float lng;
+    private final String type;
     private Float diff;
     private Float host;
     private Float overall;
-    private String galleryId;
+    private final String galleryId;
     private ArrayList imageRefs;
     private ArrayList videoRefs;
 
@@ -52,14 +52,14 @@ public class Spot {
         return host;
     }
 
+
     public void setDiff(Float diff){
         this.diff = diff;
     }
+
+
     public void setHost(Float host){
         this.host = host;
-    }
-    public void setOverall(Float overall){
-        this.overall= overall;
     }
 
     public String getGalleryId(){

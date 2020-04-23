@@ -26,21 +26,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class MapsAdapter {
-    public static HashMap<Integer, Marker> singleHashMapMarker = new HashMap<>();
-    public static HashMap<String, Integer> hashMapMarker = new HashMap<>();
+    public static final HashMap<Integer, Marker> singleHashMapMarker = new HashMap<>();
+    public static final HashMap<String, Integer> hashMapMarker = new HashMap<>();
     static Context mContext;
-    GoogleMap mMap;
-    CardView infoCard;
+    final GoogleMap mMap;
+    final CardView infoCard;
     final ArrayList<Spot> spots = new ArrayList<>();
 
-    private HashMap<Integer, Spot> spotMap = new HashMap<Integer, Spot>();
+    private final HashMap<Integer, Spot> spotMap = new HashMap<Integer, Spot>();
 
 
 
     public MapsAdapter(Context mContext, GoogleMap mMap, CardView infoCard) {
-        this.mContext = mContext;
+        MapsAdapter.mContext = mContext;
         this.mMap = mMap;
         this.infoCard = infoCard;
     }
@@ -80,9 +81,8 @@ public class MapsAdapter {
 
 
 
-    public ArrayList getImages(String galleryId){
+    public void getImages(String galleryId){
         ArrayList imageIdList = getImagesIds(galleryId);
-        return null;
     }
     public static ArrayList getImagesIds(final String galleryId){
         DBSelect dBSelect = DBSelect.getInstance();
@@ -193,9 +193,11 @@ public class MapsAdapter {
         });
     }
 
-    private void fixUpdatedRatingSpot(Spot spot, int spotId){
-        spotMap.put(spotId,spot);
-    }
+// --Commented out by Inspection START (4/23/2020 4:24 PM):
+//    private void fixUpdatedRatingSpot(Spot spot, int spotId){
+//        spotMap.put(spotId,spot);
+//    }
+// --Commented out by Inspection STOP (4/23/2020 4:24 PM)
 
     private void placeSpotMarkers(ArrayList<Spot> spots) {
         for (Spot spot : spots) {
@@ -290,7 +292,7 @@ public class MapsAdapter {
             singleHashMapMarker.remove(-1);
             Spot spot = spotMap.get(spotId);
             //String desc = spot.getDesc();
-            infoList = spot.getSpotMap();
+            infoList = Objects.requireNonNull(spot).getSpotMap();
             if (infoList.get("diff") == null || infoList.get("host") == null || infoList.get("overall") == null){
                 getRatingsArray(String.valueOf(spotId));
                 Spot spot2 = spotMap.get(spotId);
@@ -298,7 +300,7 @@ public class MapsAdapter {
 //                RatingBar hostRatingBar = ((Activity) mContext).findViewById(R.id.smallHostilityRating);
 //                spot2.setDiff(diffRatingBar.getRating());
 //                spot2.setHost(hostRatingBar.getRating());
-                infoList = spot2.getSpotMap();
+                infoList = Objects.requireNonNull(spot2).getSpotMap();
             }
 
 
@@ -315,6 +317,7 @@ public class MapsAdapter {
     }
         public static HashMap<String, Integer> getHashMapMarker(){
             return hashMapMarker;
+
         }
 
         private void getRating(int spotId){
@@ -328,7 +331,6 @@ public class MapsAdapter {
             for (Float rating : ratings){
                 total += rating;
             }
-            float average = ((float) total)/((float) numRatings);
-            return average;
+            return ((float) total)/((float) numRatings);
         }
     }
