@@ -86,8 +86,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 //Crashlytics.getInstance().crash(); // Force a crash
-                String[] emailPassword = getEmailAndPassword();
-                createAccount(emailPassword[0],emailPassword[1]);
+                try {
+                    String[] emailPassword = getEmailAndPassword();
+                    createAccount(emailPassword[0], emailPassword[1]);
+                } catch (Exception e) {
+                    updateUI(null,null,null);
+                }
             }
         });
 

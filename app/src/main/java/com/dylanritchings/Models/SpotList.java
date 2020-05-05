@@ -1,7 +1,5 @@
 package com.dylanritchings.Models;
 
-import java.util.ArrayList;
-
 // --Commented out by Inspection START (4/23/2020 4:24 PM):
 //public class SpotList {
 //    private final ArrayList<Spot> spots;

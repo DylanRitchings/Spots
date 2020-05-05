@@ -111,11 +111,9 @@ public class UploadSpotActivity extends FragmentActivity{
         uploadSpotBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UUID uuid = UUID.randomUUID();
 
                 uploadSpot();
-                MediaUpload.sendFile(galleryId,imageUri,getApplicationContext(),fileId);
-                finish();
+
             }
         });
     }
@@ -165,7 +163,8 @@ public class UploadSpotActivity extends FragmentActivity{
         if (type == "Spot type"){
             errorTxt.setText("Please select the type of spot.");
         }
-        else if(imageTextView.getText() == "No file uploaded"){
+//        else if(imageTextView.getText() == "No file uploaded"){
+        else if(imageUri== null){
             errorTxt.setText("Please upload an image.");
         }
         else{
@@ -179,6 +178,8 @@ public class UploadSpotActivity extends FragmentActivity{
             TextView hostilityTxt = (TextView) findViewById(R.id.hostilityTxt);
             String hostility = hostilityTxt.getText().toString();
             insertData.UploadSpot(userId,desc,lat,lng,type,difficulty,hostility,galleryId,fileId);
+            MediaUpload.sendFile(galleryId,imageUri,getApplicationContext(),fileId);
+            finish();
         }
 
     }
